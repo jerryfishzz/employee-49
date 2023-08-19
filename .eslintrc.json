@@ -20,6 +20,6 @@
   "plugins": ["react", "@typescript-eslint", "prettier"],
   "rules": {
     "prettier/prettier": "warn",
-    "react/no-unescaped-entities": "off"
+    "react/no-unescaped-entities": "warn"
   }
 }
