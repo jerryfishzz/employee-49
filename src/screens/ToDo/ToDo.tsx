@@ -1,7 +1,7 @@
-import { StyleSheet } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 
-import EditScreenInfo from 'src/components/EditScreenInfo';
 import { Text, View } from 'src/components/Themed';
+import { taskMap } from 'src/data/task';
 
 export function ToDo() {
   return (
@@ -12,7 +12,20 @@ export function ToDo() {
         lightColor="#eee"
         darkColor="rgba(255,255,255,0.1)"
       />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
+      <View style={styles.getStartedContainer}>
+        <Text
+          style={styles.getStartedText}
+          lightColor="rgba(0,0,0,0.8)"
+          darkColor="rgba(255,255,255,0.8)"
+        >
+          Open up the code for this screen:
+        </Text>
+        <FlatList
+          data={[...taskMap.values()]}
+          renderItem={({ item }) => <Text>{item.title}</Text>}
+          keyExtractor={(item) => item.id}
+        />
+      </View>
     </View>
   );
 }
@@ -31,5 +44,14 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     height: 1,
     width: '80%',
+  },
+  getStartedContainer: {
+    alignItems: 'center',
+    marginHorizontal: 50,
+  },
+  getStartedText: {
+    fontSize: 17,
+    lineHeight: 24,
+    textAlign: 'center',
   },
 });
