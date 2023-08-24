@@ -22,7 +22,9 @@ export function ToDo() {
         </Text>
         <FlatList
           data={[...taskMap.values()]}
-          renderItem={({ item }) => <Text>{item.title}</Text>}
+          renderItem={({ item }) => (
+            <Text testID={`row-${item.id}`}>{item.title}</Text>
+          )}
           keyExtractor={(item) => item.id}
         />
       </View>
