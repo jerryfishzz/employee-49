@@ -6,6 +6,13 @@ module.exports = function (api) {
     plugins: [
       // Required for expo-router
       'expo-router/babel',
+      [
+        'module-resolver',
+        {
+          root: ['.'],
+          extensions: ['.ios.js', '.android.js', '.js', '.ts', '.tsx', '.json'],
+        },
+      ],
     ],
   };
 };
