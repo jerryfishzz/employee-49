@@ -11,7 +11,7 @@ const arrayForTaskMap: Array<[string, Task]> = [
       completed: null,
       priority: 'low',
       description:
-        'Ipsum sint est ad proident cillum. Id consequat sit sit quis enim duis. Nostrud ad ex Lorem cupidatat ea incididunt dolor qui voluptate sunt ipsum.',
+        "Wagner boss Yevgeny Prigozhin was on a plane that crashed in western Russia, according to the country's aviation authority.",
     },
   ],
   [
@@ -24,7 +24,7 @@ const arrayForTaskMap: Array<[string, Task]> = [
       completed: null,
       priority: 'high',
       description:
-        'Id velit tempor consectetur exercitation eu incididunt id ex consectetur commodo et cillum adipisicing officia.',
+        'His name was on the list of those "declared as travelling on board" the plane, along with key Wagner commander Dmitry Utkin.',
     },
   ],
   [
@@ -37,7 +37,7 @@ const arrayForTaskMap: Array<[string, Task]> = [
       completed: null,
       priority: 'normal',
       description:
-        'Non id ullamco irure elit commodo dolore veniam et magna aliquip tempor ex fugiat. Aliquip commodo ullamco aliqua dolor laborum aliqua proident sint commodo ad incididunt quis. Non sit ex laborum ut consequat amet nisi voluptate reprehenderit anim veniam minim aliqua.',
+        'The Russian Emergencies Ministry said that private aircraft "came down” near the village of Kuzhenkino - killing all on board.',
     },
   ],
   [
@@ -49,20 +49,21 @@ const arrayForTaskMap: Array<[string, Task]> = [
       due: '2022-10-01T00:00:00+12:00',
       completed: '2022-07-03T20:45:00+12:00',
       priority: 'low',
-      description: 'Nisi mollit proident tempor commodo.',
+      description:
+        'The ministry says the jet was flying from Moscow to St Petersburg, and that 10 people were on board.',
     },
   ],
   [
     'task5',
     {
       id: 'task5',
-      title: 'Build a fence',
+      title: 'Clean the floor',
       status: 'toDo',
       due: '2022-09-03T08:00:00+12:00',
       completed: null,
       priority: 'high',
       description:
-        'Eiusmod cupidatat quis aute in consectetur cupidatat aute enim. Sunt minim esse elit incididunt laboris do nisi non cupidatat anim duis officia fugiat. Magna adipisicing dolor sint commodo nisi ut dolor ullamco labore nulla. Lorem proident quis dolore voluptate labore adipisicing consequat consequat aliquip minim consectetur minim. Id aliqua laborum commodo deserunt reprehenderit aliqua.\nSint nulla quis esse non exercitation aute officia.Quis magna veniam laboris pariatur aliqua eu sint labore ex exercitation veniam ex velit. Laboris ullamco esse consequat ipsum velit ex esse non. Officia reprehenderit labore ut ullamco magna mollit. Eiusmod dolor ea amet nostrud.',
+        'Ten bodies have been found at the crash site, according to state media.',
     },
   ],
   [
@@ -75,59 +76,58 @@ const arrayForTaskMap: Array<[string, Task]> = [
       completed: '2022-08-21T19:00:00+12:00',
       priority: 'normal',
       description:
-        'Ullamco duis et sunt culpa non est occaecat ex nulla reprehenderit id elit Lorem veniam.',
+        'Prigozhin has been keeping a low public profile since heading his short-lived mutiny in June, which lasted only 24 hours.',
     },
   ],
   [
     'task7',
     {
       id: 'task7',
-      title: 'Build a fence',
+      title: 'Buy some tools',
       status: 'toDo',
       due: '2022-11-02T21:40:00+12:00',
       completed: null,
       priority: 'high',
       description:
-        'Commodo nulla ullamco dolore voluptate sit dolore. Exercitation occaecat sint est irure esse id amet consectetur id commodo. Reprehenderit consequat ipsum et do incididunt proident officia in. Ut dolor qui est pariatur reprehenderit incididunt minim. Tempor dolor dolor est est ea velit elit qui aliquip sit est enim id.',
+        'He last appeared in a video earlier this week which was said to have been filmed in an unspecified location in Africa.',
     },
   ],
   [
     'task8',
     {
       id: 'task8',
-      title: 'Dolor irure incididunt',
+      title: 'Write a report',
       status: 'done',
       due: '2022-05-18T14:22:00+12:00',
       completed: '2022-05-20T23:00:00+12:00',
       priority: 'low',
       description:
-        'Et ut velit do deserunt proident culpa pariatur laboris ex est velit sunt. Minim eu occaecat quis incididunt non ad esse eu mollit culpa. Reprehenderit exercitation elit minim tempor. Eiusmod irure labore ullamco anim. Sint amet dolor fugiat sunt fugiat adipisicing.\n\nSint nulla eiusmod ad deserunt ullamco fugiat ipsum deserunt magna consectetur sint. Voluptate excepteur nisi incididunt nulla culpa voluptate laboris do non dolore quis ut nulla consequat. Irure reprehenderit eu sunt occaecat nulla labore. Consectetur consectetur nulla pariatur officia cupidatat consectetur.\n\nDeserunt sunt exercitation sint ipsum eiusmod consectetur. Do eiusmod nulla eu mollit do amet eiusmod in exercitation. Qui irure minim ullamco laboris est quis eu dolor id deserunt.\n\nEt ut velit do deserunt proident culpa pariatur laboris ex est velit sunt. Minim eu occaecat quis incididunt non ad esse eu mollit culpa. Reprehenderit exercitation elit minim tempor. Eiusmod irure labore ullamco anim. Sint amet dolor fugiat sunt fugiat adipisicing.\n\nSint nulla eiusmod ad deserunt ullamco fugiat ipsum deserunt magna consectetur sint. Voluptate excepteur nisi incididunt nulla culpa voluptate laboris do non dolore quis ut nulla consequat. Irure reprehenderit eu sunt occaecat nulla labore. Consectetur consectetur nulla pariatur officia cupidatat consectetur.\n\nDeserunt sunt exercitation sint ipsum eiusmod consectetur. Do eiusmod nulla eu mollit do amet eiusmod in exercitation. Qui irure minim ullamco laboris est quis eu dolor id deserunt.',
+        'The Wagner mercenary group was founded in 2014 and was highly active in the Ukraine war until the June mutiny.',
     },
   ],
   [
     'task9',
     {
       id: 'task9',
-      title: 'Cupidatat duis ut eu',
+      title: 'Mow the lawn',
       status: 'toDo',
       due: '2022-10-06T06:30:00+12:00',
       completed: null,
       priority: 'normal',
-      description:
-        'Reprehenderit est fugiat ipsum labore anim qui dolor mollit deserunt magna exercitation.',
+      description: 'Russia is a country full of surprises.',
     },
   ],
   [
     'task10',
     {
       id: 'task10',
-      title: 'Proident duis',
+      title: 'Feed animals',
       status: 'done',
       due: '2022-09-20T03:22:00+12:00',
       completed: '2022-08-15T11:00:00+12:00',
       priority: 'normal',
       description:
-        'Adipisicing esse ut officia culpa fugiat eiusmod irure consectetur consectetur qui laborum. Fugiat consectetur minim ea enim. Fugiat consectetur ad excepteur id excepteur ipsum aliqua et. Nostrud ullamco aliquip ipsum id non proident. Qui proident culpa adipisicing laboris sint deserunt. Eu proident incididunt sunt sunt adipisicing consequat aliqua quis sint voluptate tempor fugiat commodo. Dolore mollit velit est duis.',
+        "Around an hour after the crash, the Russian Federal Aviation Agency Rosaviatsiya released a statement confirming that Yevgeny Prigozhin's name was on the passenger manifest.",
     },
   ],
 ];
