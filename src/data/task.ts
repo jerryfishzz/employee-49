@@ -70,7 +70,7 @@ const arrayForTaskMap: Array<[string, Task]> = [
     'task6',
     {
       id: 'task6',
-      title: 'Fix the tractor',
+      title: 'Fix the computer',
       status: 'done',
       due: '2022-09-16T19:00:00+12:00',
       completed: '2022-08-21T19:00:00+12:00',
