@@ -1,6 +1,7 @@
 import { FlatList, StyleSheet } from 'react-native';
 
 import { Text, View } from 'src/components/Themed';
+import { Row } from 'src/components/ui/Row';
 import { taskMap } from 'src/data/task';
 
 export function ToDo() {
@@ -23,7 +24,10 @@ export function ToDo() {
         <FlatList
           data={[...taskMap.values()]}
           renderItem={({ item }) => (
-            <Text testID={`row-${item.id}`}>{item.title}</Text>
+            <Row>
+              <Row.Text testID={`row-${item.id}`}>{item.title}</Row.Text>
+              <Row.Text>{item.id}</Row.Text>
+            </Row>
           )}
           keyExtractor={(item) => item.id}
         />
