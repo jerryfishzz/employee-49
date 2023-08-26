@@ -40,11 +40,8 @@ export default function TabLayout() {
   );
 }
 
-function createOptions(
-  status: 'toDo' | 'done',
-  counts: number,
-): MaterialTopTabNavigationOptions | undefined {
-  return {
+function createOptions(status: 'toDo' | 'done', counts: number) {
+  const options: MaterialTopTabNavigationOptions = {
     title: status,
     tabBarIcon: ({ color }) => (
       <Text style={{ color, textAlign: 'center' }}>{counts}</Text>
@@ -58,4 +55,6 @@ function createOptions(
       fontSize: 13,
     },
   };
+
+  return options;
 }
