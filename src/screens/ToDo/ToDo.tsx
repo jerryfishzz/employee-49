@@ -24,7 +24,7 @@ export function ToDo() {
         <FlatList
           data={[...taskMap.values()]}
           renderItem={({ item }) => (
-            <Row>
+            <Row style={{ flexDirection: 'row' }}>
               <Row.Text testID={`row-${item.id}`}>{item.title}</Row.Text>
               <Row.Text>{item.id}</Row.Text>
             </Row>

@@ -1,12 +1,10 @@
-import { ReactNode } from 'react';
-
 import { RowProvider, useRow } from './context';
-import { Text, TextProps, View } from 'src/components/Themed';
+import { Text, TextProps, View, ViewProps } from 'src/components/Themed';
 
-export function Row({ children }: { children: ReactNode }) {
+export function Row({ children, ...props }: ViewProps) {
   return (
     <RowProvider value={null}>
-      <View>{children}</View>
+      <View {...props}>{children}</View>
     </RowProvider>
   );
 }
