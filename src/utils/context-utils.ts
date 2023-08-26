@@ -18,7 +18,7 @@ function customCreateContext<A extends unknown | null>(
       );
     return c;
   }
-  return [useCtx, ctx.Provider] as const; // 'as const' makes TypeScript infer a tuple
+  return [useCtx, ctx.Provider] as const;
 }
 
 export { customCreateContext as createContext };
