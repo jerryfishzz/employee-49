@@ -25,7 +25,9 @@ export function ToDo() {
           data={[...taskMap.values()]}
           renderItem={({ item }) => (
             <Row style={{ flexDirection: 'row' }}>
-              <Row.Text testID={`row-${item.id}`}>{item.title}</Row.Text>
+              <Row.Text testID={`row-${item.id}`} color="red">
+                {item.title}
+              </Row.Text>
               <Row.Text>{item.id}</Row.Text>
             </Row>
           )}
@@ -52,7 +54,7 @@ const styles = StyleSheet.create({
     width: '80%',
   },
   getStartedContainer: {
-    alignItems: 'center',
+    // alignItems: 'center',
     marginHorizontal: 50,
   },
   getStartedText: {
