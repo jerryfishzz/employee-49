@@ -1,4 +1,5 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { useMaterial3Theme } from '@pchmn/expo-material3-theme';
 import {
   DarkTheme,
   DefaultTheme,
@@ -8,6 +9,12 @@ import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
+import {
+  MD3DarkTheme,
+  MD3LightTheme,
+  PaperProvider,
+  useTheme as usePaperTheme,
+} from 'react-native-paper';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -52,14 +59,25 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
+  // const paperTheme = usePaperTheme();
+
+  const { theme } = useMaterial3Theme();
+
+  const paperTheme =
+    colorScheme === 'dark'
+      ? { ...MD3DarkTheme, colors: theme.dark }
+      : { ...MD3LightTheme, colors: theme.light };
+  console.log(paperTheme);
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ title: 'TASKS' }} />
-        <Stack.Screen name="detail" />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-      </Stack>
-    </ThemeProvider>
+    <PaperProvider theme={paperTheme}>
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ title: 'TASKS' }} />
+          <Stack.Screen name="detail" />
+          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+        </Stack>
+      </ThemeProvider>
+    </PaperProvider>
   );
 }
