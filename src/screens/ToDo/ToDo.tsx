@@ -3,7 +3,6 @@ import { FlatList, StyleSheet } from 'react-native';
 import { Text, View } from 'src/components/Themed';
 import { Row } from 'src/components/ui/Row';
 import { taskMap } from 'src/data/task';
-import { Done } from '../Done';
 
 export function ToDo() {
   return (
