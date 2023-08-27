@@ -3,6 +3,7 @@ import { FlatList, StyleSheet } from 'react-native';
 import { Text, View } from 'src/components/Themed';
 import { Row } from 'src/components/ui/Row';
 import { taskMap } from 'src/data/task';
+import { Done } from '../Done';
 
 export function ToDo() {
   return (
@@ -25,7 +26,12 @@ export function ToDo() {
           data={[...taskMap.values()]}
           renderItem={({ item }) => (
             <Row style={{ flexDirection: 'row' }}>
-              <Row.Text testID={`row-${item.id}`} color="red">
+              <Row.Text
+                testID={`row-${item.id}`}
+                color="red"
+                flex={1}
+                textProps={{ style: { backgroundColor: 'yellow' } }}
+              >
                 {item.title}
               </Row.Text>
               <Row.Text>{item.id}</Row.Text>

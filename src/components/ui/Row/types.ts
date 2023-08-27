@@ -1,10 +1,13 @@
-import { CSSProperties, ReactNode } from 'react';
+import { ReactNode } from 'react';
+import { FlexStyle, TextStyle } from 'react-native';
 
-import { TextProps } from 'src/components/Themed';
+import { TextProps, ViewProps } from 'src/components/Themed';
 
 export type RowTextProps = {
   testID?: string;
-  color?: CSSProperties['color'];
+  color?: TextStyle['color'];
+  flex?: FlexStyle['flex'];
   children: ReactNode;
-  textProps: Exclude<TextProps, 'children'>;
+  textProps?: TextProps;
+  viewProps?: ViewProps;
 };

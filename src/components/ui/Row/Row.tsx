@@ -12,15 +12,21 @@ export function Row({ children, ...props }: ViewProps) {
 
 function RowText({
   color,
+  flex,
   testID,
   children,
-  textProps: { style, ...props } = {},
+  textProps = {},
+  viewProps = {},
 }: RowTextProps) {
   useRow('<Row.Text />');
 
+  const { style: textStyle, ...textOthers } = textProps;
+  const { style: viewStyle, ...viewOthers } = viewProps;
+
   return (
-    <View testID={testID}>
-      <Text {...props} style={[style, { color }]}>
+    // Put ...viewOthers at the beginning so that the same prop appearing later can overwrite it
+    <View {...viewOthers} testID={testID} style={[viewStyle, { flex }]}>
+      <Text {...textOthers} style={[textStyle, { color }]}>
         {children}
       </Text>
     </View>
