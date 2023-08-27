@@ -51,7 +51,7 @@ function createOptions(status: 'toDo' | 'done', counts: number) {
       minWidth: 32, // Also need to adapt the above variant size to show enough width when counts are 2-digit
     },
     tabBarLabelStyle: {
-      fontFamily: 'montserrat-bold',
+      fontFamily: 'MontserratBold',
       fontSize: 13,
     },
   };
