@@ -1,4 +1,5 @@
 import { FlatList, StyleSheet } from 'react-native';
+import { Text as PaperText } from 'react-native-paper';
 
 import { Text, View } from 'src/components/Themed';
 import { Row } from 'src/components/ui/Row';
@@ -21,6 +22,7 @@ export function ToDo() {
         >
           Open up the code for this screen:
         </Text>
+        <PaperText variant="displayLarge">This is paper text</PaperText>
         <FlatList
           data={[...taskMap.values()]}
           renderItem={({ item }) => (
