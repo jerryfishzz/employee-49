@@ -1,5 +1,4 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { useMaterial3Theme } from '@pchmn/expo-material3-theme';
 import {
   DarkTheme,
   DefaultTheme,
@@ -9,12 +8,8 @@ import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
-import {
-  MD3DarkTheme,
-  MD3LightTheme,
-  PaperProvider,
-  useTheme as usePaperTheme,
-} from 'react-native-paper';
+import { MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper';
+import { paySauceThemeDark, paySauceThemeLight } from 'src/constants/Colors';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -59,15 +54,11 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
-  // const paperTheme = usePaperTheme();
-
-  const { theme } = useMaterial3Theme();
 
   const paperTheme =
     colorScheme === 'dark'
-      ? { ...MD3DarkTheme, colors: theme.dark }
-      : { ...MD3LightTheme, colors: theme.light };
-  console.log(paperTheme);
+      ? { ...MD3DarkTheme, colors: paySauceThemeDark.colors }
+      : { ...MD3LightTheme, colors: paySauceThemeLight.colors };
 
   return (
     <PaperProvider theme={paperTheme}>
