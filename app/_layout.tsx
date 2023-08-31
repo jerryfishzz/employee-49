@@ -54,7 +54,6 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
-
   const paperTheme =
     colorScheme === 'dark'
       ? { ...MD3DarkTheme, colors: paySauceThemeDark.colors }
