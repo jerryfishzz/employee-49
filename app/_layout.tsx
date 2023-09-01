@@ -13,7 +13,9 @@ import {
   MD3LightTheme,
   PaperProvider,
   adaptNavigationTheme,
+  configureFonts,
 } from 'react-native-paper';
+
 import { paySauceThemeDark, paySauceThemeLight } from 'src/constants/Colors';
 
 export {
@@ -66,12 +68,25 @@ const { DarkTheme: AdaptedDArkTheme } = adaptNavigationTheme({
   materialDark: { ...MD3DarkTheme, colors: paySauceThemeDark.colors },
 });
 
+const fonts = configureFonts({
+  config: {
+    fontFamily: 'MontserratLight',
+  },
+});
+
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
-  const paperTheme =
+  const paperColorTheme =
     colorScheme === 'dark'
-      ? { ...MD3DarkTheme, colors: paySauceThemeDark.colors }
-      : { ...MD3LightTheme, colors: paySauceThemeLight.colors };
+      ? {
+          ...MD3DarkTheme,
+          colors: paySauceThemeDark.colors,
+        }
+      : {
+          ...MD3LightTheme,
+          colors: paySauceThemeLight.colors,
+        };
+  const paperTheme = { ...paperColorTheme, fonts };
 
   return (
     <PaperProvider theme={paperTheme}>
