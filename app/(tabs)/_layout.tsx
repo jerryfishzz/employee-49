@@ -3,8 +3,8 @@ import {
   createMaterialTopTabNavigator,
 } from '@react-navigation/material-top-tabs';
 import { Platform } from 'react-native';
+import { Text } from 'react-native-paper';
 
-import { Text } from 'src/components/Themed';
 import { taskMap } from 'src/data/task';
 import { useAppTheme } from 'src/hooks/useAppTheme';
 import { Done } from 'src/screens/Done';
@@ -55,7 +55,16 @@ function createOptions(status: 'toDo' | 'done', counts: number) {
   const options: MaterialTopTabNavigationOptions = {
     title: status,
     tabBarIcon: ({ color }) => (
-      <Text style={{ color, textAlign: 'center' }}>{counts}</Text>
+      <Text
+        variant="headlineLarge"
+        style={{
+          color,
+          textAlign: 'center',
+          fontFamily: 'MontserratExtraLight',
+        }}
+      >
+        {counts}
+      </Text>
     ),
     tabBarIconStyle: {
       minHeight: Platform.OS === 'ios' ? 32 : 36, // Equal to the above Text variant font size in iOS while a little bigger in Android
@@ -63,7 +72,6 @@ function createOptions(status: 'toDo' | 'done', counts: number) {
     },
     tabBarLabelStyle: {
       fontFamily: 'MontserratBold',
-      fontSize: 13,
     },
   };
 
