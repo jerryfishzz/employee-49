@@ -2,18 +2,20 @@ import {
   MaterialTopTabNavigationOptions,
   createMaterialTopTabNavigator,
 } from '@react-navigation/material-top-tabs';
-import { Platform, useColorScheme } from 'react-native';
+import { Platform } from 'react-native';
 
 import { Text } from 'src/components/Themed';
-import Colors from 'src/constants/Colors';
 import { taskMap } from 'src/data/task';
+import { useAppTheme } from 'src/hooks/useAppTheme';
 import { Done } from 'src/screens/Done';
 import { ToDo } from 'src/screens/ToDo';
 
 const Tabs = createMaterialTopTabNavigator();
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const {
+    colors: { hotChilli, white },
+  } = useAppTheme();
 
   const toDoTasks = [...taskMap.values()].filter(
     (task) => task.status === 'toDo',
@@ -23,7 +25,16 @@ export default function TabLayout() {
     <Tabs.Navigator
       initialRouteName="index"
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: white,
+        tabBarStyle: {
+          backgroundColor: hotChilli,
+          // borderBottomWidth: 0,
+        },
+        tabBarIndicatorStyle: {
+          backgroundColor: white,
+          marginBottom: -1, // Make the border riding between elements
+        },
+        swipeEnabled: false,
       }}
     >
       <Tabs.Screen
