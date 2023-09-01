@@ -8,7 +8,12 @@ import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
-import { MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper';
+import {
+  MD3DarkTheme,
+  MD3LightTheme,
+  PaperProvider,
+  adaptNavigationTheme,
+} from 'react-native-paper';
 import { paySauceThemeDark, paySauceThemeLight } from 'src/constants/Colors';
 
 export {
@@ -52,6 +57,15 @@ export default function RootLayout() {
   return <RootLayoutNav />;
 }
 
+const { LightTheme } = adaptNavigationTheme({
+  reactNavigationLight: DefaultTheme,
+  materialLight: { ...MD3LightTheme, colors: paySauceThemeLight.colors },
+});
+const { DarkTheme: AdaptedDArkTheme } = adaptNavigationTheme({
+  reactNavigationDark: DarkTheme,
+  materialDark: { ...MD3DarkTheme, colors: paySauceThemeDark.colors },
+});
+
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
   const paperTheme =
@@ -61,7 +75,9 @@ function RootLayoutNav() {
 
   return (
     <PaperProvider theme={paperTheme}>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <ThemeProvider
+        value={colorScheme === 'dark' ? AdaptedDArkTheme : LightTheme}
+      >
         <Stack>
           <Stack.Screen name="(tabs)" options={{ title: 'TASKS' }} />
           <Stack.Screen name="detail" />
