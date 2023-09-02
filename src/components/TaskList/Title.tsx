@@ -1,4 +1,3 @@
-import { View } from '../Themed';
 import { Row } from '../ui/Row';
 import { Item, TitleProps } from './types';
 
@@ -8,8 +7,7 @@ export function Title<T extends Item>({ item }: TitleProps<T>) {
       style={{
         flexDirection: 'row',
         alignItems: 'center',
-        width: '100%',
-        // justifyContent: 'space-between',
+        width: '100%', // Set full width on web
       }}
     >
       <Row.Text
