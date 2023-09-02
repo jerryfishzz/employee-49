@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     width: '80%',
   },
   getStartedContainer: {
-    alignItems: 'center',
+    // alignItems: 'center',
     marginHorizontal: 50,
   },
   getStartedText: {
