@@ -60,7 +60,7 @@ export default function RootLayout() {
 
 const fonts = configureFonts({
   config: {
-    fontFamily: 'MontserratLight',
+    fontFamily: 'MontserratBold',
   },
 });
 
