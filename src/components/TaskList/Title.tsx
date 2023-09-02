@@ -17,7 +17,6 @@ export function Title<T extends Item>({ item }: TitleProps<T>) {
       >
         {item.title}
       </Row.Text>
-
       <Row.Text variant="titleMedium">{item.id}</Row.Text>
     </Row>
   );
