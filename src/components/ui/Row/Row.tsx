@@ -24,9 +24,10 @@ function RowText({
   const { style: viewStyle, ...viewOthers } = viewProps;
 
   return (
-    // Put ...viewOthers at the beginning so that the same prop appearing later can overwrite it
-    <View {...viewOthers} testID={testID} style={[viewStyle, { flex }]}>
-      <Text {...textOthers} style={[textStyle, { color }]}>
+    // ...viewOthers and ...textOthers will overwrite the same prop appearing earlier.
+    // So do viewStyle and textStyle.
+    <View testID={testID} style={[{ flex }, viewStyle]} {...viewOthers}>
+      <Text style={[{ color }, textStyle]} {...textOthers}>
         {children}
       </Text>
     </View>
