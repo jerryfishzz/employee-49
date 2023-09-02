@@ -9,6 +9,7 @@ import {
   PaperProvider,
   configureFonts,
 } from 'react-native-paper';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import {
   paySauceColor,
@@ -81,23 +82,25 @@ function RootLayoutNav() {
 
   return (
     <PaperProvider theme={paperTheme}>
-      <Stack
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: hotChilli,
-          },
-          headerTintColor: white,
-          headerTitleStyle: {
-            fontFamily: 'MontserratBold',
-          },
-          headerShadowVisible: false, // Hide the bottom line
-          headerTitleAlign: 'center',
-        }}
-      >
-        <Stack.Screen name="(tabs)" options={{ title: 'TASKS' }} />
-        <Stack.Screen name="detail" />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-      </Stack>
+      <SafeAreaProvider>
+        <Stack
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: hotChilli,
+            },
+            headerTintColor: white,
+            headerTitleStyle: {
+              fontFamily: 'MontserratBold',
+            },
+            headerShadowVisible: false, // Hide the bottom line
+            headerTitleAlign: 'center',
+          }}
+        >
+          <Stack.Screen name="(tabs)" options={{ title: 'TASKS' }} />
+          <Stack.Screen name="detail" />
+          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+        </Stack>
+      </SafeAreaProvider>
     </PaperProvider>
   );
 }
