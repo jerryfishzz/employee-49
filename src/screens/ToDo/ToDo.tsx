@@ -26,15 +26,15 @@ export function ToDo() {
         <FlatList
           data={[...taskMap.values()]}
           renderItem={({ item }) => (
-            <Row style={{ flexDirection: 'row' }}>
+            <Row style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Row.Text
+                variant="headlineMedium"
                 testID={`row-${item.id}`}
-                textStyle={{ backgroundColor: 'yellow' }}
                 viewStyle={{ flex: 1 }}
               >
                 {item.title}
               </Row.Text>
-              <Row.Text>{item.id}</Row.Text>
+              <Row.Text variant="titleMedium">{item.id}</Row.Text>
             </Row>
           )}
           keyExtractor={(item) => item.id}
