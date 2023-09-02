@@ -1,5 +1,7 @@
+import { Text } from 'react-native-paper';
+
 import { RowProvider, useRow } from './context';
-import { Text, View, ViewProps } from 'src/components/Themed';
+import { View, ViewProps } from 'src/components/Themed';
 import { RowTextProps } from './types';
 
 export function Row({ children, ...props }: ViewProps) {
@@ -11,23 +13,17 @@ export function Row({ children, ...props }: ViewProps) {
 }
 
 function RowText({
-  color,
-  flex,
   testID,
+  variant,
   children,
-  textProps = {},
-  viewProps = {},
+  textStyle,
+  viewStyle,
 }: RowTextProps) {
   useRow('<Row.Text />');
 
-  const { style: textStyle, ...textOthers } = textProps;
-  const { style: viewStyle, ...viewOthers } = viewProps;
-
   return (
-    // ...viewOthers and ...textOthers will overwrite the same prop appearing earlier.
-    // So do viewStyle and textStyle.
-    <View testID={testID} style={[{ flex }, viewStyle]} {...viewOthers}>
-      <Text style={[{ color }, textStyle]} {...textOthers}>
+    <View testID={testID} style={viewStyle}>
+      <Text variant={variant} style={textStyle}>
         {children}
       </Text>
     </View>

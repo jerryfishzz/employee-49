@@ -1,13 +1,11 @@
 import { ReactNode } from 'react';
-import { FlexStyle, TextStyle } from 'react-native';
-
-import { TextProps, ViewProps } from 'src/components/Themed';
+import { StyleProp, TextStyle, ViewStyle } from 'react-native';
+import { VariantProp } from 'react-native-paper/lib/typescript/components/Typography/types';
 
 export type RowTextProps = {
   testID?: string;
-  color?: TextStyle['color'];
-  flex?: FlexStyle['flex'];
   children: ReactNode;
-  textProps?: TextProps;
-  viewProps?: ViewProps;
+  variant?: VariantProp<never>;
+  textStyle?: StyleProp<TextStyle>;
+  viewStyle?: ViewStyle;
 };

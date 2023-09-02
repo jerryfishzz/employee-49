@@ -29,9 +29,8 @@ export function ToDo() {
             <Row style={{ flexDirection: 'row' }}>
               <Row.Text
                 testID={`row-${item.id}`}
-                color="red"
-                flex={1}
-                textProps={{ style: { backgroundColor: 'yellow' } }}
+                textStyle={{ backgroundColor: 'yellow' }}
+                viewStyle={{ flex: 1 }}
               >
                 {item.title}
               </Row.Text>
