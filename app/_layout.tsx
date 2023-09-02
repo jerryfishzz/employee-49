@@ -1,9 +1,4 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { useEffect } from 'react';
@@ -12,11 +7,14 @@ import {
   MD3DarkTheme,
   MD3LightTheme,
   PaperProvider,
-  adaptNavigationTheme,
   configureFonts,
 } from 'react-native-paper';
 
-import { paySauceThemeDark, paySauceThemeLight } from 'src/constants/Colors';
+import {
+  paySauceColor,
+  paySauceThemeDark,
+  paySauceThemeLight,
+} from 'src/constants/Colors';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -59,20 +57,13 @@ export default function RootLayout() {
   return <RootLayoutNav />;
 }
 
-const { LightTheme } = adaptNavigationTheme({
-  reactNavigationLight: DefaultTheme,
-  materialLight: { ...MD3LightTheme, colors: paySauceThemeLight.colors },
-});
-const { DarkTheme: AdaptedDArkTheme } = adaptNavigationTheme({
-  reactNavigationDark: DarkTheme,
-  materialDark: { ...MD3DarkTheme, colors: paySauceThemeDark.colors },
-});
-
 const fonts = configureFonts({
   config: {
     fontFamily: 'MontserratLight',
   },
 });
+
+const { hotChilli, white } = paySauceColor;
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
@@ -90,15 +81,23 @@ function RootLayoutNav() {
 
   return (
     <PaperProvider theme={paperTheme}>
-      <ThemeProvider
-        value={colorScheme === 'dark' ? AdaptedDArkTheme : LightTheme}
+      <Stack
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: hotChilli,
+          },
+          headerTintColor: white,
+          headerTitleStyle: {
+            fontFamily: 'MontserratBold',
+          },
+          headerShadowVisible: false, // Hide the bottom line
+          headerTitleAlign: 'center',
+        }}
       >
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ title: 'TASKS' }} />
-          <Stack.Screen name="detail" />
-          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-        </Stack>
-      </ThemeProvider>
+        <Stack.Screen name="(tabs)" options={{ title: 'TASKS' }} />
+        <Stack.Screen name="detail" />
+        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+      </Stack>
     </PaperProvider>
   );
 }
