@@ -57,10 +57,10 @@ function createOptions(status: 'toDo' | 'done', counts: number) {
     tabBarIcon: ({ color }) => (
       <Text
         variant="headlineLarge"
+        fontFamily="MontserratExtraLight"
         style={{
           color,
           textAlign: 'center',
-          fontFamily: 'MontserratExtraLight',
         }}
       >
         {counts}

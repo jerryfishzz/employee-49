@@ -12,7 +12,8 @@ type TextProps = {
 
 export function Text({ fontFamily, style, children, ...props }: TextProps) {
   return (
-    <PaperText style={[style, { fontFamily }]} {...props}>
+    // fontFamily in style will overwrite the fontFamily setting on the component
+    <PaperText style={[{ fontFamily }, style]} {...props}>
       {children}
     </PaperText>
   );
