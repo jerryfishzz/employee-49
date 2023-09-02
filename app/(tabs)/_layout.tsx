@@ -4,7 +4,7 @@ import {
 } from '@react-navigation/material-top-tabs';
 import { Platform } from 'react-native';
 
-import { Text } from 'src/components/Text';
+import { Text } from 'src/components/ui/Text';
 import { taskMap } from 'src/data/task';
 import { useAppTheme } from 'src/hooks/useAppTheme';
 import { Done } from 'src/screens/Done';
