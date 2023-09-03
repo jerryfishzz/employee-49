@@ -16,7 +16,7 @@ interface TaskListProps<T extends Item> {
 
 export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
   const {
-    colors: { hotChilli },
+    colors: { hotChilli, mint, blueberry },
   } = useAppTheme();
 
   return (
@@ -42,23 +42,28 @@ export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
           },
         };
 
-        const dotBlock: Block = {
+        const dotBlockAndroid: Block = {
           type: 'icon',
-          content: Platform.OS === 'android' ? <RowDotAndroid /> : <Dot />,
+          content: <RowDotAndroid iconColor={mint} />,
         };
 
         if (Platform.OS === 'android')
           return (
             <ContentRowAndroid
               testID={id}
-              blocks={[dotBlock, titleBlock, idBlock]}
+              blocks={[dotBlockAndroid, titleBlock, idBlock]}
             />
           );
 
         return (
           <List.Item
             title={<ContentRow testID={id} blocks={[titleBlock, idBlock]} />}
-            left={(props) => <List.Icon {...props} icon={() => <Dot />} />}
+            left={(props) => (
+              <List.Icon
+                {...props}
+                icon={() => <Dot iconColor={blueberry} />}
+              />
+            )}
           />
         );
       }}
