@@ -57,6 +57,7 @@ export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
         return (
           <List.Item
             title={<ContentRow testID={id} blocks={[titleBlock, idBlock]} />}
+            left={(props) => <List.Icon {...props} icon={() => <Dot />} />}
           />
         );
       }}
