@@ -3,8 +3,13 @@ import { List } from 'react-native-paper';
 
 import { Item, TaskListProps } from './types';
 import { Block, ContentRow, ContentRowAndroid } from '../ContentRow';
+import { useAppTheme } from 'src/hooks/useAppTheme';
 
 export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
+  const {
+    colors: { hotChilli },
+  } = useAppTheme();
+
   return (
     <FlatList
       data={data}
@@ -20,6 +25,9 @@ export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
         const idBlock: Block = {
           content: id,
           variant: 'titleMedium',
+          textStyle: {
+            color: hotChilli,
+          },
         };
 
         if (Platform.OS === 'android')
