@@ -1,16 +1,16 @@
 import { FlatList, Platform } from 'react-native';
+import { List } from 'react-native-paper';
 
-import { TaskRow } from './TaskRow';
 import { Item, TaskListProps } from './types';
-import { Block, ContentRowAndroid } from '../ContentRow';
+import { Block, ContentRow, ContentRowAndroid } from '../ContentRow';
 
 export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
   return (
     <FlatList
       data={data}
-      renderItem={({ item }) => {
+      renderItem={({ item: { id, title } }) => {
         const titleBlock: Block = {
-          content: item.title,
+          content: title,
           variant: 'titleLarge',
           viewStyle: {
             flex: 1,
@@ -18,19 +18,20 @@ export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
         };
 
         const idBlock: Block = {
-          content: item.id,
+          content: id,
           variant: 'titleMedium',
         };
 
         if (Platform.OS === 'android')
           return (
-            <ContentRowAndroid
-              testID={item.id}
-              blocks={[titleBlock, idBlock]}
-            />
+            <ContentRowAndroid testID={id} blocks={[titleBlock, idBlock]} />
           );
 
-        return <TaskRow item={item} />;
+        return (
+          <List.Item
+            title={<ContentRow testID={id} blocks={[titleBlock, idBlock]} />}
+          />
+        );
       }}
       keyExtractor={(item) => item.id}
     />
