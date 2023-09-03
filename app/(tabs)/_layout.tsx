@@ -3,8 +3,8 @@ import {
   createMaterialTopTabNavigator,
 } from '@react-navigation/material-top-tabs';
 import { Platform } from 'react-native';
+import { Text } from 'react-native-paper';
 
-import { Text } from 'src/components/ui/Text';
 import { taskMap } from 'src/data/task';
 import { useAppTheme } from 'src/hooks/useAppTheme';
 import { Done } from 'src/screens/Done';
@@ -57,10 +57,10 @@ function createOptions(status: 'toDo' | 'done', counts: number) {
     tabBarIcon: ({ color }) => (
       <Text
         variant="headlineLarge"
-        fontFamily="MontserratExtraLight"
         style={{
           color,
           textAlign: 'center',
+          fontFamily: 'MontserratExtraLight',
         }}
       >
         {counts}
