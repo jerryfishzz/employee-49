@@ -33,7 +33,7 @@ function RowText({
 function RowIcon({ children }: RowIconProps) {
   useRow('<Row.Icon />');
 
-  return { children };
+  return <>{children}</>;
 }
 
 Row.Text = RowText;

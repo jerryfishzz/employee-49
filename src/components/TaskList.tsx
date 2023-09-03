@@ -3,6 +3,7 @@ import { List } from 'react-native-paper';
 
 import { Block, ContentRow, ContentRowAndroid } from './ContentRow';
 import { useAppTheme } from 'src/hooks/useAppTheme';
+import { Dot } from './ui';
 
 export interface Item {
   id: string;
@@ -23,6 +24,7 @@ export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
       data={data}
       renderItem={({ item: { id, title } }) => {
         const titleBlock: Block = {
+          type: 'text',
           content: title,
           variant: 'titleLarge',
           viewStyle: {
@@ -31,6 +33,7 @@ export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
         };
 
         const idBlock: Block = {
+          type: 'text',
           content: id,
           variant: 'titleMedium',
           textStyle: {
@@ -38,9 +41,17 @@ export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
           },
         };
 
+        const dotBlock: Block = {
+          type: 'icon',
+          content: <Dot />,
+        };
+
         if (Platform.OS === 'android')
           return (
-            <ContentRowAndroid testID={id} blocks={[titleBlock, idBlock]} />
+            <ContentRowAndroid
+              testID={id}
+              blocks={[dotBlock, titleBlock, idBlock]}
+            />
           );
 
         return (

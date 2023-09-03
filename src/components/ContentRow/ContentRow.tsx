@@ -5,6 +5,7 @@ import { VariantProp } from 'react-native-paper/lib/typescript/components/Typogr
 import { Row } from '../ui';
 
 export interface Block {
+  type: 'text' | 'icon';
   variant?: VariantProp<never>;
   textStyle?: StyleProp<TextStyle>;
   viewStyle?: ViewStyle;
@@ -20,16 +21,20 @@ export interface ContentRowProps {
 export function ContentRow({ testID, blocks, style }: ContentRowProps) {
   return (
     <Row testID={`row-${testID}`} style={[styles.row, style]}>
-      {blocks.map(({ variant, textStyle, viewStyle, content }, index) => (
-        <Row.Text
-          key={index}
-          variant={variant}
-          viewStyle={viewStyle}
-          textStyle={textStyle}
-        >
-          {content}
-        </Row.Text>
-      ))}
+      {blocks.map(({ variant, textStyle, viewStyle, content, type }, index) =>
+        type === 'text' ? (
+          <Row.Text
+            key={index}
+            variant={variant}
+            viewStyle={viewStyle}
+            textStyle={textStyle}
+          >
+            {content}
+          </Row.Text>
+        ) : (
+          <Row.Icon key={index}>{content}</Row.Icon>
+        ),
+      )}
     </Row>
   );
 }
