@@ -2,6 +2,7 @@ import { FlatList, StyleSheet } from 'react-native';
 import { Text as PaperText } from 'react-native-paper';
 
 import { TaskRow } from 'src/components/TaskList';
+import { TaskList } from 'src/components/TaskList/TaskList';
 import { Text, View } from 'src/components/Themed';
 import { Row } from 'src/components/ui/Row';
 import { taskMap } from 'src/data/task';
@@ -24,23 +25,7 @@ export function ToDo() {
           Open up the code for this screen:
         </Text>
         <PaperText variant="displayLarge">This is paper text</PaperText>
-        <FlatList
-          data={[...taskMap.values()]}
-          renderItem={({ item }) => (
-            // <Row style={{ flexDirection: 'row', alignItems: 'center' }}>
-            //   <Row.Text
-            //     variant="headlineMedium"
-            //     testID={`row-${item.id}`}
-            //     viewStyle={{ flex: 1 }}
-            //   >
-            //     {item.title}
-            //   </Row.Text>
-            //   <Row.Text variant="titleMedium">{item.id}</Row.Text>
-            // </Row>
-            <TaskRow item={item} />
-          )}
-          keyExtractor={(item) => item.id}
-        />
+        <TaskList data={[...taskMap.values()]} />
       </View>
     </View>
   );
