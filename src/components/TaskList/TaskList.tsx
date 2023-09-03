@@ -2,7 +2,7 @@ import { FlatList, Platform } from 'react-native';
 
 import { TaskRow } from './TaskRow';
 import { Item, TaskListProps } from './types';
-import { Block, ContentRow } from '../ContentRow';
+import { Block, ContentRowAndroid } from '../ContentRow';
 
 export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
   return (
@@ -23,7 +23,12 @@ export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
         };
 
         if (Platform.OS === 'android')
-          return <ContentRow testID={item.id} blocks={[titleBlock, idBlock]} />;
+          return (
+            <ContentRowAndroid
+              testID={item.id}
+              blocks={[titleBlock, idBlock]}
+            />
+          );
 
         return <TaskRow item={item} />;
       }}
