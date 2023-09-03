@@ -1,9 +1,17 @@
 import { FlatList, Platform } from 'react-native';
 import { List } from 'react-native-paper';
 
-import { Item, TaskListProps } from './types';
-import { Block, ContentRow, ContentRowAndroid } from '../ContentRow';
+import { Block, ContentRow, ContentRowAndroid } from './ContentRow';
 import { useAppTheme } from 'src/hooks/useAppTheme';
+
+export interface Item {
+  id: string;
+  title: string;
+}
+
+interface TaskListProps<T extends Item> {
+  data: T[];
+}
 
 export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
   const {

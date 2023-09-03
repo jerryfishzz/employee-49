@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { Text as PaperText } from 'react-native-paper';
 
-import { TaskList } from 'src/components/TaskList/TaskList';
+import { TaskList } from 'src/components/TaskList';
 import { Text, View } from 'src/components/Themed';
 import { taskMap } from 'src/data/task';
 
