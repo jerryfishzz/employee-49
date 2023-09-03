@@ -1,7 +1,7 @@
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
 import { ReactNode } from 'react';
 
-import { View } from '../Themed';
+import { View } from '../../Themed';
 
 interface IconProps {
   style: StyleProp<ViewStyle>;
