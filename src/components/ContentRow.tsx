@@ -4,7 +4,7 @@ import { VariantProp } from 'react-native-paper/lib/typescript/components/Typogr
 
 import { Row } from './ui/Row';
 
-interface Item {
+export interface Block {
   variant?: VariantProp<never>;
   textStyle?: StyleProp<TextStyle>;
   viewStyle?: ViewStyle;
@@ -12,11 +12,11 @@ interface Item {
 }
 
 interface ContentRowProps {
-  items: Item[];
+  blocks: Block[];
   testID: string;
 }
 
-export function ContentRow({ testID, items }: ContentRowProps) {
+export function ContentRow({ testID, blocks }: ContentRowProps) {
   return (
     <Row
       testID={`row-${testID}`}
@@ -26,7 +26,7 @@ export function ContentRow({ testID, items }: ContentRowProps) {
         width: '100%', // Set full width on web
       }}
     >
-      {items.map(({ variant, textStyle, viewStyle, content }, index) => (
+      {blocks.map(({ variant, textStyle, viewStyle, content }, index) => (
         <Row.Text
           key={index}
           variant={variant}
