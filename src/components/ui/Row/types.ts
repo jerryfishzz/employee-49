@@ -9,3 +9,7 @@ export type RowTextProps = {
   textStyle?: StyleProp<TextStyle>;
   viewStyle?: ViewStyle;
 };
+
+export type RowIconProps = {
+  children: ReactNode;
+};

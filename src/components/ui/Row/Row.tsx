@@ -2,7 +2,7 @@ import { Text } from 'react-native-paper';
 
 import { RowProvider, useRow } from './context';
 import { View, ViewProps } from 'src/components/Themed';
-import { RowTextProps } from './types';
+import { RowIconProps, RowTextProps } from './types';
 
 export function Row({ children, ...props }: ViewProps) {
   return (
@@ -30,4 +30,11 @@ function RowText({
   );
 }
 
+function RowIcon({ children }: RowIconProps) {
+  useRow('<Row.Icon />');
+
+  return { children };
+}
+
 Row.Text = RowText;
+Row.Icon = RowIcon;
