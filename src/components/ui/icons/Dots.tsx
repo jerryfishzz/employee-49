@@ -6,7 +6,7 @@ import {
   ViewStyle,
 } from 'react-native';
 
-import { Icon } from './Icon';
+import { IconBase } from './IconBase';
 
 interface DotProps {
   style?: StyleProp<ViewStyle>;
@@ -18,13 +18,13 @@ type RowDotAndroidProps = DotProps;
 
 export function Dot({ style, size, iconColor }: DotProps) {
   return (
-    <Icon style={style}>
+    <IconBase style={style}>
       <Octicons
         name="dot-fill"
         size={size ? size : 24}
         color={iconColor ? iconColor : 'yellow'}
       />
-    </Icon>
+    </IconBase>
   );
 }
 

@@ -8,7 +8,7 @@ interface IconProps {
   children: ReactNode;
 }
 
-export function Icon({ style, children }: IconProps) {
+export function IconBase({ style, children }: IconProps) {
   return <View style={[styles.container, style]}>{children}</View>;
 }
 
