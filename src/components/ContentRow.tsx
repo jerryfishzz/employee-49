@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { StyleProp, TextStyle, ViewStyle } from 'react-native';
+import { StyleProp, StyleSheet, TextStyle, ViewStyle } from 'react-native';
 import { VariantProp } from 'react-native-paper/lib/typescript/components/Typography/types';
 
 import { Row } from './ui/Row';
@@ -18,14 +18,7 @@ interface ContentRowProps {
 
 export function ContentRow({ testID, blocks }: ContentRowProps) {
   return (
-    <Row
-      testID={`row-${testID}`}
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        width: '100%', // Set full width on web
-      }}
-    >
+    <Row testID={`row-${testID}`} style={[styles.row]}>
       {blocks.map(({ variant, textStyle, viewStyle, content }, index) => (
         <Row.Text
           key={index}
@@ -39,3 +32,11 @@ export function ContentRow({ testID, blocks }: ContentRowProps) {
     </Row>
   );
 }
+
+const styles = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%', // Set full width on web
+  },
+});
