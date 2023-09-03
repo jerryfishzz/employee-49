@@ -11,7 +11,7 @@ test('render ToDo', () => {
   expect(rows).toHaveLength(10);
 
   expect(within(rows[0]).getByText('Build a fence')).toBeOnTheScreen();
-  expect(within(rows[1]).getByText('Fix the tractor')).toBeOnTheScreen();
+  expect(within(rows[1]).getByText('J Fix the tractor')).toBeOnTheScreen();
   expect(within(rows[2]).getByText('Clean gumboots')).toBeOnTheScreen();
   expect(within(rows[3]).getByText('Empty pond')).toBeOnTheScreen();
   expect(within(rows[5]).getByText('Fix the computer')).toBeOnTheScreen();
