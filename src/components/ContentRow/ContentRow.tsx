@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { VariantProp } from 'react-native-paper/lib/typescript/components/Typography/types';
 
-import { Row } from './ui/Row';
+import { Row } from '../ui/Row';
 
 export interface Block {
   variant?: VariantProp<never>;

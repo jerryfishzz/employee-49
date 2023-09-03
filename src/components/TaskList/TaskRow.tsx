@@ -2,7 +2,7 @@ import { List } from 'react-native-paper';
 
 import { Item, TaskRowProps } from './types';
 import { Title } from './Title';
-import { Block, ContentRow } from '../ContentRow';
+import { Block, ContentRow } from '../ContentRow/ContentRow';
 
 export function TaskRow<T extends Item>({
   item: { title, id },
