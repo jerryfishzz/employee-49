@@ -1,41 +1,24 @@
 import { Octicons } from '@expo/vector-icons';
-import {
-  OpaqueColorValue,
-  StyleProp,
-  StyleSheet,
-  ViewStyle,
-} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { IconBase } from './IconBase';
+import { IconProps } from './types';
+import { DEFAULT_DOT_COLOR, DEFAULT_SIZE } from './constants';
 
-interface DotProps {
-  style?: StyleProp<ViewStyle>;
-  size?: number;
-  iconColor?: string | OpaqueColorValue;
-}
-
-type RowDotAndroidProps = DotProps;
-
-export function Dot({ style, size, iconColor }: DotProps) {
+export function Dot({ style, size, iconColor }: IconProps) {
   return (
     <IconBase style={style}>
       <Octicons
         name="dot-fill"
-        size={size ? size : 24}
-        color={iconColor ? iconColor : 'yellow'}
+        size={size ? size : DEFAULT_SIZE}
+        color={iconColor ? iconColor : DEFAULT_DOT_COLOR}
       />
     </IconBase>
   );
 }
 
-export function RowDotAndroid({ style, size, iconColor }: RowDotAndroidProps) {
-  return (
-    <Dot
-      style={[styles.rowDotAndroid, style]}
-      size={size}
-      iconColor={iconColor}
-    />
-  );
+export function RowDotAndroid({ style, ...props }: IconProps) {
+  return <Dot style={[styles.rowDotAndroid, style]} {...props} />;
 }
 
 const styles = StyleSheet.create({
