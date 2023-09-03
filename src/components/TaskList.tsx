@@ -3,7 +3,7 @@ import { List } from 'react-native-paper';
 
 import { Block, ContentRow, ContentRowAndroid } from './ContentRow';
 import { useAppTheme } from 'src/hooks/useAppTheme';
-import { Dot, RowDotAndroid } from './ui';
+import { Dot, Forward, RowDotAndroid } from './ui';
 
 export interface Item {
   id: string;
@@ -64,6 +64,7 @@ export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
                 icon={() => <Dot iconColor={blueberry} />}
               />
             )}
+            right={(props) => <List.Icon {...props} icon={() => <Forward />} />}
           />
         );
       }}
