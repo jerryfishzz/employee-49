@@ -29,6 +29,7 @@ export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
           variant: 'titleLarge',
           viewStyle: {
             flex: 1,
+            paddingLeft: Platform.OS === 'android' ? 16 : 0,
           },
         };
 

@@ -13,7 +13,6 @@ const styles = StyleSheet.create({
     paddingRight: 24,
     paddingBottom: 8,
     paddingTop: 8,
-    paddingLeft: 16,
     marginBottom: 6,
     marginTop: 6,
   },
