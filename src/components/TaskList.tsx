@@ -3,7 +3,7 @@ import { List } from 'react-native-paper';
 
 import { Block, ContentRow, ContentRowAndroid } from './ContentRow';
 import { useAppTheme } from 'src/hooks/useAppTheme';
-import { Dot } from './ui';
+import { Dot, RowDotAndroid } from './ui';
 
 export interface Item {
   id: string;
@@ -44,7 +44,7 @@ export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
 
         const dotBlock: Block = {
           type: 'icon',
-          content: <Dot />,
+          content: Platform.OS === 'android' ? <RowDotAndroid /> : <Dot />,
         };
 
         if (Platform.OS === 'android')
