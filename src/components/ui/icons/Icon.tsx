@@ -4,7 +4,7 @@ import { ReactNode } from 'react';
 import { View } from '../../Themed';
 
 interface IconProps {
-  style: StyleProp<ViewStyle>;
+  style?: StyleProp<ViewStyle>;
   children: ReactNode;
 }
 
