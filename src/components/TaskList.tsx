@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import { List } from 'react-native-paper';
 import date from 'date-and-time';
+import { usePathname } from 'expo-router';
 
 import { Block, ContentRow, ContentRowAndroid } from './ContentRow';
 import { Dot, Forward, RowDotAndroid, RowForwardAndroid } from './ui';
@@ -17,6 +18,7 @@ export interface Item {
   id: string;
   title: string;
   due: string;
+  status: 'toDo' | 'done';
 }
 
 interface TaskListProps<T extends Item> {
@@ -30,9 +32,14 @@ export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
     colors: { borderBottom },
   } = useAppTheme();
 
+  const pathname = usePathname();
+  const filteredData = data.filter((task) =>
+    pathname === '/' ? task.status === 'toDo' : task.status === 'done',
+  );
+
   return (
     <FlatList
-      data={data}
+      data={filteredData}
       renderItem={({ item: { id, title, due }, index }) => {
         const titleBlock: Block = {
           type: 'text',
@@ -69,7 +76,7 @@ export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
         const borderBottomStyle = getBorderBottomStyle(
           borderBottom,
           index,
-          data.length,
+          filteredData.length,
         );
 
         if (Platform.OS === 'android')
