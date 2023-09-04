@@ -40,6 +40,9 @@ export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
             flex: 1,
             paddingLeft: Platform.OS === 'android' ? 16 : 0,
           },
+          textStyle: {
+            fontSize: 20,
+          },
         };
 
         const idBlock: Block = {
