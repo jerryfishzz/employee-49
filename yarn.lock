@@ -3702,6 +3702,11 @@ data-urls@^3.0.2:
     whatwg-mimetype "^3.0.0"
     whatwg-url "^11.0.0"
 
+date-and-time@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/date-and-time/-/date-and-time-3.0.2.tgz#c2231ef98e7702b93cde1505d2d93f4fe602f0b6"
+  integrity sha512-MOqlRertOQmQI7ySbz6dKLM7Rxm9dgcPuBI9IL7NVe0UGqHPK+6hWSKVhLrVHxlSgQQtocE2R7+HFOf5aMz8vw==
+
 dayjs@^1.8.15:
   version "1.11.9"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.9.tgz#9ca491933fadd0a60a2c19f6c237c03517d71d1a"

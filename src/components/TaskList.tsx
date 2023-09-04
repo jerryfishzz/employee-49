@@ -6,6 +6,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import { List } from 'react-native-paper';
+import date from 'date-and-time';
 
 import { Block, ContentRow, ContentRowAndroid } from './ContentRow';
 import { Dot, Forward, RowDotAndroid, RowForwardAndroid } from './ui';
@@ -15,6 +16,7 @@ import { useAppTheme } from 'src/hooks/useAppTheme';
 export interface Item {
   id: string;
   title: string;
+  due: string;
 }
 
 interface TaskListProps<T extends Item> {
@@ -31,7 +33,7 @@ export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
   return (
     <FlatList
       data={data}
-      renderItem={({ item: { id, title }, index }) => {
+      renderItem={({ item: { id, title, due }, index }) => {
         const titleBlock: Block = {
           type: 'text',
           content: title,
@@ -45,9 +47,9 @@ export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
           },
         };
 
-        const idBlock: Block = {
+        const dueBlock: Block = {
           type: 'text',
-          content: id,
+          content: date.format(new Date(due), 'D MMM'),
           variant: 'titleMedium',
           textStyle: {
             color: hotChilli,
@@ -77,7 +79,7 @@ export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
               blocks={[
                 dotBlockAndroid,
                 titleBlock,
-                idBlock,
+                dueBlock,
                 forwardBlockAndroid,
               ]}
               style={borderBottomStyle}
@@ -86,7 +88,7 @@ export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
 
         return (
           <List.Item
-            title={<ContentRow testID={id} blocks={[titleBlock, idBlock]} />}
+            title={<ContentRow testID={id} blocks={[titleBlock, dueBlock]} />}
             left={(props) => (
               <List.Icon
                 {...props}
