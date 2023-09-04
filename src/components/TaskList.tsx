@@ -2,8 +2,8 @@ import { FlatList, Platform } from 'react-native';
 import { List } from 'react-native-paper';
 
 import { Block, ContentRow, ContentRowAndroid } from './ContentRow';
-import { useAppTheme } from 'src/hooks/useAppTheme';
 import { Dot, Forward, RowDotAndroid, RowForwardAndroid } from './ui';
+import { paySauceColor } from 'src/constants/Colors';
 
 export interface Item {
   id: string;
@@ -14,11 +14,9 @@ interface TaskListProps<T extends Item> {
   data: T[];
 }
 
-export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
-  const {
-    colors: { hotChilli, mint, blueberry },
-  } = useAppTheme();
+const { hotChilli, mint, blueberry } = paySauceColor;
 
+export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
   return (
     <FlatList
       data={data}
@@ -75,6 +73,10 @@ export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
               />
             )}
             right={(props) => <List.Icon {...props} icon={() => <Forward />} />}
+            style={{
+              borderBottomColor: 'white',
+              borderBottomWidth: 2,
+            }}
           />
         );
       }}

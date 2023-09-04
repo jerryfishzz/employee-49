@@ -4,19 +4,17 @@ import {
 } from '@react-navigation/material-top-tabs';
 import { Platform } from 'react-native';
 import { Text } from 'react-native-paper';
+import { paySauceColor } from 'src/constants/Colors';
 
 import { taskMap } from 'src/data/task';
-import { useAppTheme } from 'src/hooks/useAppTheme';
 import { Done } from 'src/screens/Done';
 import { ToDo } from 'src/screens/ToDo';
 
 const Tabs = createMaterialTopTabNavigator();
 
-export default function TabLayout() {
-  const {
-    colors: { hotChilli, white },
-  } = useAppTheme();
+const { white, hotChilli } = paySauceColor;
 
+export default function TabLayout() {
   const toDoTasks = [...taskMap.values()].filter(
     (task) => task.status === 'toDo',
   );
