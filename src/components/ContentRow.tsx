@@ -20,7 +20,10 @@ export interface ContentRowProps {
 
 export function ContentRow({ testID, blocks, style }: ContentRowProps) {
   return (
-    <Row testID={`row-${testID}`} style={[styles.row, style]}>
+    <Row
+      testID={`row-${testID}`}
+      style={style ? { ...styles.row, ...style } : styles.row}
+    >
       {blocks.map(({ variant, textStyle, viewStyle, content, type }, index) =>
         type === 'text' ? (
           <Row.Text
@@ -39,8 +42,14 @@ export function ContentRow({ testID, blocks, style }: ContentRowProps) {
   );
 }
 
-export function ContentRowAndroid({ testID, blocks }: ContentRowProps) {
-  return <ContentRow testID={testID} blocks={blocks} style={styles.android} />;
+export function ContentRowAndroid({ testID, blocks, style }: ContentRowProps) {
+  return (
+    <ContentRow
+      testID={testID}
+      blocks={blocks}
+      style={style ? { ...styles.android, ...style } : styles.android}
+    />
+  );
 }
 
 const styles = StyleSheet.create({

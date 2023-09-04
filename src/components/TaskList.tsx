@@ -1,4 +1,4 @@
-import { FlatList, Platform } from 'react-native';
+import { ColorValue, FlatList, Platform, ViewStyle } from 'react-native';
 import { List } from 'react-native-paper';
 
 import { Block, ContentRow, ContentRowAndroid } from './ContentRow';
@@ -55,6 +55,12 @@ export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
           content: <RowForwardAndroid />,
         };
 
+        const borderBottomStyle = getBorderBottomStyle(
+          borderBottom,
+          index,
+          data.length,
+        );
+
         if (Platform.OS === 'android')
           return (
             <ContentRowAndroid
@@ -65,6 +71,7 @@ export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
                 idBlock,
                 forwardBlockAndroid,
               ]}
+              style={borderBottomStyle}
             />
           );
 
@@ -78,14 +85,22 @@ export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
               />
             )}
             right={(props) => <List.Icon {...props} icon={() => <Forward />} />}
-            style={{
-              borderBottomColor: borderBottom,
-              borderBottomWidth: index === data.length - 1 ? 0 : 2,
-            }}
+            style={borderBottomStyle}
           />
         );
       }}
       keyExtractor={(item) => item.id}
     />
   );
+}
+
+function getBorderBottomStyle(
+  color: ColorValue,
+  index: number,
+  dataLength: number,
+): ViewStyle {
+  return {
+    borderBottomColor: color,
+    borderBottomWidth: index === dataLength - 1 ? 0 : 2,
+  };
 }
