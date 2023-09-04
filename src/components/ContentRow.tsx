@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { StyleProp, StyleSheet, TextStyle, ViewStyle } from 'react-native';
 import { VariantProp } from 'react-native-paper/lib/typescript/components/Typography/types';
 
-import { Row } from '../ui';
+import { Row } from './ui';
 
 export interface Block {
   type: 'text' | 'icon';
@@ -39,10 +39,21 @@ export function ContentRow({ testID, blocks, style }: ContentRowProps) {
   );
 }
 
+export function ContentRowAndroid({ testID, blocks }: ContentRowProps) {
+  return <ContentRow testID={testID} blocks={blocks} style={styles.android} />;
+}
+
 const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%', // Set full width on web
+  },
+  android: {
+    paddingRight: 24,
+    paddingBottom: 8,
+    paddingTop: 8,
+    marginBottom: 6,
+    marginTop: 6,
   },
 });
