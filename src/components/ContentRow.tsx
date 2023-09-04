@@ -60,9 +60,6 @@ const styles = StyleSheet.create({
   },
   android: {
     paddingRight: 24,
-    paddingBottom: 8,
-    paddingTop: 8,
-    marginBottom: 6,
-    marginTop: 6,
+    paddingVertical: 14,
   },
 });
