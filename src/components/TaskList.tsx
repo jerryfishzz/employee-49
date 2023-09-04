@@ -1,4 +1,10 @@
-import { ColorValue, FlatList, Platform, ViewStyle } from 'react-native';
+import {
+  ColorValue,
+  FlatList,
+  Platform,
+  ViewStyle,
+  StyleSheet,
+} from 'react-native';
 import { List } from 'react-native-paper';
 
 import { Block, ContentRow, ContentRowAndroid } from './ContentRow';
@@ -85,7 +91,7 @@ export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
               />
             )}
             right={(props) => <List.Icon {...props} icon={() => <Forward />} />}
-            style={borderBottomStyle}
+            style={[borderBottomStyle, styles.listPadding]}
           />
         );
       }}
@@ -104,3 +110,9 @@ function getBorderBottomStyle(
     borderBottomWidth: index === dataLength - 1 ? 0 : 2,
   };
 }
+
+const styles = StyleSheet.create({
+  listPadding: {
+    paddingVertical: 12,
+  },
+});
