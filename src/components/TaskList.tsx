@@ -63,7 +63,7 @@ export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
 
         const forwardBlockAndroid: Block = {
           type: 'icon',
-          content: <RowForwardAndroid />,
+          content: <RowForwardAndroid style={styles.forward} />,
         };
 
         const borderBottomStyle = getBorderBottomStyle(
@@ -95,7 +95,13 @@ export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
                 icon={() => <Dot iconColor={blueberry} />}
               />
             )}
-            right={(props) => <List.Icon {...props} icon={() => <Forward />} />}
+            right={({ style, ...props }) => (
+              <List.Icon
+                style={[style, styles.forward]}
+                {...props}
+                icon={() => <Forward />}
+              />
+            )}
             style={[borderBottomStyle, styles.listPadding]}
           />
         );
@@ -119,5 +125,8 @@ function getBorderBottomStyle(
 const styles = StyleSheet.create({
   listPadding: {
     paddingVertical: 12,
+  },
+  forward: {
+    marginLeft: 4,
   },
 });
