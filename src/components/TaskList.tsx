@@ -13,12 +13,14 @@ import { Block, ContentRow, ContentRowAndroid } from './ContentRow';
 import { Dot, Forward, RowDotAndroid, RowForwardAndroid } from './ui';
 import { paySauceColor } from 'src/constants/Colors';
 import { useAppTheme } from 'src/hooks/useAppTheme';
+import { PRIORITY, Priority } from 'src/constants/Priority';
 
 export interface Item {
   id: string;
   title: string;
   due: string;
   status: 'toDo' | 'done';
+  priority: Priority;
 }
 
 interface TaskListProps<T extends Item> {
@@ -40,7 +42,9 @@ export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
   return (
     <FlatList
       data={filteredData}
-      renderItem={({ item: { id, title, due }, index }) => {
+      renderItem={({ item: { id, title, due, priority }, index }) => {
+        const priorityColor = PRIORITY[priority].color;
+
         const titleBlock: Block = {
           type: 'text',
           content: title,
@@ -65,7 +69,7 @@ export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
 
         const dotBlockAndroid: Block = {
           type: 'icon',
-          content: <RowDotAndroid iconColor={mint} />,
+          content: <RowDotAndroid iconColor={priorityColor} />,
         };
 
         const forwardBlockAndroid: Block = {
@@ -99,7 +103,7 @@ export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
             left={(props) => (
               <List.Icon
                 {...props}
-                icon={() => <Dot iconColor={blueberry} />}
+                icon={() => <Dot iconColor={priorityColor} />}
               />
             )}
             right={({ style, ...props }) => (
