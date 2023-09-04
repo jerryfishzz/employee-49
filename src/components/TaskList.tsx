@@ -4,6 +4,7 @@ import { List } from 'react-native-paper';
 import { Block, ContentRow, ContentRowAndroid } from './ContentRow';
 import { Dot, Forward, RowDotAndroid, RowForwardAndroid } from './ui';
 import { paySauceColor } from 'src/constants/Colors';
+import { useAppTheme } from 'src/hooks/useAppTheme';
 
 export interface Item {
   id: string;
@@ -17,10 +18,14 @@ interface TaskListProps<T extends Item> {
 const { hotChilli, mint, blueberry } = paySauceColor;
 
 export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
+  const {
+    colors: { borderBottom },
+  } = useAppTheme();
+
   return (
     <FlatList
       data={data}
-      renderItem={({ item: { id, title } }) => {
+      renderItem={({ item: { id, title }, index }) => {
         const titleBlock: Block = {
           type: 'text',
           content: title,
@@ -74,8 +79,8 @@ export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
             )}
             right={(props) => <List.Icon {...props} icon={() => <Forward />} />}
             style={{
-              borderBottomColor: 'white',
-              borderBottomWidth: 2,
+              borderBottomColor: borderBottom,
+              borderBottomWidth: index === data.length - 1 ? 0 : 2,
             }}
           />
         );

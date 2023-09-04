@@ -72,11 +72,17 @@ function RootLayoutNav() {
     colorScheme === 'dark'
       ? {
           ...MD3DarkTheme,
-          colors: paySauceThemeDark.colors,
+          colors: {
+            ...MD3DarkTheme.colors,
+            ...paySauceThemeDark.colors,
+          },
         }
       : {
           ...MD3LightTheme,
-          colors: paySauceThemeLight.colors,
+          colors: {
+            ...MD3LightTheme.colors,
+            ...paySauceThemeLight.colors,
+          },
         };
   const paperTheme = { ...paperColorTheme, fonts };
 
