@@ -7,7 +7,6 @@ import {
 } from 'react-native';
 import { List } from 'react-native-paper';
 import date from 'date-and-time';
-import { usePathname } from 'expo-router';
 
 import { Block, ContentRow, ContentRowAndroid } from './ContentRow';
 import { Dot, Forward, RowDotAndroid, RowForwardAndroid } from './ui';
@@ -15,9 +14,11 @@ import { paySauceColor } from 'src/constants/Colors';
 import { useAppTheme } from 'src/hooks/useAppTheme';
 import { PRIORITY } from 'src/constants/Priority';
 import { Task } from 'src/data/task.schema';
+import { RootTabParamList } from 'src/utils/navigation';
 
 interface TaskListProps<T extends Task> {
   data: T[];
+  routeName: keyof RootTabParamList;
 }
 
 function isOverdue(due: Task['due']) {
@@ -26,14 +27,19 @@ function isOverdue(due: Task['due']) {
 
 const { hotChilli, midGrey, mint } = paySauceColor;
 
-export function TaskList<T extends Task>({ data }: TaskListProps<T>) {
+export function TaskList<T extends Task>({
+  data,
+  routeName,
+}: TaskListProps<T>) {
   const {
     colors: { borderBottom },
   } = useAppTheme();
 
-  const pathname = usePathname();
+  // Because tabs used here is not from expo router,
+  // the route from usePathname will be quite slow.
+  // So here use routes from react navigation top tabs.
   const filteredData = data.filter((task) =>
-    pathname === '/' ? task.status === 'toDo' : task.status === 'done',
+    routeName === 'index' ? task.status === 'toDo' : task.status === 'done',
   );
 
   return (
@@ -42,7 +48,7 @@ export function TaskList<T extends Task>({ data }: TaskListProps<T>) {
       renderItem={({ item: { id, title, due, priority }, index }) => {
         const priorityColor = PRIORITY[priority].color;
         const dueColor =
-          pathname === '/' ? (isOverdue(due) ? hotChilli : midGrey) : mint;
+          routeName === 'index' ? (isOverdue(due) ? hotChilli : midGrey) : mint;
 
         const titleBlock: Block = {
           type: 'text',

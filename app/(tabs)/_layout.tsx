@@ -7,11 +7,10 @@ import { Text } from 'react-native-paper';
 import { paySauceColor } from 'src/constants/Colors';
 
 import { taskMap } from 'src/data/task';
-import { Done } from 'src/screens/Done';
 import { List } from 'src/screens/List';
-import { ToDo } from 'src/screens/ToDo';
+import { RootTabParamList } from 'src/utils/navigation';
 
-const Tabs = createMaterialTopTabNavigator();
+const Tabs = createMaterialTopTabNavigator<RootTabParamList>();
 
 const { white, hotChilli } = paySauceColor;
 

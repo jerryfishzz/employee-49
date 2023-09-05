@@ -3,11 +3,12 @@ import { StyleSheet } from 'react-native';
 import { TaskList } from 'src/components/TaskList';
 import { View } from 'src/components/Themed';
 import { taskMap } from 'src/data/task';
+import { RootTabParamList, RootTabScreenProps } from 'src/utils/navigation';
 
-export function List() {
+export function List({ route }: RootTabScreenProps<keyof RootTabParamList>) {
   return (
     <View style={styles.container}>
-      <TaskList data={[...taskMap.values()]} />
+      <TaskList data={[...taskMap.values()]} routeName={route.name} />
     </View>
   );
 }
