@@ -20,7 +20,11 @@ interface TaskListProps<T extends Task> {
   data: T[];
 }
 
-const { hotChilli } = paySauceColor;
+function isOverdue(due: Task['due']) {
+  return new Date(due) < new Date() ? true : false;
+}
+
+const { hotChilli, midGrey, mint } = paySauceColor;
 
 export function TaskList<T extends Task>({ data }: TaskListProps<T>) {
   const {
@@ -37,6 +41,8 @@ export function TaskList<T extends Task>({ data }: TaskListProps<T>) {
       data={filteredData}
       renderItem={({ item: { id, title, due, priority }, index }) => {
         const priorityColor = PRIORITY[priority].color;
+        const dueColor =
+          pathname === '/' ? (isOverdue(due) ? hotChilli : midGrey) : mint;
 
         const titleBlock: Block = {
           type: 'text',
@@ -56,7 +62,7 @@ export function TaskList<T extends Task>({ data }: TaskListProps<T>) {
           content: date.format(new Date(due), 'D MMM'),
           variant: 'titleMedium',
           textStyle: {
-            color: hotChilli,
+            color: dueColor,
           },
         };
 
