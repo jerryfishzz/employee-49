@@ -8,6 +8,7 @@ import { paySauceColor } from 'src/constants/Colors';
 
 import { taskMap } from 'src/data/task';
 import { Done } from 'src/screens/Done';
+import { List } from 'src/screens/List';
 import { ToDo } from 'src/screens/ToDo';
 
 const Tabs = createMaterialTopTabNavigator();
@@ -37,12 +38,12 @@ export default function TabLayout() {
     >
       <Tabs.Screen
         name="index"
-        component={ToDo}
+        component={List}
         options={createOptions('toDo', toDoTasks.length)}
       />
       <Tabs.Screen
         name="done"
-        component={Done}
+        component={List}
         options={createOptions('done', taskMap.size - toDoTasks.length)}
       />
     </Tabs.Navigator>
