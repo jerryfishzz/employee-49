@@ -1,4 +1,7 @@
+import { faker } from '@faker-js/faker';
+
 import { Task, TaskMap } from './task.schema';
+import { getCertainDate } from 'src/utils/helpers';
 
 const arrayForTaskMap: Array<[string, Task]> = [
   [
@@ -7,7 +10,9 @@ const arrayForTaskMap: Array<[string, Task]> = [
       id: 'task1',
       title: 'Build a fence',
       status: 'toDo',
-      due: '2022-10-15T19:00:00+12:00',
+      due: faker.date
+        .between({ from: getCertainDate(-7), to: getCertainDate(7) })
+        .toISOString(),
       completed: null,
       priority: 'low',
       description:
@@ -20,7 +25,9 @@ const arrayForTaskMap: Array<[string, Task]> = [
       id: 'task2',
       title: 'J Fix the tractor',
       status: 'toDo',
-      due: '2022-09-05T04:25:00+12:00',
+      due: faker.date
+        .between({ from: getCertainDate(-7), to: getCertainDate(7) })
+        .toISOString(),
       completed: null,
       priority: 'high',
       description:
@@ -33,7 +40,9 @@ const arrayForTaskMap: Array<[string, Task]> = [
       id: 'task3',
       title: 'Clean gumboots',
       status: 'toDo',
-      due: '2022-08-24T22:18:00+12:00',
+      due: faker.date
+        .between({ from: getCertainDate(-7), to: getCertainDate(7) })
+        .toISOString(),
       completed: null,
       priority: 'normal',
       description:
@@ -46,8 +55,12 @@ const arrayForTaskMap: Array<[string, Task]> = [
       id: 'task4',
       title: 'Empty pond',
       status: 'done',
-      due: '2022-10-01T00:00:00+12:00',
-      completed: '2022-07-03T20:45:00+12:00',
+      due: faker.date
+        .between({ from: getCertainDate(-7), to: getCertainDate(7) })
+        .toISOString(),
+      completed: faker.date
+        .between({ from: getCertainDate(-7), to: new Date() })
+        .toISOString(),
       priority: 'low',
       description:
         'The ministry says the jet was flying from Moscow to St Petersburg, and that 10 people were on board.',
@@ -59,7 +72,9 @@ const arrayForTaskMap: Array<[string, Task]> = [
       id: 'task5',
       title: 'Clean the floor',
       status: 'toDo',
-      due: '2022-09-03T08:00:00+12:00',
+      due: faker.date
+        .between({ from: getCertainDate(-7), to: getCertainDate(7) })
+        .toISOString(),
       completed: null,
       priority: 'high',
       description:
@@ -72,8 +87,12 @@ const arrayForTaskMap: Array<[string, Task]> = [
       id: 'task6',
       title: 'Fix the computer',
       status: 'done',
-      due: '2022-09-16T19:00:00+12:00',
-      completed: '2022-08-21T19:00:00+12:00',
+      due: faker.date
+        .between({ from: getCertainDate(-7), to: getCertainDate(7) })
+        .toISOString(),
+      completed: faker.date
+        .between({ from: getCertainDate(-7), to: new Date() })
+        .toISOString(),
       priority: 'normal',
       description:
         'Prigozhin has been keeping a low public profile since heading his short-lived mutiny in June, which lasted only 24 hours.',
@@ -85,7 +104,9 @@ const arrayForTaskMap: Array<[string, Task]> = [
       id: 'task7',
       title: 'Buy some tools',
       status: 'toDo',
-      due: '2022-11-02T21:40:00+12:00',
+      due: faker.date
+        .between({ from: getCertainDate(-7), to: getCertainDate(7) })
+        .toISOString(),
       completed: null,
       priority: 'high',
       description:
@@ -98,8 +119,12 @@ const arrayForTaskMap: Array<[string, Task]> = [
       id: 'task8',
       title: 'Write a report',
       status: 'done',
-      due: '2022-05-18T14:22:00+12:00',
-      completed: '2022-05-20T23:00:00+12:00',
+      due: faker.date
+        .between({ from: getCertainDate(-7), to: getCertainDate(7) })
+        .toISOString(),
+      completed: faker.date
+        .between({ from: getCertainDate(-7), to: new Date() })
+        .toISOString(),
       priority: 'low',
       description:
         'The Wagner mercenary group was founded in 2014 and was highly active in the Ukraine war until the June mutiny.',
@@ -111,7 +136,9 @@ const arrayForTaskMap: Array<[string, Task]> = [
       id: 'task9',
       title: 'Mow the lawn',
       status: 'toDo',
-      due: '2022-10-06T06:30:00+12:00',
+      due: faker.date
+        .between({ from: getCertainDate(-7), to: getCertainDate(7) })
+        .toISOString(),
       completed: null,
       priority: 'normal',
       description: 'Russia is a country full of surprises.',
@@ -123,8 +150,12 @@ const arrayForTaskMap: Array<[string, Task]> = [
       id: 'task10',
       title: 'Feed animals',
       status: 'done',
-      due: '2022-09-20T03:22:00+12:00',
-      completed: '2022-08-15T11:00:00+12:00',
+      due: faker.date
+        .between({ from: getCertainDate(-7), to: getCertainDate(7) })
+        .toISOString(),
+      completed: faker.date
+        .between({ from: getCertainDate(-7), to: new Date() })
+        .toISOString(),
       priority: 'normal',
       description:
         "Around an hour after the crash, the Russian Federal Aviation Agency Rosaviatsiya released a statement confirming that Yevgeny Prigozhin's name was on the passenger manifest.",
