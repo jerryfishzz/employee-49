@@ -1,6 +1,13 @@
+import { Task } from 'src/data/task.schema';
 import { paySauceColor } from './Colors';
 
-export const PRIORITY = {
+interface PriorityValue {
+  value: string;
+  weight: number;
+  color: string;
+}
+
+export const PRIORITY: Record<Task['priority'], PriorityValue> = {
   high: {
     value: 'High',
     weight: 3,
@@ -16,6 +23,4 @@ export const PRIORITY = {
     weight: 1,
     color: paySauceColor.blueberry,
   },
-} as const;
-
-export type Priority = keyof typeof PRIORITY;
+};

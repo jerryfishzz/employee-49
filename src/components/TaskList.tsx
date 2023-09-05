@@ -13,23 +13,16 @@ import { Block, ContentRow, ContentRowAndroid } from './ContentRow';
 import { Dot, Forward, RowDotAndroid, RowForwardAndroid } from './ui';
 import { paySauceColor } from 'src/constants/Colors';
 import { useAppTheme } from 'src/hooks/useAppTheme';
-import { PRIORITY, Priority } from 'src/constants/Priority';
+import { PRIORITY } from 'src/constants/Priority';
+import { Task } from 'src/data/task.schema';
 
-export interface Item {
-  id: string;
-  title: string;
-  due: string;
-  status: 'toDo' | 'done';
-  priority: Priority;
-}
-
-interface TaskListProps<T extends Item> {
+interface TaskListProps<T extends Task> {
   data: T[];
 }
 
-const { hotChilli, mint, blueberry } = paySauceColor;
+const { hotChilli } = paySauceColor;
 
-export function TaskList<T extends Item>({ data }: TaskListProps<T>) {
+export function TaskList<T extends Task>({ data }: TaskListProps<T>) {
   const {
     colors: { borderBottom },
   } = useAppTheme();
