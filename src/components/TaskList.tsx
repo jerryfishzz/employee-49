@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import { List } from 'react-native-paper';
 import date from 'date-and-time';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { Block, ContentRow, ContentRowAndroid } from './ContentRow';
 import { Dot, Forward, RowDotAndroid, RowForwardAndroid } from './ui';
@@ -15,6 +16,7 @@ import { useAppTheme } from 'src/hooks/useAppTheme';
 import { PRIORITY } from 'src/constants/Priority';
 import { Task } from 'src/data/task.schema';
 import { RootTabParamList } from 'src/utils/navigation';
+import { Link } from 'expo-router';
 
 interface TaskListProps<T extends Task> {
   data: T[];
@@ -90,36 +92,46 @@ export function TaskList<T extends Task>({
 
         if (Platform.OS === 'android')
           return (
-            <ContentRowAndroid
-              testID={id}
-              blocks={[
-                dotBlockAndroid,
-                titleBlock,
-                dueBlock,
-                forwardBlockAndroid,
-              ]}
-              style={borderBottomStyle}
-            />
+            <Link href={`/detail/${id}`} asChild>
+              <TouchableOpacity>
+                <ContentRowAndroid
+                  testID={id}
+                  blocks={[
+                    dotBlockAndroid,
+                    titleBlock,
+                    dueBlock,
+                    forwardBlockAndroid,
+                  ]}
+                  style={borderBottomStyle}
+                />
+              </TouchableOpacity>
+            </Link>
           );
 
         return (
-          <List.Item
-            title={<ContentRow testID={id} blocks={[titleBlock, dueBlock]} />}
-            left={(props) => (
-              <List.Icon
-                {...props}
-                icon={() => <Dot iconColor={priorityColor} />}
+          <Link href={`/detail/${id}`} asChild>
+            <TouchableOpacity>
+              <List.Item
+                title={
+                  <ContentRow testID={id} blocks={[titleBlock, dueBlock]} />
+                }
+                left={(props) => (
+                  <List.Icon
+                    {...props}
+                    icon={() => <Dot iconColor={priorityColor} />}
+                  />
+                )}
+                right={({ style, ...props }) => (
+                  <List.Icon
+                    style={[style, styles.forward]}
+                    {...props}
+                    icon={() => <Forward />}
+                  />
+                )}
+                style={[borderBottomStyle, styles.listPadding]}
               />
-            )}
-            right={({ style, ...props }) => (
-              <List.Icon
-                style={[style, styles.forward]}
-                {...props}
-                icon={() => <Forward />}
-              />
-            )}
-            style={[borderBottomStyle, styles.listPadding]}
-          />
+            </TouchableOpacity>
+          </Link>
         );
       }}
       keyExtractor={(item) => item.id}
