@@ -100,6 +100,9 @@ function RootLayoutNav() {
             },
             headerShadowVisible: false, // Hide the bottom line
             headerTitleAlign: 'center',
+            headerBackTitleStyle: {
+              fontFamily: 'MontserratBold',
+            },
           }}
         >
           <Stack.Screen name="(tabs)" options={{ title: 'TASKS' }} />
