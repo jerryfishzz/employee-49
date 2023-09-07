@@ -4,7 +4,7 @@ import {
 } from '@react-navigation/material-top-tabs';
 import { Platform } from 'react-native';
 import { Text } from 'react-native-paper';
-import { paySauceColor } from 'src/constants/Colors';
+import { paySauceColor } from 'src/data/Colors';
 
 import { taskMap } from 'src/data/task';
 import { List } from 'src/screens/List';

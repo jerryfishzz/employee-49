@@ -1,5 +1,5 @@
 import { Task } from 'src/data/task.schema';
-import { paySauceColor } from '../constants/Colors';
+import { paySauceColor } from './Colors';
 
 interface PriorityValue {
   value: string;

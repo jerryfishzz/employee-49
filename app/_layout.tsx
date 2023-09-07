@@ -15,7 +15,7 @@ import {
   paySauceColor,
   paySauceThemeDark,
   paySauceThemeLight,
-} from 'src/constants/Colors';
+} from 'src/data/Colors';
 
 export {
   // Catch any errors thrown by the Layout component.

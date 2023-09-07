@@ -1,6 +1,6 @@
 import { MD3LightTheme, useTheme } from 'react-native-paper';
 
-import { paySauceThemeLight } from 'src/constants/Colors';
+import { paySauceThemeLight } from 'src/data/Colors';
 
 const { colors } = paySauceThemeLight;
 

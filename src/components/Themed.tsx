@@ -9,7 +9,7 @@ import {
   View as DefaultView,
 } from 'react-native';
 
-import Colors from '../constants/Colors';
+import Colors from '../data/Colors';
 
 type ThemeProps = {
   lightColor?: string;

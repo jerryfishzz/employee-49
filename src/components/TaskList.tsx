@@ -11,7 +11,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { Block, ContentRow, ContentRowAndroid } from './ContentRow';
 import { Dot, Forward, RowDotAndroid, RowForwardAndroid } from './ui';
-import { paySauceColor } from 'src/constants/Colors';
+import { paySauceColor } from 'src/data/Colors';
 import { useAppTheme } from 'src/hooks/useAppTheme';
 import { PRIORITY } from 'src/data/Priority';
 import { Task } from 'src/data/task.schema';
