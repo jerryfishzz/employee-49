@@ -1,7 +1,6 @@
 import { Platform, ScrollView, StyleSheet } from 'react-native';
 import { List } from 'react-native-paper';
 import date from 'date-and-time';
-import { v4 as uuidv4 } from 'uuid';
 
 import { View } from 'src/components/Themed';
 import { ContentRow, ContentRowAndroid } from 'src/components/ContentRow';
@@ -12,22 +11,22 @@ import { createContentBlock, createTitleBlock } from './helpers';
 import { STATUS } from 'src/data/Status';
 
 export function Detail({
-  task: { status, description, due, priority },
+  task: { id, status, description, due, priority },
 }: DetailProps) {
   const detailRowData: DetailRowData[] = [
     {
-      // id: uuidv4(),
+      id: `status-${id}`,
       blocks: [createTitleBlock('Status'), createContentBlock(STATUS[status])],
     },
     {
-      // id: uuidv4(),
+      id: `due-${id}`,
       blocks: [
         createTitleBlock('Due'),
         createContentBlock(date.format(new Date(due), 'D MMMM, YYYY')),
       ],
     },
     {
-      // id: uuidv4(),
+      id: `priority-${id}`,
       blocks: [
         createTitleBlock('Priority'),
         createContentBlock(
@@ -43,7 +42,7 @@ export function Detail({
       },
     },
     {
-      // id: uuidv4(),
+      id: `desc-${id}`,
       blocks: [
         {
           type: 'text',
@@ -63,18 +62,18 @@ export function Detail({
       <ScrollView>
         {Platform.OS === 'android' ? (
           <>
-            {detailRowData.map(({ blocks, right, id }, index) => (
+            {detailRowData.map(({ blocks, right, id }) => (
               <ContentRowAndroid
-                key={index}
+                key={id}
                 blocks={right ? [...blocks, right.android] : blocks}
               />
             ))}
           </>
         ) : (
           <>
-            {detailRowData.map(({ blocks, right, id }, index) => (
+            {detailRowData.map(({ blocks, right, id }) => (
               <List.Item
-                key={index}
+                key={id}
                 title={<ContentRow blocks={blocks} />}
                 right={
                   right

@@ -7,7 +7,7 @@ export interface DetailProps {
 }
 
 export interface DetailRowData {
-  id?: string;
+  id: string;
   blocks: Block[];
   right?: {
     android: Block;
