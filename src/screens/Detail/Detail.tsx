@@ -9,10 +9,15 @@ import { PRIORITY } from 'src/data/Priority';
 import { DetailProps, DetailRowData } from './types';
 import { createContentBlock, createTitleBlock } from './helpers';
 import { STATUS } from 'src/data/Status';
+import { useAppTheme } from 'src/hooks/useAppTheme';
 
 export function Detail({
   task: { status, description, due, priority },
 }: DetailProps) {
+  const {
+    colors: { borderBottom },
+  } = useAppTheme();
+
   const detailRowData: DetailRowData[] = [
     {
       blocks: [createTitleBlock('Status'), createContentBlock(STATUS[status])],
@@ -50,6 +55,7 @@ export function Detail({
           },
         },
       ],
+      isBorderBottomHidden: true,
     },
   ];
 
@@ -58,28 +64,48 @@ export function Detail({
       <ScrollView>
         {Platform.OS === 'android' ? (
           <>
-            {detailRowData.map(({ blocks, right }, index) => (
-              <ContentRowAndroid
-                key={index}
-                blocks={right ? [...blocks, right.android] : blocks}
-              />
-            ))}
+            {detailRowData.map(
+              ({ blocks, right, isBorderBottomHidden }, index) => (
+                <ContentRowAndroid
+                  key={index}
+                  blocks={right ? [...blocks, right.android] : blocks}
+                  style={
+                    !isBorderBottomHidden
+                      ? {
+                          ...styles.borderBottom,
+                          borderBottomColor: borderBottom,
+                        }
+                      : undefined
+                  }
+                />
+              ),
+            )}
           </>
         ) : (
           <>
-            {detailRowData.map(({ blocks, right }, index) => (
-              <List.Item
-                key={index}
-                title={<ContentRow blocks={blocks} />}
-                right={
-                  right
-                    ? (props) => (
-                        <List.Icon {...props} icon={() => right.others} />
-                      )
-                    : undefined
-                }
-              />
-            ))}
+            {detailRowData.map(
+              ({ blocks, right, isBorderBottomHidden }, index) => (
+                <List.Item
+                  key={index}
+                  title={<ContentRow blocks={blocks} />}
+                  right={
+                    right
+                      ? (props) => (
+                          <List.Icon {...props} icon={() => right.others} />
+                        )
+                      : undefined
+                  }
+                  style={
+                    !isBorderBottomHidden
+                      ? [
+                          styles.borderBottom,
+                          { borderBottomColor: borderBottom },
+                        ]
+                      : undefined
+                  }
+                />
+              ),
+            )}
           </>
         )}
       </ScrollView>
@@ -91,5 +117,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'stretch',
+  },
+  borderBottom: {
+    borderBottomWidth: 2,
   },
 });

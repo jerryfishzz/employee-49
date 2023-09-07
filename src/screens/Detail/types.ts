@@ -12,4 +12,5 @@ export interface DetailRowData {
     android: Block;
     others: ReactNode;
   };
+  isBorderBottomHidden?: boolean;
 }

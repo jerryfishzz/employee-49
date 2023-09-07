@@ -15,14 +15,14 @@ export interface Block {
 export interface ContentRowProps {
   blocks: Block[];
   testID?: string;
-  style?: ViewStyle;
+  style?: StyleProp<ViewStyle>;
 }
 
 export function ContentRow({ testID, blocks, style }: ContentRowProps) {
   return (
     <Row
       testID={`row-${testID}`}
-      style={style ? { ...styles.row, ...style } : styles.row}
+      style={style ? { ...styles.row, ...(style as ViewStyle) } : styles.row}
     >
       {blocks.map(({ variant, textStyle, viewStyle, content, type }, index) =>
         type === 'text' ? (
@@ -47,7 +47,9 @@ export function ContentRowAndroid({ testID, blocks, style }: ContentRowProps) {
     <ContentRow
       testID={testID}
       blocks={blocks}
-      style={style ? { ...styles.android, ...style } : styles.android}
+      style={
+        style ? { ...styles.android, ...(style as ViewStyle) } : styles.android
+      }
     />
   );
 }
