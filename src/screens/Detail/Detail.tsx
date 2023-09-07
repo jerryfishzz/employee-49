@@ -16,18 +16,18 @@ export function Detail({
 }: DetailProps) {
   const detailRowData: DetailRowData[] = [
     {
-      id: uuidv4(),
+      // id: uuidv4(),
       blocks: [createTitleBlock('Status'), createContentBlock(STATUS[status])],
     },
     {
-      id: uuidv4(),
+      // id: uuidv4(),
       blocks: [
         createTitleBlock('Due'),
         createContentBlock(date.format(new Date(due), 'D MMMM, YYYY')),
       ],
     },
     {
-      id: uuidv4(),
+      // id: uuidv4(),
       blocks: [
         createTitleBlock('Priority'),
         createContentBlock(
@@ -43,7 +43,7 @@ export function Detail({
       },
     },
     {
-      id: uuidv4(),
+      // id: uuidv4(),
       blocks: [
         {
           type: 'text',
@@ -63,18 +63,18 @@ export function Detail({
       <ScrollView>
         {Platform.OS === 'android' ? (
           <>
-            {detailRowData.map(({ blocks, right, id }) => (
+            {detailRowData.map(({ blocks, right, id }, index) => (
               <ContentRowAndroid
-                key={id}
+                key={index}
                 blocks={right ? [...blocks, right.android] : blocks}
               />
             ))}
           </>
         ) : (
           <>
-            {detailRowData.map(({ blocks, right, id }) => (
+            {detailRowData.map(({ blocks, right, id }, index) => (
               <List.Item
-                key={id}
+                key={index}
                 title={<ContentRow blocks={blocks} />}
                 right={
                   right
