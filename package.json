@@ -16,6 +16,7 @@
     "@expo/vector-icons": "^13.0.0",
     "@react-navigation/material-top-tabs": "^6.6.3",
     "@react-navigation/native": "^6.0.2",
+    "@types/uuid": "^9.0.3",
     "date-and-time": "^3.0.2",
     "expo": "~49.0.7",
     "expo-font": "~11.4.0",
