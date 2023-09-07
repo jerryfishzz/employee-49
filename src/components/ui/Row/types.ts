@@ -7,7 +7,7 @@ export type RowTextProps = {
   children: ReactNode;
   variant?: VariantProp<never>;
   textStyle?: StyleProp<TextStyle>;
-  viewStyle?: ViewStyle;
+  viewStyle?: StyleProp<ViewStyle>;
 };
 
 export type RowIconProps = {

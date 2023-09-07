@@ -8,7 +8,7 @@ export interface Block {
   type: 'text' | 'icon';
   variant?: VariantProp<never>;
   textStyle?: StyleProp<TextStyle>;
-  viewStyle?: ViewStyle;
+  viewStyle?: StyleProp<ViewStyle>;
   content: ReactNode;
 }
 
