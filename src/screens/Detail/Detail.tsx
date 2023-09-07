@@ -17,29 +17,29 @@ import { STATUS } from 'src/data/Status';
 export function Detail({
   task: { status, description, due, priority },
 }: DetailProps) {
-  const statusRow: Block[] = [
+  const statusBlocks: Block[] = [
     createTitleBlock('Status'),
     createContentBlock(STATUS[status]),
   ];
 
-  const dueRow: Block[] = [
+  const dueBlocks: Block[] = [
     createTitleBlock('Due'),
     createContentBlock(date.format(new Date(due), 'D MMMM, YYYY')),
   ];
 
-  const priorityRow: Block[] = [
+  const priorityBlocks: Block[] = [
     createTitleBlock('Priority'),
     createContentBlock(
       `${priority.charAt(0).toUpperCase()}${priority.slice(1)}`,
     ),
   ];
 
-  const priorityIcon: Block = {
+  const priorityRightIcon: Block = {
     type: 'icon',
     content: <RowDotAndroid iconColor={PRIORITY[priority].color} />,
   };
 
-  const descriptionRow: Block[] = [
+  const descriptionBlocks: Block[] = [
     {
       type: 'text',
       content: description,
@@ -56,17 +56,19 @@ export function Detail({
       <ScrollView>
         {Platform.OS === 'android' ? (
           <>
-            <ContentRowAndroid blocks={statusRow} />
-            <ContentRowAndroid blocks={dueRow} />
-            <ContentRowAndroid blocks={[...priorityRow, priorityIcon]} />
-            <ContentRowAndroid blocks={descriptionRow} />
+            <ContentRowAndroid blocks={statusBlocks} />
+            <ContentRowAndroid blocks={dueBlocks} />
+            <ContentRowAndroid
+              blocks={[...priorityBlocks, priorityRightIcon]}
+            />
+            <ContentRowAndroid blocks={descriptionBlocks} />
           </>
         ) : (
           <>
-            <List.Item title={<ContentRow blocks={statusRow} />} />
-            <List.Item title={<ContentRow blocks={dueRow} />} />
+            <List.Item title={<ContentRow blocks={statusBlocks} />} />
+            <List.Item title={<ContentRow blocks={dueBlocks} />} />
             <List.Item
-              title={<ContentRow blocks={priorityRow} />}
+              title={<ContentRow blocks={priorityBlocks} />}
               right={(props) => (
                 <List.Icon
                   {...props}
@@ -74,7 +76,7 @@ export function Detail({
                 />
               )}
             />
-            <List.Item title={<ContentRow blocks={descriptionRow} />} />
+            <List.Item title={<ContentRow blocks={descriptionBlocks} />} />
           </>
         )}
       </ScrollView>
