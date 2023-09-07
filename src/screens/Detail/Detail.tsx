@@ -13,31 +13,35 @@ import { PRIORITY } from 'src/constants/Priority';
 import { DetailProps } from './types';
 import { createContentBlock, createTitleBlock } from './helpers';
 
-export function Detail({ task }: DetailProps) {
+export function Detail({
+  task: { status, description, due, priority },
+}: DetailProps) {
   const statusRow: Block[] = [
     createTitleBlock('Status'),
-    createContentBlock(task.status),
+    createContentBlock(status),
   ];
 
   const dueRow: Block[] = [
     createTitleBlock('Due'),
-    createContentBlock(date.format(new Date(task.due), 'D MMMM, YYYY')),
+    createContentBlock(date.format(new Date(due), 'D MMMM, YYYY')),
   ];
 
   const priorityRow: Block[] = [
     createTitleBlock('Priority'),
-    createContentBlock(task.priority),
+    createContentBlock(
+      `${priority.charAt(0).toUpperCase()}${priority.slice(1)}`,
+    ),
   ];
 
   const priorityIcon: Block = {
     type: 'icon',
-    content: <RowDotAndroid iconColor={PRIORITY[task.priority].color} />,
+    content: <RowDotAndroid iconColor={PRIORITY[priority].color} />,
   };
 
   const descriptionRow: Block[] = [
     {
       type: 'text',
-      content: task.description,
+      content: description,
       variant: 'titleMedium',
       viewStyle: {
         flex: 1,
@@ -65,7 +69,7 @@ export function Detail({ task }: DetailProps) {
               right={(props) => (
                 <List.Icon
                   {...props}
-                  icon={() => <Dot iconColor={PRIORITY[task.priority].color} />}
+                  icon={() => <Dot iconColor={PRIORITY[priority].color} />}
                 />
               )}
             />
