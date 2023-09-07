@@ -11,22 +11,19 @@ import { createContentBlock, createTitleBlock } from './helpers';
 import { STATUS } from 'src/data/Status';
 
 export function Detail({
-  task: { id, status, description, due, priority },
+  task: { status, description, due, priority },
 }: DetailProps) {
   const detailRowData: DetailRowData[] = [
     {
-      id: `status-${id}`,
       blocks: [createTitleBlock('Status'), createContentBlock(STATUS[status])],
     },
     {
-      id: `due-${id}`,
       blocks: [
         createTitleBlock('Due'),
         createContentBlock(date.format(new Date(due), 'D MMMM, YYYY')),
       ],
     },
     {
-      id: `priority-${id}`,
       blocks: [
         createTitleBlock('Priority'),
         createContentBlock(
@@ -42,7 +39,6 @@ export function Detail({
       },
     },
     {
-      id: `desc-${id}`,
       blocks: [
         {
           type: 'text',
@@ -62,18 +58,18 @@ export function Detail({
       <ScrollView>
         {Platform.OS === 'android' ? (
           <>
-            {detailRowData.map(({ blocks, right, id }) => (
+            {detailRowData.map(({ blocks, right }, index) => (
               <ContentRowAndroid
-                key={id}
+                key={index}
                 blocks={right ? [...blocks, right.android] : blocks}
               />
             ))}
           </>
         ) : (
           <>
-            {detailRowData.map(({ blocks, right, id }) => (
+            {detailRowData.map(({ blocks, right }, index) => (
               <List.Item
-                key={id}
+                key={index}
                 title={<ContentRow blocks={blocks} />}
                 right={
                   right
