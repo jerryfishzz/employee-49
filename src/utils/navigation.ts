@@ -7,3 +7,7 @@ export type RootTabParamList = {
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> =
   MaterialTopTabScreenProps<RootTabParamList, Screen>;
+
+export type TaskSearchParams = {
+  id: string;
+};

@@ -1,16 +1,22 @@
-import { Stack, useLocalSearchParams } from 'expo-router';
+import { Redirect, Stack } from 'expo-router';
 
 import { taskMap } from 'src/data/task';
+import { useTaskLocalSearchParams } from 'src/hooks/useTaskLocalSearchParams';
 import { Detail } from 'src/screens/Detail';
 
 export default function Route() {
-  const params = useLocalSearchParams();
+  const { id } = useTaskLocalSearchParams();
+  const task = taskMap.get(id);
+
+  if (task === undefined) {
+    return <Redirect href="/404" />;
+  }
 
   return (
     <>
       <Stack.Screen
         options={{
-          title: taskMap.get(params.id as string)?.title.toUpperCase(),
+          title: task.title.toUpperCase(),
         }}
       />
       <Detail />
