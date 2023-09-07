@@ -9,7 +9,7 @@ import {
   ContentRowAndroid,
 } from 'src/components/ContentRow';
 import { Dot, RowDotAndroid } from 'src/components/ui';
-import { PRIORITY } from 'src/constants/Priority';
+import { PRIORITY } from 'src/data/Priority';
 import { DetailProps } from './types';
 import { createContentBlock, createTitleBlock } from './helpers';
 

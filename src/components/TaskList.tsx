@@ -13,7 +13,7 @@ import { Block, ContentRow, ContentRowAndroid } from './ContentRow';
 import { Dot, Forward, RowDotAndroid, RowForwardAndroid } from './ui';
 import { paySauceColor } from 'src/constants/Colors';
 import { useAppTheme } from 'src/hooks/useAppTheme';
-import { PRIORITY } from 'src/constants/Priority';
+import { PRIORITY } from 'src/data/Priority';
 import { Task } from 'src/data/task.schema';
 import { RootTabParamList } from 'src/utils/navigation';
 import { Link } from 'expo-router';
