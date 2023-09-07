@@ -41,6 +41,7 @@ export function Detail({ task }: DetailProps) {
       variant: 'titleMedium',
       viewStyle: {
         flex: 1,
+        paddingLeft: Platform.OS === 'android' ? 16 : 0,
       },
     },
   ];

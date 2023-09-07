@@ -1,3 +1,5 @@
+import { Platform } from 'react-native';
+
 import { Block } from 'src/components/ContentRow';
 
 export function createTitleBlock(title: string): Block {
@@ -7,6 +9,7 @@ export function createTitleBlock(title: string): Block {
     variant: 'titleLarge',
     viewStyle: {
       flex: 1,
+      paddingLeft: Platform.OS === 'android' ? 16 : 0,
     },
   };
 }
