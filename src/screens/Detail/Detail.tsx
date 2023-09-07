@@ -2,7 +2,7 @@ import { Platform, ScrollView, StyleSheet } from 'react-native';
 import { List } from 'react-native-paper';
 import date from 'date-and-time';
 
-import { Text, View } from 'src/components/Themed';
+import { View } from 'src/components/Themed';
 import {
   Block,
   ContentRow,
@@ -11,54 +11,22 @@ import {
 import { Dot, RowDotAndroid } from 'src/components/ui';
 import { PRIORITY } from 'src/constants/Priority';
 import { DetailProps } from './types';
+import { createContentBlock, createTitleBlock } from './helpers';
 
 export function Detail({ task }: DetailProps) {
   const statusRow: Block[] = [
-    {
-      type: 'text',
-      content: 'Status',
-      variant: 'titleLarge',
-      viewStyle: {
-        flex: 1,
-      },
-    },
-    {
-      type: 'text',
-      variant: 'titleMedium',
-      content: task?.status,
-    },
+    createTitleBlock('Status'),
+    createContentBlock(task.status),
   ];
 
   const dueRow: Block[] = [
-    {
-      type: 'text',
-      content: 'Due',
-      variant: 'titleLarge',
-      viewStyle: {
-        flex: 1,
-      },
-    },
-    {
-      type: 'text',
-      variant: 'titleMedium',
-      content: date.format(new Date(task.due), 'D MMMM, YYYY'),
-    },
+    createTitleBlock('Due'),
+    createContentBlock(date.format(new Date(task.due), 'D MMMM, YYYY')),
   ];
 
   const priorityRow: Block[] = [
-    {
-      type: 'text',
-      content: 'Priority',
-      variant: 'titleLarge',
-      viewStyle: {
-        flex: 1,
-      },
-    },
-    {
-      type: 'text',
-      variant: 'titleMedium',
-      content: date.format(new Date(task.due), 'D MMMM, YYYY'),
-    },
+    createTitleBlock('Priority'),
+    createContentBlock(task.priority),
   ];
 
   const priorityIcon: Block = {
@@ -80,8 +48,6 @@ export function Detail({ task }: DetailProps) {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <Text>Detail Screen</Text>
-        <Text>ID: {task.id}</Text>
         {Platform.OS === 'android' ? (
           <>
             <ContentRowAndroid blocks={statusRow} />
