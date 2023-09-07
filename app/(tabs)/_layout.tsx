@@ -5,6 +5,7 @@ import {
 import { Platform } from 'react-native';
 import { Text } from 'react-native-paper';
 import { paySauceColor } from 'src/data/Colors';
+import { STATUS } from 'src/data/Status';
 
 import { taskMap } from 'src/data/task';
 import { List } from 'src/screens/List';
@@ -38,20 +39,20 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         component={List}
-        options={createOptions('toDo', toDoTasks.length)}
+        options={createOptions(STATUS.toDo, toDoTasks.length)}
       />
       <Tabs.Screen
         name="done"
         component={List}
-        options={createOptions('done', taskMap.size - toDoTasks.length)}
+        options={createOptions(STATUS.done, taskMap.size - toDoTasks.length)}
       />
     </Tabs.Navigator>
   );
 }
 
-function createOptions(status: 'toDo' | 'done', counts: number) {
+function createOptions(title: string, counts: number) {
   const options: MaterialTopTabNavigationOptions = {
-    title: status,
+    title,
     tabBarIcon: ({ color }) => (
       <Text
         variant="headlineLarge"

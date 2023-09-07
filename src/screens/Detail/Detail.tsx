@@ -12,13 +12,14 @@ import { Dot, RowDotAndroid } from 'src/components/ui';
 import { PRIORITY } from 'src/data/Priority';
 import { DetailProps } from './types';
 import { createContentBlock, createTitleBlock } from './helpers';
+import { STATUS } from 'src/data/Status';
 
 export function Detail({
   task: { status, description, due, priority },
 }: DetailProps) {
   const statusRow: Block[] = [
     createTitleBlock('Status'),
-    createContentBlock(status),
+    createContentBlock(STATUS[status]),
   ];
 
   const dueRow: Block[] = [
