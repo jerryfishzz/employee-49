@@ -10,6 +10,8 @@ import {
   ContentRowAndroid,
 } from 'src/components/ContentRow';
 import { taskMap } from 'src/data/task';
+import { Dot, RowDotAndroid } from 'src/components/ui';
+import { PRIORITY } from 'src/constants/Priority';
 
 export function Detail() {
   const { id } = useLocalSearchParams();
@@ -47,6 +49,40 @@ export function Detail() {
     },
   ];
 
+  const priorityRow: Block[] = [
+    {
+      type: 'text',
+      content: 'Priority',
+      variant: 'titleLarge',
+      viewStyle: {
+        flex: 1,
+      },
+    },
+    {
+      type: 'text',
+      variant: 'titleMedium',
+      content: task && date.format(new Date(task.due), 'D MMMM, YYYY'),
+    },
+  ];
+
+  const priorityIcon: Block = {
+    type: 'icon',
+    content: task && (
+      <RowDotAndroid iconColor={PRIORITY[task.priority].color} />
+    ),
+  };
+
+  const descriptionRow: Block[] = [
+    {
+      type: 'text',
+      content: task?.description,
+      variant: 'titleMedium',
+      viewStyle: {
+        flex: 1,
+      },
+    },
+  ];
+
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -56,11 +92,23 @@ export function Detail() {
           <>
             <ContentRowAndroid blocks={statusRow} />
             <ContentRowAndroid blocks={dueRow} />
+            <ContentRowAndroid blocks={[...priorityRow, priorityIcon]} />
+            <ContentRowAndroid blocks={descriptionRow} />
           </>
         ) : (
           <>
             <List.Item title={<ContentRow blocks={statusRow} />} />
             <List.Item title={<ContentRow blocks={dueRow} />} />
+            <List.Item
+              title={<ContentRow blocks={priorityRow} />}
+              right={(props) => (
+                <List.Icon
+                  {...props}
+                  icon={() => <Dot iconColor={PRIORITY[task.priority].color} />}
+                />
+              )}
+            />
+            <List.Item title={<ContentRow blocks={descriptionRow} />} />
           </>
         )}
       </ScrollView>
