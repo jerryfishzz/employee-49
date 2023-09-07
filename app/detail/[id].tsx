@@ -19,7 +19,7 @@ export default function Route() {
           title: task.title.toUpperCase(),
         }}
       />
-      <Detail />
+      <Detail task={task} />
     </>
   );
 }

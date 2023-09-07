@@ -1,5 +1,4 @@
 import { Platform, ScrollView, StyleSheet } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
 import { List } from 'react-native-paper';
 import date from 'date-and-time';
 
@@ -9,14 +8,11 @@ import {
   ContentRow,
   ContentRowAndroid,
 } from 'src/components/ContentRow';
-import { taskMap } from 'src/data/task';
 import { Dot, RowDotAndroid } from 'src/components/ui';
 import { PRIORITY } from 'src/constants/Priority';
+import { DetailProps } from './types';
 
-export function Detail() {
-  const { id } = useLocalSearchParams();
-  const task = taskMap.get(id as string);
-
+export function Detail({ task }: DetailProps) {
   const statusRow: Block[] = [
     {
       type: 'text',
@@ -45,7 +41,7 @@ export function Detail() {
     {
       type: 'text',
       variant: 'titleMedium',
-      content: task && date.format(new Date(task.due), 'D MMMM, YYYY'),
+      content: date.format(new Date(task.due), 'D MMMM, YYYY'),
     },
   ];
 
@@ -61,21 +57,19 @@ export function Detail() {
     {
       type: 'text',
       variant: 'titleMedium',
-      content: task && date.format(new Date(task.due), 'D MMMM, YYYY'),
+      content: date.format(new Date(task.due), 'D MMMM, YYYY'),
     },
   ];
 
   const priorityIcon: Block = {
     type: 'icon',
-    content: task && (
-      <RowDotAndroid iconColor={PRIORITY[task.priority].color} />
-    ),
+    content: <RowDotAndroid iconColor={PRIORITY[task.priority].color} />,
   };
 
   const descriptionRow: Block[] = [
     {
       type: 'text',
-      content: task?.description,
+      content: task.description,
       variant: 'titleMedium',
       viewStyle: {
         flex: 1,
@@ -87,7 +81,7 @@ export function Detail() {
     <View style={styles.container}>
       <ScrollView>
         <Text>Detail Screen</Text>
-        <Text>ID: {id}</Text>
+        <Text>ID: {task.id}</Text>
         {Platform.OS === 'android' ? (
           <>
             <ContentRowAndroid blocks={statusRow} />
