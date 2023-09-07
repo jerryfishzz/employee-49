@@ -22,7 +22,13 @@ export function ContentRow({ testID, blocks, style }: ContentRowProps) {
   return (
     <Row
       testID={`row-${testID}`}
-      style={style ? { ...styles.row, ...(style as ViewStyle) } : styles.row}
+      style={
+        style
+          ? Array.isArray(style)
+            ? [styles.row, ...style]
+            : [styles.row, style]
+          : styles.row
+      }
     >
       {blocks.map(({ variant, textStyle, viewStyle, content, type }, index) =>
         type === 'text' ? (
@@ -48,7 +54,11 @@ export function ContentRowAndroid({ testID, blocks, style }: ContentRowProps) {
       testID={testID}
       blocks={blocks}
       style={
-        style ? { ...styles.android, ...(style as ViewStyle) } : styles.android
+        style
+          ? Array.isArray(style)
+            ? [styles.android, ...style]
+            : [styles.android, style]
+          : styles.android
       }
     />
   );
