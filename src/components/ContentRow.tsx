@@ -14,7 +14,7 @@ export interface Block {
 
 export interface ContentRowProps {
   blocks: Block[];
-  testID: string;
+  testID?: string;
   style?: ViewStyle;
 }
 
