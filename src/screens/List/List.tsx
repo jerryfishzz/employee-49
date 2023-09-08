@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { TaskList } from 'src/components/TaskList';
 import { View } from 'src/components/Themed';
 import { taskMap } from 'src/data/task';
-import { RootTabParamList, RootTabScreenProps } from 'src/utils/navigation';
+import { RootTabParamList, RootTabScreenProps } from 'src/navigation/types';
 
 export function List({ route }: RootTabScreenProps<keyof RootTabParamList>) {
   return (

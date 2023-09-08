@@ -9,7 +9,7 @@ import { STATUS } from 'src/data/Status';
 
 import { taskMap } from 'src/data/task';
 import { List } from 'src/screens/List';
-import { RootTabParamList } from 'src/utils/navigation';
+import { RootTabParamList } from 'src/navigation/types';
 
 const Tabs = createMaterialTopTabNavigator<RootTabParamList>();
 

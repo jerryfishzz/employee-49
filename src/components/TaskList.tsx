@@ -16,7 +16,7 @@ import { paySauceColor } from 'src/data/Colors';
 import { useAppTheme } from 'src/hooks/useAppTheme';
 import { PRIORITY } from 'src/data/Priority';
 import { Task } from 'src/data/task.schema';
-import { RootTabParamList } from 'src/utils/navigation';
+import { RootTabParamList } from 'src/navigation/types';
 
 interface TaskListProps<T extends Task> {
   data: T[];
