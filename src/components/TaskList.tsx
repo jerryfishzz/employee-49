@@ -8,6 +8,7 @@ import {
 import { List } from 'react-native-paper';
 import date from 'date-and-time';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Link } from 'expo-router';
 
 import { Block, ContentRow, ContentRowAndroid } from './ContentRow';
 import { Dot, Forward, RowDotAndroid, RowForwardAndroid } from './ui';
@@ -16,7 +17,6 @@ import { useAppTheme } from 'src/hooks/useAppTheme';
 import { PRIORITY } from 'src/data/Priority';
 import { Task } from 'src/data/task.schema';
 import { RootTabParamList } from 'src/utils/navigation';
-import { Link } from 'expo-router';
 
 interface TaskListProps<T extends Task> {
   data: T[];
