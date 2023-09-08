@@ -62,29 +62,25 @@ export function Detail({
   return (
     <View style={styles.container}>
       <ScrollView>
-        {Platform.OS === 'android' ? (
-          <>
-            {detailRowData.map(
-              ({ blocks, right, isBorderBottomHidden }, index) => (
-                <ContentRowAndroid
-                  key={index}
-                  blocks={right ? [...blocks, right.android] : blocks}
-                  style={
-                    !isBorderBottomHidden
-                      ? {
-                          ...styles.borderBottom,
-                          borderBottomColor: borderBottom,
-                        }
-                      : undefined
-                  }
-                />
-              ),
-            )}
-          </>
-        ) : (
-          <>
-            {detailRowData.map(
-              ({ blocks, right, isBorderBottomHidden }, index) => (
+        <>
+          {detailRowData.map(
+            ({ blocks, right, isBorderBottomHidden }, index) => {
+              const borderBottomStyle = !isBorderBottomHidden && [
+                styles.borderBottom,
+                { borderBottomColor: borderBottom },
+              ];
+
+              if (Platform.OS === 'android') {
+                return (
+                  <ContentRowAndroid
+                    key={index}
+                    blocks={right ? [...blocks, right.android] : blocks}
+                    style={borderBottomStyle}
+                  />
+                );
+              }
+
+              return (
                 <List.Item
                   key={index}
                   title={<ContentRow blocks={blocks} />}
@@ -95,19 +91,12 @@ export function Detail({
                         )
                       : undefined
                   }
-                  style={
-                    !isBorderBottomHidden
-                      ? [
-                          styles.borderBottom,
-                          { borderBottomColor: borderBottom },
-                        ]
-                      : undefined
-                  }
+                  style={borderBottomStyle}
                 />
-              ),
-            )}
-          </>
-        )}
+              );
+            },
+          )}
+        </>
       </ScrollView>
     </View>
   );
