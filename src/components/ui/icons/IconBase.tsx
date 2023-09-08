@@ -1,15 +1,17 @@
-import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
-import { ReactNode } from 'react';
+import { StyleSheet } from 'react-native';
 
 import { View } from '../../Themed';
+import { getStyle } from '../helpers';
+import { IconBaseProps } from './types';
 
-interface IconProps {
-  style?: StyleProp<ViewStyle>;
-  children: ReactNode;
-}
-
-export function IconBase({ style, children }: IconProps) {
-  return <View style={[styles.container, style]}>{children}</View>;
+export function IconBase({ style, children }: IconBaseProps) {
+  return (
+    <View
+      style={getStyle({ baseStyle: styles.container, receivedStyle: style })}
+    >
+      {children}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

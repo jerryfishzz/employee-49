@@ -4,6 +4,7 @@ import { StyleSheet } from 'react-native';
 import { IconBase } from './IconBase';
 import { DEFAULT_FORWARD_COLOR, DEFAULT_SIZE } from './constants';
 import { IconProps } from './types';
+import { getStyle } from '../helpers';
 
 export function Forward({ style, size, iconColor }: IconProps) {
   return (
@@ -18,7 +19,15 @@ export function Forward({ style, size, iconColor }: IconProps) {
 }
 
 export function RowForwardAndroid({ style, ...props }: IconProps) {
-  return <Forward style={[styles.rowForwardAndroid, style]} {...props} />;
+  return (
+    <Forward
+      style={getStyle({
+        baseStyle: styles.rowForwardAndroid,
+        receivedStyle: style,
+      })}
+      {...props}
+    />
+  );
 }
 
 const styles = StyleSheet.create({

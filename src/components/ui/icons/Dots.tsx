@@ -4,6 +4,7 @@ import { StyleSheet } from 'react-native';
 import { IconBase } from './IconBase';
 import { IconProps } from './types';
 import { DEFAULT_DOT_COLOR, DEFAULT_SIZE } from './constants';
+import { getStyle } from '../helpers';
 
 export function Dot({ style, size, iconColor }: IconProps) {
   return (
@@ -18,7 +19,15 @@ export function Dot({ style, size, iconColor }: IconProps) {
 }
 
 export function RowDotAndroid({ style, ...props }: IconProps) {
-  return <Dot style={[styles.rowDotAndroid, style]} {...props} />;
+  return (
+    <Dot
+      style={getStyle({
+        baseStyle: styles.rowDotAndroid,
+        receivedStyle: style,
+      })}
+      {...props}
+    />
+  );
 }
 
 const styles = StyleSheet.create({
