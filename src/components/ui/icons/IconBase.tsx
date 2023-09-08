@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 import { View } from '../../Themed';
-import { getStyle } from '../helpers';
+import { getStyle } from '../../utils/getStyle';
 import { IconBaseProps } from './types';
 
 export function IconBase({ style, children }: IconBaseProps) {

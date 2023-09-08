@@ -3,7 +3,7 @@ import { StyleProp, StyleSheet, TextStyle, ViewStyle } from 'react-native';
 import { VariantProp } from 'react-native-paper/lib/typescript/components/Typography/types';
 
 import { Row } from './ui';
-import { getStyle } from './ui/helpers';
+import { getStyle } from './utils/getStyle';
 
 export interface Block {
   type: 'text' | 'icon';

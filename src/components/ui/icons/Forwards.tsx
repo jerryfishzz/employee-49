@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import { IconBase } from './IconBase';
 import { DEFAULT_FORWARD_COLOR, DEFAULT_SIZE } from './constants';
 import { IconProps } from './types';
-import { getStyle } from '../helpers';
+import { getStyle } from '../../utils/getStyle';
 
 export function Forward({ style, size, iconColor }: IconProps) {
   return (
