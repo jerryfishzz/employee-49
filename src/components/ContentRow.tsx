@@ -3,6 +3,7 @@ import { StyleProp, StyleSheet, TextStyle, ViewStyle } from 'react-native';
 import { VariantProp } from 'react-native-paper/lib/typescript/components/Typography/types';
 
 import { Row } from './ui';
+import { getStyle } from './ui/helpers';
 
 export interface Block {
   type: 'text' | 'icon';
@@ -22,13 +23,7 @@ export function ContentRow({ testID, blocks, style }: ContentRowProps) {
   return (
     <Row
       testID={`row-${testID}`}
-      style={
-        style
-          ? Array.isArray(style)
-            ? [styles.row, ...style]
-            : [styles.row, style]
-          : styles.row
-      }
+      style={getStyle({ baseStyle: styles.row, receivedStyle: style })}
     >
       {blocks.map(({ variant, textStyle, viewStyle, content, type }, index) =>
         type === 'text' ? (
@@ -53,13 +48,7 @@ export function ContentRowAndroid({ testID, blocks, style }: ContentRowProps) {
     <ContentRow
       testID={testID}
       blocks={blocks}
-      style={
-        style
-          ? Array.isArray(style)
-            ? [styles.android, ...style]
-            : [styles.android, style]
-          : styles.android
-      }
+      style={getStyle({ baseStyle: styles.android, receivedStyle: style })}
     />
   );
 }
