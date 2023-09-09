@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { z } from 'zod';
 
 import { RootLayoutNav } from 'src/navigation/RootLayoutNav';
+import { useMock } from 'src/mock/useMock';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -43,16 +44,18 @@ export default function RootLayout() {
     ...FontAwesome.font,
   });
 
+  const [mockLoaded] = useMock();
+
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
   }, [error]);
 
   useEffect(() => {
-    if (loaded) {
+    if (loaded && mockLoaded) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [loaded, mockLoaded]);
 
   if (!loaded) {
     return null;
