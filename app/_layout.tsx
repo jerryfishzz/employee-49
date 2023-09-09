@@ -2,6 +2,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useFonts } from 'expo-font';
 import { SplashScreen } from 'expo-router';
 import { useEffect } from 'react';
+import { z } from 'zod';
 
 import { RootLayoutNav } from 'src/navigation/RootLayoutNav';
 
@@ -17,6 +18,20 @@ export const unstable_settings = {
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+
+// Validate custom env variables
+const envVariable = z.object({
+  EXPO_PUBLIC_API_MOCKING: z.optional(z.enum(['true', 'false'])),
+});
+envVariable.parse(process.env);
+
+// Add types of custom env variables under process.env
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace NodeJS {
+    interface ProcessEnv extends z.infer<typeof envVariable> {}
+  }
+}
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
