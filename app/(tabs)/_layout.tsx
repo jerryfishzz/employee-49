@@ -4,9 +4,9 @@ import {
 } from '@react-navigation/material-top-tabs';
 import { Platform } from 'react-native';
 import { Text } from 'react-native-paper';
+
 import { paySauceColor } from 'src/data/Colors';
 import { STATUS } from 'src/data/Status';
-
 import { taskMap } from 'src/data/task';
 import { List } from 'src/screens/List';
 import { RootTabParamList } from 'src/navigation/types';
