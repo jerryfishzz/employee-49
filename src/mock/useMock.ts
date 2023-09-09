@@ -9,7 +9,10 @@ export function useMock() {
 
   const initMock = async () => {
     if (NODE_ENV === 'development' && EXPO_PUBLIC_API_MOCKING !== 'false') {
-      server.listen();
+      // There are two post root requests on mobile, logs and symbolicate,
+      // automatically created when the app starts.
+      // Need to bypass them, otherwise, will cause infinite warnings.
+      server.listen({ onUnhandledRequest: 'bypass' });
     }
 
     setMockLoaded(true);
