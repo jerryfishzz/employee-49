@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Stack } from 'expo-router';
-import { useColorScheme } from 'react-native';
+import { Platform, useColorScheme } from 'react-native';
 import {
   MD3DarkTheme,
   MD3LightTheme,
@@ -69,6 +70,7 @@ export function RootLayoutNav() {
           </Stack>
         </SafeAreaProvider>
       </PaperProvider>
+      {Platform.OS === 'web' && <ReactQueryDevtools />}
     </QueryClientProvider>
   );
 }
