@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
 import { useColorScheme } from 'react-native';
 import {
@@ -22,6 +23,8 @@ const fonts = configureFonts({
 
 const { hotChilli, white } = paySauceColor;
 
+const queryClient = new QueryClient();
+
 export function RootLayoutNav() {
   const colorScheme = useColorScheme();
   const paperColorTheme =
@@ -43,27 +46,29 @@ export function RootLayoutNav() {
   const paperTheme = { ...paperColorTheme, fonts };
 
   return (
-    <PaperProvider theme={paperTheme}>
-      <SafeAreaProvider>
-        <Stack
-          screenOptions={{
-            headerStyle: {
-              backgroundColor: hotChilli,
-            },
-            headerTintColor: white,
-            headerTitleStyle: {
-              fontFamily: 'MontserratBold',
-            },
-            headerShadowVisible: false, // Hide the bottom line
-            headerTitleAlign: 'center',
-            headerBackTitleVisible: false,
-          }}
-        >
-          <Stack.Screen name="(tabs)" options={{ title: 'TASKS' }} />
-          <Stack.Screen name="detail/[id]" />
-          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-        </Stack>
-      </SafeAreaProvider>
-    </PaperProvider>
+    <QueryClientProvider client={queryClient}>
+      <PaperProvider theme={paperTheme}>
+        <SafeAreaProvider>
+          <Stack
+            screenOptions={{
+              headerStyle: {
+                backgroundColor: hotChilli,
+              },
+              headerTintColor: white,
+              headerTitleStyle: {
+                fontFamily: 'MontserratBold',
+              },
+              headerShadowVisible: false, // Hide the bottom line
+              headerTitleAlign: 'center',
+              headerBackTitleVisible: false,
+            }}
+          >
+            <Stack.Screen name="(tabs)" options={{ title: 'TASKS' }} />
+            <Stack.Screen name="detail/[id]" />
+            <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+          </Stack>
+        </SafeAreaProvider>
+      </PaperProvider>
+    </QueryClientProvider>
   );
 }
