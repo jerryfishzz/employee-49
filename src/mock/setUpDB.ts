@@ -12,7 +12,6 @@ export async function setUpDB() {
   );
 
   try {
-    await AsyncStorage.clear();
     await AsyncStorage.setItem(STORAGE_KEY_TASKS, JSON.stringify(tasks));
   } catch (error) {
     console.log(error);

@@ -8,6 +8,7 @@ export async function getTasks(): Promise<any> {
     return response.data;
   } catch (e) {
     console.error(e);
+    throw e;
   }
 }
 
@@ -16,7 +17,6 @@ export async function getDetail(id: string): Promise<any> {
     const response = await axios(`${HOST_URL}/detail/${id}`);
     return response.data;
   } catch (e) {
-    console.error('error');
     console.error(e);
     throw e;
   }
