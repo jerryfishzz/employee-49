@@ -3,10 +3,14 @@ import { Dispatch } from 'react';
 import { createContext } from 'src/utils/context-utils';
 import { Task, TaskMap } from './schema';
 
-type Action = {
-  type: 'Complete task' | 'Set to to-do';
-  id: Task['id'];
-};
+type Action =
+  | {
+      type: 'completeTask' | 'setToTodo';
+      id: Task['id'];
+    }
+  | {
+      type: 'getTasks';
+    };
 
 const [useTaskMap, taskMapContext] = createContext<[TaskMap, Dispatch<Action>]>(
   '<TaskMapProvider />',
@@ -15,8 +19,8 @@ const [useTaskMap, taskMapContext] = createContext<[TaskMap, Dispatch<Action>]>(
 
 export function taskMapReducer(state: TaskMap, action: Action) {
   switch (action.type) {
-    case 'Complete task':
-    case 'Set to to-do': {
+    case 'completeTask':
+    case 'setToTodo': {
       const currentTask = state.has(action.id) ? state.get(action.id) : null;
 
       if (!currentTask) return state;
@@ -25,8 +29,8 @@ export function taskMapReducer(state: TaskMap, action: Action) {
       newState.set(action.id, {
         ...currentTask,
         completed:
-          action.type === 'Complete task' ? new Date().toISOString() : null,
-        status: action.type === 'Complete task' ? 'done' : 'toDo',
+          action.type === 'completeTask' ? new Date().toISOString() : null,
+        status: action.type === 'completeTask' ? 'done' : 'toDo',
       });
 
       return newState;
