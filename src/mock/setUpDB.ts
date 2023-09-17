@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker';
 
 import { createFakeDataArray, taskBuilder } from './builder';
 
-const STORAGE_KEY_TASKS = 'EMPLOYEE_TASKS';
+export const STORAGE_KEY_TASKS = 'EMPLOYEE_TASKS';
 
 export async function setUpDB() {
   const tasks = createFakeDataArray(
