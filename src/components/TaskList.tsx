@@ -15,7 +15,7 @@ import { Dot, Forward, RowDotAndroid, RowForwardAndroid } from './ui';
 import { paySauceColor } from 'src/data/Colors';
 import { useAppTheme } from 'src/hooks/useAppTheme';
 import { PRIORITY } from 'src/data/Priority';
-import { Task } from 'src/context/task.schema';
+import { Task } from 'src/context/taskMap';
 import { RootTabParamList } from 'src/navigation/types';
 
 interface TaskListProps<T extends Task> {

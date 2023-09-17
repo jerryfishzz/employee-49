@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { build, oneOf, perBuild } from '@jackfranklin/test-data-bot';
 
-import { Task } from 'src/context/task.schema';
+import { Task } from 'src/context/taskMap';
 import { getCertainDate } from 'src/utils/helpers';
 
 export const taskBuilder = build<Task>({
