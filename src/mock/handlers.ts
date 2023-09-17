@@ -10,7 +10,7 @@ const handlers = [
   rest.get(`${HOST_URL}`, async (req, res, ctx) => {
     try {
       const tasks = await AsyncStorage.getItem(STORAGE_KEY_TASKS);
-      return res(ctx.delay(delay), ctx.json(tasks));
+      return res(ctx.delay(delay), ctx.json(JSON.parse(tasks as string)));
     } catch (error) {
       console.error(error);
       throw error;

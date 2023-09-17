@@ -7,16 +7,30 @@ import { Text } from 'react-native-paper';
 
 import { paySauceColor } from 'src/data/Colors';
 import { STATUS } from 'src/data/Status';
-import { taskMap } from 'src/data/task';
 import { List } from 'src/screens/List';
 import { RootTabParamList } from 'src/navigation/types';
+import { useQuery } from '@tanstack/react-query';
+import { getTasks } from 'src/utils/api';
+import { View } from 'src/components/Themed';
 
 const Tabs = createMaterialTopTabNavigator<RootTabParamList>();
 
 const { white, hotChilli } = paySauceColor;
 
 export default function TabLayout() {
-  const toDoTasks = [...taskMap.values()].filter(
+  const { isLoading, data: tasks } = useQuery({
+    queryKey: ['tasks'],
+    queryFn: getTasks,
+  });
+
+  if (isLoading)
+    return (
+      <View>
+        <Text>Loading</Text>
+      </View>
+    );
+
+  const toDoTasks = (tasks ? tasks : []).filter(
     (task) => task.status === 'toDo',
   );
 
@@ -39,18 +53,24 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         component={List}
-        options={createOptions(STATUS.toDo, toDoTasks.length)}
+        options={createOptions(
+          STATUS.toDo,
+          isLoading ? '--' : toDoTasks.length,
+        )}
       />
       <Tabs.Screen
         name="done"
         component={List}
-        options={createOptions(STATUS.done, taskMap.size - toDoTasks.length)}
+        options={createOptions(
+          STATUS.done,
+          isLoading ? '--' : (tasks ? tasks : []).length - toDoTasks.length,
+        )}
       />
     </Tabs.Navigator>
   );
 }
 
-function createOptions(title: string, counts: number) {
+function createOptions(title: string, counts: number | string) {
   const options: MaterialTopTabNavigationOptions = {
     title,
     tabBarIcon: ({ color }) => (
