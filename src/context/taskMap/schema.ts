@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const taskSchema = z.object({
+const taskSchema = z.object({
   id: z.string({
     required_error: 'ID is required',
   }),
@@ -18,6 +18,7 @@ export const taskSchema = z.object({
   }),
 });
 const taskMapSchema = z.map(z.string(), taskSchema);
+export const tasksSchema = z.array(taskSchema);
 
 export type Task = z.infer<typeof taskSchema>;
 export type TaskMap = z.infer<typeof taskMapSchema>;

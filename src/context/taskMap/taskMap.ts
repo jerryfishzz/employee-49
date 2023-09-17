@@ -2,6 +2,7 @@ import { Dispatch } from 'react';
 
 import { createContext } from 'src/utils/context-utils';
 import { Task, TaskMap } from './schema';
+import { tasksToMap } from './service';
 
 type Action =
   | {
@@ -9,7 +10,8 @@ type Action =
       id: Task['id'];
     }
   | {
-      type: 'getTasks';
+      type: 'getTaskMap';
+      tasks: Task[];
     };
 
 const [useTaskMap, taskMapContext] = createContext<[TaskMap, Dispatch<Action>]>(
@@ -34,6 +36,9 @@ export function taskMapReducer(state: TaskMap, action: Action) {
       });
 
       return newState;
+    }
+    case 'getTaskMap': {
+      return tasksToMap(action.tasks);
     }
     default:
       throw new Error('Unknown action type');
