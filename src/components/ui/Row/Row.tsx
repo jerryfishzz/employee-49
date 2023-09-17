@@ -1,14 +1,14 @@
 import { Text } from 'react-native-paper';
 
-import { RowProvider, useRow } from './context';
+import { rowContext, useRow } from './context';
 import { View, ViewProps } from 'src/components/Themed';
 import { RowIconProps, RowTextProps } from './types';
 
 export function Row({ children, ...props }: ViewProps) {
   return (
-    <RowProvider value={null}>
+    <rowContext.Provider value={null}>
       <View {...props}>{children}</View>
-    </RowProvider>
+    </rowContext.Provider>
   );
 }
 

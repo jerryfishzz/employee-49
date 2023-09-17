@@ -10,10 +10,7 @@ import {
   configureFonts,
 } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import {
-  TaskMapProvider as MapProvider,
-  taskMapReducer,
-} from 'src/context/taskMap';
+import { taskMapContext, taskMapReducer } from 'src/context/taskMap';
 
 import {
   paySauceColor,
@@ -34,7 +31,11 @@ const queryClient = new QueryClient();
 function TaskMapProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(taskMapReducer, new Map());
 
-  return <MapProvider value={[state, dispatch]}>{children}</MapProvider>;
+  return (
+    <taskMapContext.Provider value={[state, dispatch]}>
+      {children}
+    </taskMapContext.Provider>
+  );
 }
 
 export function RootLayoutNav() {

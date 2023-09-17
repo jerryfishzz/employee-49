@@ -1,5 +1,5 @@
 import { createContext } from 'src/utils/context-utils';
 
-const [useRow, RowProvider] = createContext('<RowProvider>', 'RowProvider');
+const [useRow, rowContext] = createContext('<Row />', 'Row');
 
-export { useRow, RowProvider };
+export { useRow, rowContext };

@@ -8,9 +8,10 @@ type Action = {
   id: Task['id'];
 };
 
-const [useTaskMap, TaskMapProvider] = createContext<
-  [TaskMap, Dispatch<Action>]
->('<TaskMap />', 'TaskMap');
+const [useTaskMap, taskMapContext] = createContext<[TaskMap, Dispatch<Action>]>(
+  '<TaskMapProvider />',
+  'TaskMapProvider',
+);
 
 export function taskMapReducer(state: TaskMap, action: Action) {
   switch (action.type) {
@@ -35,4 +36,4 @@ export function taskMapReducer(state: TaskMap, action: Action) {
   }
 }
 
-export { useTaskMap, TaskMapProvider };
+export { useTaskMap, taskMapContext };

@@ -18,7 +18,7 @@ function customCreateContext<A extends unknown | null>(
       );
     return c;
   }
-  return [useCtx, ctx.Provider] as const;
+  return [useCtx, ctx] as const;
 }
 
 export { customCreateContext as createContext };
