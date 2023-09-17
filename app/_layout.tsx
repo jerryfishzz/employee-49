@@ -1,7 +1,7 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useFonts } from 'expo-font';
 import { SplashScreen } from 'expo-router';
-import { StrictMode, useEffect } from 'react';
+import { useEffect } from 'react';
 import { z } from 'zod';
 
 import { RootLayoutNav } from 'src/navigation/RootLayoutNav';
@@ -61,9 +61,5 @@ export default function RootLayout() {
     return null;
   }
 
-  return (
-    <StrictMode>
-      <RootLayoutNav />
-    </StrictMode>
-  );
+  return <RootLayoutNav />;
 }
