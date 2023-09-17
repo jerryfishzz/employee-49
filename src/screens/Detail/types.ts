@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Block } from 'src/components/ContentRow';
-import { Task } from 'src/data/task.schema';
+import { Task } from 'src/context/task.schema';
 
 export interface DetailProps {
   task: Task;
