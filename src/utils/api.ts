@@ -1,14 +1,15 @@
 import axios from 'axios';
 
 import { HOST_URL } from 'src/data/host';
-import { Task } from 'src/context/taskMap';
+import { Task, tasksSchema } from 'src/context/taskMap';
+import { validateSource } from './helpers';
 
 export async function getTasks(): Promise<Task[]> {
   try {
     const response = await axios(`${HOST_URL}`);
     console.log('getTasks');
-    console.log(response.data);
-    return response.data;
+    const validatedTasks = validateSource(tasksSchema, response.data);
+    return validatedTasks;
   } catch (e) {
     console.error(e);
     throw e;
