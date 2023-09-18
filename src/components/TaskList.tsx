@@ -37,16 +37,9 @@ export function TaskList<T extends Task>({
     colors: { borderBottom },
   } = useAppTheme();
 
-  // Because tabs used here is not from expo router,
-  // the route from usePathname will be quite slow.
-  // So here use routes from react navigation top tabs.
-  const filteredData = data.filter((task) =>
-    routeName === 'index' ? task.status === 'toDo' : task.status === 'done',
-  );
-
   return (
     <FlatList
-      data={filteredData}
+      data={data}
       renderItem={({ item: { id, title, due, priority }, index }) => {
         const priorityColor = PRIORITY[priority].color;
         const dueColor =
@@ -87,7 +80,7 @@ export function TaskList<T extends Task>({
         const borderBottomStyle = getBorderBottomStyle(
           borderBottom,
           index,
-          filteredData.length,
+          data.length,
         );
 
         if (Platform.OS === 'android')

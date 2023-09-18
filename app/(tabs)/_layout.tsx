@@ -4,6 +4,7 @@ import {
 } from '@react-navigation/material-top-tabs';
 import { Platform } from 'react-native';
 import { Text } from 'react-native-paper';
+import { memo } from 'react';
 
 import { paySauceColor } from 'src/data/Colors';
 import { STATUS } from 'src/data/Status';
@@ -13,9 +14,13 @@ import { useQuery } from '@tanstack/react-query';
 import { getTasks } from 'src/utils/api';
 import { View } from 'src/components/Themed';
 
+import { Task } from 'src/context/taskMap';
+
 const Tabs = createMaterialTopTabNavigator<RootTabParamList>();
 
 const { white, hotChilli } = paySauceColor;
+
+const MemoizedList = memo(List);
 
 export default function TabLayout() {
   const { isLoading, data: tasks } = useQuery({
@@ -30,9 +35,15 @@ export default function TabLayout() {
       </View>
     );
 
-  const toDoTasks = (tasks ? tasks : []).filter(
-    (task) => task.status === 'toDo',
-  );
+  const toDo: Task[] = [];
+  const done: Task[] = [];
+
+  for (let i = 0; i < (tasks ? tasks : []).length; i++) {
+    if (tasks) {
+      tasks[i].status === 'toDo' && toDo.push(tasks[i]);
+      tasks[i].status === 'done' && done.push(tasks[i]);
+    }
+  }
 
   return (
     <Tabs.Navigator
@@ -52,20 +63,16 @@ export default function TabLayout() {
     >
       <Tabs.Screen
         name="index"
-        component={List}
-        options={createOptions(
-          STATUS.toDo,
-          isLoading ? '--' : toDoTasks.length,
-        )}
-      />
+        options={createOptions(STATUS.toDo, isLoading ? '--' : toDo.length)}
+      >
+        {(props) => <MemoizedList data={toDo} {...props} />}
+      </Tabs.Screen>
       <Tabs.Screen
         name="done"
-        component={List}
-        options={createOptions(
-          STATUS.done,
-          isLoading ? '--' : (tasks ? tasks : []).length - toDoTasks.length,
-        )}
-      />
+        options={createOptions(STATUS.done, isLoading ? '--' : done.length)}
+      >
+        {(props) => <MemoizedList data={done} {...props} />}
+      </Tabs.Screen>
     </Tabs.Navigator>
   );
 }
