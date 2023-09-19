@@ -4,17 +4,17 @@ import {
 } from '@react-navigation/material-top-tabs';
 import { Platform } from 'react-native';
 import { Text } from 'react-native-paper';
-import { memo } from 'react';
+import { memo, useState } from 'react';
 
 import { paySauceColor } from 'src/data/Colors';
 import { STATUS } from 'src/data/Status';
 import { List } from 'src/screens/List';
 import { RootTabParamList } from 'src/navigation/types';
-import { useQuery } from '@tanstack/react-query';
 import { getTasks } from 'src/utils/api';
 import { View } from 'src/components/Themed';
-
 import { Task } from 'src/context/taskMap';
+import { useTasksQuery } from 'src/hooks/useTasksQuery';
+import { useRefreshOnFocus } from 'src/hooks/useRefreshOnFocus';
 
 const Tabs = createMaterialTopTabNavigator<RootTabParamList>();
 
@@ -23,10 +23,10 @@ const { white, hotChilli } = paySauceColor;
 const MemoizedList = memo(List);
 
 export default function TabLayout() {
-  const { isLoading, data } = useQuery({
-    queryKey: ['tasks'],
-    queryFn: getTasks,
-  });
+  const [tasks, setTasks] = useState<Task[]>([]);
+
+  const { isLoading } = useTasksQuery(setTasks);
+  useRefreshOnFocus(getTasks, setTasks);
 
   if (isLoading)
     return (
@@ -38,10 +38,10 @@ export default function TabLayout() {
   const toDo: Task[] = [];
   const done: Task[] = [];
 
-  for (let i = 0; i < (data ? data : []).length; i++) {
-    if (data) {
-      data[i].status === 'toDo' && toDo.push(data[i]);
-      data[i].status === 'done' && done.push(data[i]);
+  for (let i = 0; i < tasks.length; i++) {
+    if (tasks) {
+      tasks[i].status === 'toDo' && toDo.push(tasks[i]);
+      tasks[i].status === 'done' && done.push(tasks[i]);
     }
   }
 
