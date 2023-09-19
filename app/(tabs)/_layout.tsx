@@ -23,7 +23,7 @@ const { white, hotChilli } = paySauceColor;
 const MemoizedList = memo(List);
 
 export default function TabLayout() {
-  const { isLoading, data: tasks } = useQuery({
+  const { isLoading, data } = useQuery({
     queryKey: ['tasks'],
     queryFn: getTasks,
   });
@@ -38,10 +38,10 @@ export default function TabLayout() {
   const toDo: Task[] = [];
   const done: Task[] = [];
 
-  for (let i = 0; i < (tasks ? tasks : []).length; i++) {
-    if (tasks) {
-      tasks[i].status === 'toDo' && toDo.push(tasks[i]);
-      tasks[i].status === 'done' && done.push(tasks[i]);
+  for (let i = 0; i < (data ? data : []).length; i++) {
+    if (data) {
+      data[i].status === 'toDo' && toDo.push(data[i]);
+      data[i].status === 'done' && done.push(data[i]);
     }
   }
 
