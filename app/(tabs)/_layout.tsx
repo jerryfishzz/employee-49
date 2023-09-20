@@ -13,8 +13,7 @@ import { RootTabParamList } from 'src/navigation/types';
 import { getTasks } from 'src/utils/api';
 import { View } from 'src/components/Themed';
 import { Task } from 'src/context/taskMap';
-import { useTasksQuery } from 'src/hooks/useTasksQuery';
-import { useRefreshOnFocus } from 'src/hooks/useRefreshOnFocus';
+import { useQueryWithRefreshOnFocus } from 'src/hooks/useQueryWithRefreshOnFocus';
 
 const Tabs = createMaterialTopTabNavigator<RootTabParamList>();
 
@@ -24,9 +23,7 @@ const MemoizedList = memo(List);
 
 export default function TabLayout() {
   const [tasks, setTasks] = useState<Task[]>([]);
-
-  const { isLoading } = useTasksQuery(setTasks);
-  useRefreshOnFocus(getTasks, setTasks);
+  const { isLoading } = useQueryWithRefreshOnFocus(getTasks, setTasks);
 
   if (isLoading)
     return (
