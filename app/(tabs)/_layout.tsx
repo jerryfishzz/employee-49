@@ -11,26 +11,20 @@ import { STATUS } from 'src/data/Status';
 import { List } from 'src/screens/List';
 import { RootTabParamList } from 'src/navigation/types';
 import { getTasks } from 'src/utils/api';
-import { View } from 'src/components/Themed';
 import { Task } from 'src/context/taskMap';
 import { useQueryWithRefreshOnFocus } from 'src/hooks/useQueryWithRefreshOnFocus';
+import { Loading } from 'src/screens/Loading/Loading';
 
 const Tabs = createMaterialTopTabNavigator<RootTabParamList>();
 
 const { white, hotChilli } = paySauceColor;
 
 const MemoizedList = memo(List);
+const MemoizedLoading = memo(Loading);
 
 export default function TabLayout() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const { isLoading } = useQueryWithRefreshOnFocus(getTasks, setTasks);
-
-  if (isLoading)
-    return (
-      <View>
-        <Text>Loading</Text>
-      </View>
-    );
 
   const toDo: Task[] = [];
   const done: Task[] = [];
@@ -62,13 +56,25 @@ export default function TabLayout() {
         name="index"
         options={createOptions(STATUS.toDo, isLoading ? '--' : toDo.length)}
       >
-        {(props) => <MemoizedList data={toDo} {...props} />}
+        {(props) =>
+          isLoading ? (
+            <MemoizedLoading />
+          ) : (
+            <MemoizedList data={toDo} {...props} />
+          )
+        }
       </Tabs.Screen>
       <Tabs.Screen
         name="done"
         options={createOptions(STATUS.done, isLoading ? '--' : done.length)}
       >
-        {(props) => <MemoizedList data={done} {...props} />}
+        {(props) =>
+          isLoading ? (
+            <MemoizedLoading />
+          ) : (
+            <MemoizedList data={done} {...props} />
+          )
+        }
       </Tabs.Screen>
     </Tabs.Navigator>
   );
