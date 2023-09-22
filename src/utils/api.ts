@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 import { HOST_URL } from 'src/data/host';
-import { Task, tasksSchema } from 'src/context/taskMap';
 import { validateSource } from './helpers';
+import { Task, tasksSchema } from './schema';
 
 export async function getTasks(): Promise<Task[]> {
   try {

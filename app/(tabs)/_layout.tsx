@@ -11,9 +11,9 @@ import { STATUS } from 'src/data/Status';
 import { List } from 'src/screens/List';
 import { RootTabParamList } from 'src/navigation/types';
 import { getTasks } from 'src/utils/api';
-import { Task } from 'src/context/taskMap';
 import { useQueryWithRefreshOnFocus } from 'src/hooks/useQueryWithRefreshOnFocus';
 import { Loading } from 'src/screens/Loading/Loading';
+import { Task } from 'src/utils/schema';
 
 const Tabs = createMaterialTopTabNavigator<RootTabParamList>();
 

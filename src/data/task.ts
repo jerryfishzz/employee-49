@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 
-import { Task, TaskMap } from '../context/taskMap';
 import { getCertainDate } from 'src/utils/helpers';
+import { Task, TaskMap } from 'src/utils/schema';
 
 const arrayForTaskMap: Array<[string, Task]> = [
   [
