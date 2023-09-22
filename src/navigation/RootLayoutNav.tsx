@@ -1,7 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Stack } from 'expo-router';
-import { ReactNode, useReducer } from 'react';
 import { Platform, useColorScheme } from 'react-native';
 import {
   MD3DarkTheme,
@@ -10,7 +9,6 @@ import {
   configureFonts,
 } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { taskMapContext, taskMapReducer } from 'src/context/taskMap';
 
 import {
   paySauceColor,
@@ -27,16 +25,6 @@ const fonts = configureFonts({
 const { hotChilli, white } = paySauceColor;
 
 const queryClient = new QueryClient();
-
-function TaskMapProvider({ children }: { children: ReactNode }) {
-  const [state, dispatch] = useReducer(taskMapReducer, new Map());
-
-  return (
-    <taskMapContext.Provider value={[state, dispatch]}>
-      {children}
-    </taskMapContext.Provider>
-  );
-}
 
 export function RootLayoutNav() {
   const colorScheme = useColorScheme();
@@ -62,25 +50,23 @@ export function RootLayoutNav() {
     <QueryClientProvider client={queryClient}>
       <PaperProvider theme={paperTheme}>
         <SafeAreaProvider>
-          <TaskMapProvider>
-            <Stack
-              screenOptions={{
-                headerStyle: {
-                  backgroundColor: hotChilli,
-                },
-                headerTintColor: white,
-                headerTitleStyle: {
-                  fontFamily: 'MontserratBold',
-                },
-                headerShadowVisible: false, // Hide the bottom line
-                headerTitleAlign: 'center',
-                headerBackTitleVisible: false,
-              }}
-            >
-              <Stack.Screen name="(tabs)" options={{ title: 'TASKS' }} />
-              <Stack.Screen name="detail/[id]" />
-            </Stack>
-          </TaskMapProvider>
+          <Stack
+            screenOptions={{
+              headerStyle: {
+                backgroundColor: hotChilli,
+              },
+              headerTintColor: white,
+              headerTitleStyle: {
+                fontFamily: 'MontserratBold',
+              },
+              headerShadowVisible: false, // Hide the bottom line
+              headerTitleAlign: 'center',
+              headerBackTitleVisible: false,
+            }}
+          >
+            <Stack.Screen name="(tabs)" options={{ title: 'TASKS' }} />
+            <Stack.Screen name="detail/[id]" />
+          </Stack>
         </SafeAreaProvider>
       </PaperProvider>
       {Platform.OS === 'web' && <ReactQueryDevtools />}
