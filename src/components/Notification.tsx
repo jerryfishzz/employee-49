@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { Banner } from 'react-native-paper';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { View } from './Themed';
 
 export function Notification() {
   const [visible, setVisible] = useState(true);
+  const insets = useSafeAreaInsets();
 
   return (
     <View
@@ -28,6 +30,7 @@ export function Notification() {
             onPress: () => setVisible(false),
           },
         ]}
+        contentStyle={{ marginTop: visible ? insets.top : 0 }}
       >
         There was a problem processing a transaction on your credit card.
       </Banner>
