@@ -9,6 +9,7 @@ import {
   configureFonts,
 } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Notification } from 'src/components/Notification';
 
 import {
   paySauceColor,
@@ -50,6 +51,7 @@ export function RootLayoutNav() {
     <QueryClientProvider client={queryClient}>
       <PaperProvider theme={paperTheme}>
         <SafeAreaProvider>
+          <Notification />
           <Stack
             screenOptions={{
               headerStyle: {
