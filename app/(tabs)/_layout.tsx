@@ -14,7 +14,7 @@ import { getTasks } from 'src/utils/api';
 import { useQueryWithRefreshOnFocus } from 'src/hooks/useQueryWithRefreshOnFocus';
 import { Loading } from 'src/screens/Loading/Loading';
 import { Task } from 'src/utils/schema';
-import { showNotice, useEmployee } from 'src/context/employee';
+import { hideNotice, showNotice, useEmployee } from 'src/context/employee';
 
 const Tabs = createMaterialTopTabNavigator<RootTabParamList>();
 
@@ -48,6 +48,8 @@ export default function TabLayout() {
     if (isError) {
       const notice = (error as Error).message ?? 'Unknown error';
       showNotice(dispatch, notice);
+    } else {
+      hideNotice(dispatch);
     }
   }, [dispatch, error, isError]);
 
