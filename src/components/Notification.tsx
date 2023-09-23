@@ -6,6 +6,7 @@ import { StyleSheet } from 'react-native';
 import { View } from './Themed';
 import { paySauceColor } from 'src/data/Colors';
 import { hideNotice, useEmployee } from 'src/context/employee';
+import { Error } from './ui';
 
 export function Notification() {
   const [
@@ -28,6 +29,7 @@ export function Notification() {
             marginBottom: visible ? bottom : 0,
           }}
           style={styles.banner}
+          icon={() => <Error />}
         >
           <Text variant="bodyLarge" style={styles.text}>
             {notice}
