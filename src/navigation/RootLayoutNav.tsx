@@ -10,6 +10,7 @@ import {
 } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Notification } from 'src/components/Notification';
+import { EmployeeProvider } from 'src/context/employee';
 
 import {
   paySauceColor,
@@ -51,24 +52,28 @@ export function RootLayoutNav() {
     <QueryClientProvider client={queryClient}>
       <PaperProvider theme={paperTheme}>
         <SafeAreaProvider>
-          <Notification />
-          <Stack
-            screenOptions={{
-              headerStyle: {
-                backgroundColor: hotChilli,
-              },
-              headerTintColor: white,
-              headerTitleStyle: {
-                fontFamily: 'MontserratBold',
-              },
-              headerShadowVisible: false, // Hide the bottom line
-              headerTitleAlign: 'center',
-              headerBackTitleVisible: false,
-            }}
+          <EmployeeProvider
+            initialState={{ notification: { visible: false, notice: '' } }}
           >
-            <Stack.Screen name="(tabs)" options={{ title: 'TASKS' }} />
-            <Stack.Screen name="detail/[id]" />
-          </Stack>
+            <Notification />
+            <Stack
+              screenOptions={{
+                headerStyle: {
+                  backgroundColor: hotChilli,
+                },
+                headerTintColor: white,
+                headerTitleStyle: {
+                  fontFamily: 'MontserratBold',
+                },
+                headerShadowVisible: false, // Hide the bottom line
+                headerTitleAlign: 'center',
+                headerBackTitleVisible: false,
+              }}
+            >
+              <Stack.Screen name="(tabs)" options={{ title: 'TASKS' }} />
+              <Stack.Screen name="detail/[id]" />
+            </Stack>
+          </EmployeeProvider>
         </SafeAreaProvider>
       </PaperProvider>
       {Platform.OS === 'web' && <ReactQueryDevtools />}
