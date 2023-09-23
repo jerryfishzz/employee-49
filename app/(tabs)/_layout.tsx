@@ -46,7 +46,7 @@ export default function TabLayout() {
 
   useEffect(() => {
     if (isError) {
-      const notice = typeof error === 'string' ? error : 'Unknown error';
+      const notice = (error as Error).message ?? 'Unknown error';
       showNotice(dispatch, notice);
     }
   }, [dispatch, error, isError]);

@@ -14,3 +14,20 @@ export function validateSource<T>(schema: z.Schema<T>, value: T) {
   const newValue = schema.parse(value);
   return newValue;
 }
+
+export function safeValidateSource<T>(schema: z.Schema<T>, value: T) {
+  const newValue = schema.safeParse(value);
+  console.log(newValue);
+
+  if (!newValue.success) {
+    const { issues } = newValue.error;
+    const errorContent =
+      issues.length > 1
+        ? `${issues[0].message}, and ${issues.length - 1} more`
+        : issues[0].message;
+
+    throw new Error(`Zod - ${errorContent}`);
+  }
+
+  return newValue;
+}
