@@ -1,15 +1,15 @@
 import axios from 'axios';
 
 import { HOST_URL } from 'src/data/host';
-import { validateSource } from './helpers';
+import { safeValidateSource } from './helpers';
 import { Task, tasksSchema } from './schema';
 
 export async function getTasks(): Promise<Task[]> {
   try {
     const response = await axios(`${HOST_URL}`);
     console.log('getTasks');
-    const validatedTasks = validateSource(tasksSchema, response.data);
-    return validatedTasks;
+    const validatedTasks = safeValidateSource(tasksSchema, response.data);
+    return validatedTasks.data;
   } catch (e) {
     console.error(e);
     throw e;
