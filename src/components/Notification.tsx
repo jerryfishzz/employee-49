@@ -1,12 +1,14 @@
 import { useState } from 'react';
-import { Banner } from 'react-native-paper';
+import { Banner, Text } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { View } from './Themed';
+import { paySauceColor } from 'src/data/Colors';
 
 export function Notification() {
   const [visible, setVisible] = useState(true);
-  const insets = useSafeAreaInsets();
+  const { top, bottom } = useSafeAreaInsets();
 
   return (
     <View
@@ -18,22 +20,23 @@ export function Notification() {
         zIndex: 1,
       }}
     >
-      <Banner
-        visible={visible}
-        actions={[
-          {
-            label: 'Fix it',
-            onPress: () => setVisible(false),
-          },
-          {
-            label: 'Learn more',
-            onPress: () => setVisible(false),
-          },
-        ]}
-        contentStyle={{ marginTop: visible ? insets.top : 0 }}
-      >
-        There was a problem processing a transaction on your credit card.
-      </Banner>
+      <TouchableOpacity onPress={() => setVisible(false)}>
+        <Banner
+          visible={visible}
+          elevation={3}
+          contentStyle={{
+            marginTop: visible ? top : 0,
+            marginBottom: visible ? bottom : 0,
+          }}
+          style={{
+            backgroundColor: paySauceColor.blueberry,
+          }}
+        >
+          <Text variant="bodyLarge" style={{ color: paySauceColor.white }}>
+            There was a problem processing a transaction on your credit card.
+          </Text>
+        </Banner>
+      </TouchableOpacity>
     </View>
   );
 }
