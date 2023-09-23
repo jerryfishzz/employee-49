@@ -17,7 +17,6 @@ export function validateSource<T>(schema: z.Schema<T>, value: T) {
 
 export function safeValidateSource<T>(schema: z.Schema<T>, value: T) {
   const newValue = schema.safeParse(value);
-  console.log(newValue);
 
   if (!newValue.success) {
     const { issues } = newValue.error;
