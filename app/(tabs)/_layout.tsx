@@ -4,7 +4,7 @@ import {
 } from '@react-navigation/material-top-tabs';
 import { Platform } from 'react-native';
 import { Text } from 'react-native-paper';
-import { memo, useEffect, useState } from 'react';
+import { memo, useState } from 'react';
 
 import { paySauceColor } from 'src/data/Colors';
 import { STATUS } from 'src/data/Status';
@@ -14,7 +14,7 @@ import { getTasks } from 'src/utils/api';
 import { useQueryWithRefreshOnFocus } from 'src/hooks/useQueryWithRefreshOnFocus';
 import { Loading } from 'src/screens/Loading/Loading';
 import { Task } from 'src/utils/schema';
-import { hideNotice, showNotice, useEmployee } from 'src/context/employee';
+import { useNotification } from 'src/hooks/useNotification';
 
 const Tabs = createMaterialTopTabNavigator<RootTabParamList>();
 
@@ -29,7 +29,8 @@ export default function TabLayout() {
     getTasks,
     setTasks,
   );
-  const [, dispatch] = useEmployee();
+
+  useNotification({ handler: isError, content: error as Error | null });
 
   const toDo: Task[] = [];
   const done: Task[] = [];
@@ -40,18 +41,6 @@ export default function TabLayout() {
       tasks[i].status === 'done' && done.push(tasks[i]);
     }
   }
-
-  console.log(isError);
-  console.log(error);
-
-  useEffect(() => {
-    if (isError) {
-      const notice = (error as Error).message ?? 'Unknown error';
-      showNotice(dispatch, notice);
-    } else {
-      hideNotice(dispatch);
-    }
-  }, [dispatch, error, isError]);
 
   return (
     <Tabs.Navigator
