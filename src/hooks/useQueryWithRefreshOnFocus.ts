@@ -37,30 +37,18 @@ export function useQueryWithRefreshOnFocus<T>(
   const [isEitherFetching, setIsEitherFetching] = useState<boolean>(false);
 
   useEffect(() => {
-    let isMounted: boolean = true;
-    if (data && isMounted) {
+    if (data) {
       setState(data as T);
       setErrorResult({ isError: false, error: null });
     }
-    return () => {
-      isMounted = false;
-    };
   }, [data, setState]);
 
   useEffect(() => {
-    let isMounted: boolean = true;
-    isError && isMounted && setErrorResult({ isError, error: error as Error });
-    return () => {
-      isMounted = false;
-    };
+    isError && setErrorResult({ isError, error: error as Error });
   }, [error, isError]);
 
   useEffect(() => {
-    let isMounted: boolean = true;
-    isMounted && setIsEitherFetching(isFetching);
-    return () => {
-      isMounted = false;
-    };
+    setIsEitherFetching(isFetching);
   }, [isFetching]);
 
   useFocusEffect(
@@ -72,7 +60,7 @@ export function useQueryWithRefreshOnFocus<T>(
         return;
       }
 
-      isMounted && setIsEitherFetching(true);
+      setIsEitherFetching(true);
 
       query()
         .then((result) => {
