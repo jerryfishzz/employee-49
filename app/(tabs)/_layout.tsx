@@ -24,7 +24,10 @@ const MemoizedLoading = memo(Loading);
 
 export default function TabLayout() {
   const [tasks, setTasks] = useState<Task[]>([]);
-  const { isLoading } = useQueryWithRefreshOnFocus(getTasks, setTasks);
+  const [{ isLoading }, isFetching] = useQueryWithRefreshOnFocus(
+    getTasks,
+    setTasks,
+  );
 
   const toDo: Task[] = [];
   const done: Task[] = [];
@@ -60,7 +63,7 @@ export default function TabLayout() {
           isLoading ? (
             <MemoizedLoading />
           ) : (
-            <MemoizedList data={toDo} {...props} />
+            <MemoizedList isPressDisabled={isFetching} data={toDo} {...props} />
           )
         }
       </Tabs.Screen>
@@ -72,7 +75,7 @@ export default function TabLayout() {
           isLoading ? (
             <MemoizedLoading />
           ) : (
-            <MemoizedList data={done} {...props} />
+            <MemoizedList isPressDisabled={isFetching} data={done} {...props} />
           )
         }
       </Tabs.Screen>

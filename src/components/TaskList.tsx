@@ -20,6 +20,7 @@ import { Task } from 'src/utils/schema';
 
 interface TaskListProps<T extends Task> {
   data: T[];
+  isPressDisabled: boolean;
   routeName: keyof RootTabParamList;
 }
 
@@ -31,11 +32,14 @@ const { hotChilli, midGrey, mint } = paySauceColor;
 
 export function TaskList<T extends Task>({
   data,
+  isPressDisabled,
   routeName,
 }: TaskListProps<T>) {
   const {
     colors: { borderBottom },
   } = useAppTheme();
+
+  console.log(isPressDisabled);
 
   return (
     <FlatList
@@ -86,7 +90,7 @@ export function TaskList<T extends Task>({
         if (Platform.OS === 'android')
           return (
             <Link href={`/detail/${id}`} asChild>
-              <TouchableOpacity>
+              <TouchableOpacity disabled={isPressDisabled}>
                 <ContentRowAndroid
                   testID={id}
                   blocks={[
@@ -103,7 +107,7 @@ export function TaskList<T extends Task>({
 
         return (
           <Link href={`/detail/${id}`} asChild>
-            <TouchableOpacity>
+            <TouchableOpacity disabled={isPressDisabled}>
               <List.Item
                 title={
                   <ContentRow testID={id} blocks={[titleBlock, dueBlock]} />

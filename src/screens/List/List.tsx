@@ -7,12 +7,17 @@ import { Task } from 'src/utils/schema';
 
 type ListProps = {
   data: Task[];
+  isPressDisabled: boolean;
 } & RootTabScreenProps<keyof RootTabParamList>;
 
-export function List({ data, route }: ListProps) {
+export function List({ data, isPressDisabled, route }: ListProps) {
   return (
     <View style={styles.container}>
-      <TaskList data={data} routeName={route.name} />
+      <TaskList
+        isPressDisabled={isPressDisabled}
+        data={data}
+        routeName={route.name}
+      />
     </View>
   );
 }
