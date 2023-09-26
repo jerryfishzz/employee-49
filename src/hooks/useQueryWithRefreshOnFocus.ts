@@ -37,41 +37,64 @@ export function useQueryWithRefreshOnFocus<T>(
   const [isEitherFetching, setIsEitherFetching] = useState<boolean>(false);
 
   useEffect(() => {
-    if (data) {
+    let isMounted: boolean = true;
+    if (data && isMounted) {
       setState(data as T);
       setErrorResult({ isError: false, error: null });
     }
+    return () => {
+      isMounted = false;
+    };
   }, [data, setState]);
 
   useEffect(() => {
-    isError && setErrorResult({ isError, error: error as Error });
+    let isMounted: boolean = true;
+    isError && isMounted && setErrorResult({ isError, error: error as Error });
+    return () => {
+      isMounted = false;
+    };
   }, [error, isError]);
 
   useEffect(() => {
-    setIsEitherFetching(isFetching);
+    let isMounted: boolean = true;
+    isMounted && setIsEitherFetching(isFetching);
+    return () => {
+      isMounted = false;
+    };
   }, [isFetching]);
 
   useFocusEffect(
     useCallback(() => {
+      let isMounted: boolean = true;
+
       if (firstTimeRef.current) {
         firstTimeRef.current = false;
         return;
       }
 
-      setIsEitherFetching(true);
+      isMounted && setIsEitherFetching(true);
 
       query()
         .then((result) => {
-          setState(result);
-          setErrorResult({ isError: false, error: null });
-          setIsEitherFetching(false);
+          if (isMounted) {
+            setState(result);
+            setErrorResult({ isError: false, error: null });
+            setIsEitherFetching(false);
+          }
         })
         .catch((err) => {
           console.error(err);
-          setErrorResult({ isError: true, error: err as Error });
-          setIsEitherFetching(false);
+          if (isMounted) {
+            setErrorResult({ isError: true, error: err as Error });
+            setIsEitherFetching(false);
+          }
+
           // Don't throw error here since it is the most outside layer
         });
+
+      return () => {
+        isMounted = false;
+      };
     }, [query, setState]),
   );
 
