@@ -25,7 +25,7 @@ const MemoizedLoading = memo(Loading);
 
 export default function TabLayout() {
   const [tasks, setTasks] = useState<Task[]>([]);
-  const { isLoading, isError, error } = useQueryWithRefreshOnFocus(
+  const [{ isLoading }, { isError, error }] = useQueryWithRefreshOnFocus(
     getTasks,
     setTasks,
   );

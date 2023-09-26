@@ -6,23 +6,43 @@ import {
   useCallback,
   useEffect,
   useRef,
+  useState,
 } from 'react';
 
 import { getTasks } from 'src/utils/api';
+
+type ErrorResultState = {
+  isError: boolean;
+  error: Error | null;
+};
 
 export function useQueryWithRefreshOnFocus<T>(
   query: () => Promise<T>,
   setState: Dispatch<SetStateAction<T>>,
 ) {
   const firstTimeRef = useRef(true);
+
   const result = useQuery({
     queryKey: ['tasks'],
     queryFn: getTasks,
   });
+  const { data, isError, error } = result;
+
+  const [errorResult, setErrorResult] = useState<ErrorResultState>({
+    isError: false,
+    error: null,
+  });
 
   useEffect(() => {
-    result.data && setState(result.data as T);
-  }, [result.data, setState]);
+    if (data) {
+      setState(data as T);
+      setErrorResult({ isError: false, error: null });
+    }
+  }, [data, setState]);
+
+  useEffect(() => {
+    isError && setErrorResult({ isError, error: error as Error });
+  }, [error, isError]);
 
   useFocusEffect(
     useCallback(() => {
@@ -34,13 +54,15 @@ export function useQueryWithRefreshOnFocus<T>(
       query()
         .then((result) => {
           setState(result);
+          setErrorResult({ isError: false, error: null });
         })
         .catch((err) => {
           console.error(err);
+          setErrorResult({ isError: true, error: err as Error });
           throw err;
         });
     }, [query, setState]),
   );
 
-  return result;
+  return [result, errorResult] as const;
 }
