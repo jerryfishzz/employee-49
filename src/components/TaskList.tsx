@@ -39,8 +39,6 @@ export function TaskList<T extends Task>({
     colors: { borderBottom },
   } = useAppTheme();
 
-  console.log(isPressDisabled);
-
   return (
     <FlatList
       data={data}

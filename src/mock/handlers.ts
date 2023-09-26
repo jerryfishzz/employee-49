@@ -4,11 +4,8 @@ import { rest } from 'msw';
 import { HOST_URL } from 'src/data/host';
 import { STORAGE_KEY_TASKS } from './setUpDB';
 import { delayedResponse, createErrorChangeOnResponse } from './utils';
-import { Platform } from 'react-native';
 
-const getResponseWithErrorByChance = createErrorChangeOnResponse(
-  Platform.OS === 'web' ? 3 : 0,
-);
+const getResponseWithErrorByChance = createErrorChangeOnResponse(0);
 
 const handlers = [
   rest.get(`${HOST_URL}`, async (req, res, ctx) => {
