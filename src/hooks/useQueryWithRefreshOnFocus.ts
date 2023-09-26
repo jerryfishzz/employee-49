@@ -10,6 +10,7 @@ import {
 } from 'react';
 
 import { getTasks } from 'src/utils/api';
+import { useNotification } from './useNotification';
 
 type ErrorResultState = {
   isError: boolean;
@@ -59,10 +60,12 @@ export function useQueryWithRefreshOnFocus<T>(
         .catch((err) => {
           console.error(err);
           setErrorResult({ isError: true, error: err as Error });
-          throw err;
+          // throw err;
         });
     }, [query, setState]),
   );
 
-  return [result, errorResult] as const;
+  useNotification({ handler: errorResult.isError, content: errorResult.error });
+
+  return result;
 }

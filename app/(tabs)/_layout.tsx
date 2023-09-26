@@ -14,7 +14,6 @@ import { getTasks } from 'src/utils/api';
 import { useQueryWithRefreshOnFocus } from 'src/hooks/useQueryWithRefreshOnFocus';
 import { Loading } from 'src/screens/Loading/Loading';
 import { Task } from 'src/utils/schema';
-import { useNotification } from 'src/hooks/useNotification';
 
 const Tabs = createMaterialTopTabNavigator<RootTabParamList>();
 
@@ -25,12 +24,7 @@ const MemoizedLoading = memo(Loading);
 
 export default function TabLayout() {
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [{ isLoading }, { isError, error }] = useQueryWithRefreshOnFocus(
-    getTasks,
-    setTasks,
-  );
-
-  useNotification({ handler: isError, content: error as Error | null });
+  const { isLoading } = useQueryWithRefreshOnFocus(getTasks, setTasks);
 
   const toDo: Task[] = [];
   const done: Task[] = [];

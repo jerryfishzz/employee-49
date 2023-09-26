@@ -8,7 +8,6 @@ export async function getTasks(): Promise<Task[]> {
   try {
     const response = await axios(`${HOST_URL}`);
     console.log('getTasks');
-    console.log(response);
     const validatedTasks = safeValidateSource(tasksSchema, response.data);
     return validatedTasks.data;
   } catch (e) {
