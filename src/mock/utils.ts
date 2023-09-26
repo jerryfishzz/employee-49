@@ -7,8 +7,11 @@ export const delayedResponse = createResponseComposition(undefined, [
 ]);
 
 export function createErrorChangeOnResponse(zeroToNine: number) {
-  const random = Math.floor(Math.random() * 9);
-  console.log(random);
-  return (data: string, context: RestContext) =>
-    random > zeroToNine ? context.json(JSON.parse(data)) : context.status(500);
+  return (data: string, context: RestContext) => {
+    const random = Math.floor(Math.random() * 9);
+    console.log(random);
+    return random > zeroToNine
+      ? context.json(JSON.parse(data))
+      : context.status(500);
+  };
 }
