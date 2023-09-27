@@ -30,3 +30,7 @@ export function safeValidateSource<T>(schema: z.Schema<T>, value: T) {
 
   return newValue;
 }
+
+export function strToNum(str: string): number {
+  return isNaN(Number(str)) ? 0 : Number(str);
+}

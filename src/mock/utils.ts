@@ -1,6 +1,14 @@
 import { createResponseComposition, context, RestContext } from 'msw';
+import { strToNum } from 'src/utils/helpers';
 
-const delay = process.env.NODE_ENV === 'test' ? 0 : 1500;
+const { NODE_ENV, EXPO_PUBLIC_MOCKING_DELAY } = process.env;
+
+const delay =
+  NODE_ENV === 'test'
+    ? 0
+    : EXPO_PUBLIC_MOCKING_DELAY
+    ? strToNum(EXPO_PUBLIC_MOCKING_DELAY)
+    : 500;
 
 export const delayedResponse = createResponseComposition(undefined, [
   context.delay(delay),

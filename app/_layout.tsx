@@ -23,6 +23,7 @@ SplashScreen.preventAutoHideAsync();
 // Validate custom env variables
 const envVariable = z.object({
   EXPO_PUBLIC_API_MOCKING: z.optional(z.enum(['true', 'false'])),
+  EXPO_PUBLIC_MOCKING_DELAY: z.optional(z.string()),
 });
 envVariable.parse(process.env);
 
