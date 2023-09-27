@@ -8,17 +8,18 @@ const delay =
     ? 0
     : EXPO_PUBLIC_MOCKING_DELAY
     ? strToNum(EXPO_PUBLIC_MOCKING_DELAY)
-    : 500;
+    : 0;
 
 export const delayedResponse = createResponseComposition(undefined, [
   context.delay(delay),
 ]);
 
-export function createErrorChangeOnResponse(zeroToNine: number) {
+// Return response with a chance of the server error 500
+export function createErrorChangeOnResponse(zeroToTen: number) {
   return (data: string, context: RestContext) => {
-    const random = Math.floor(Math.random() * 9);
+    const random = Math.floor(Math.random() * 9); // random number from 0 to 9
     console.log(random);
-    return random > zeroToNine
+    return random >= zeroToTen
       ? context.json(JSON.parse(data))
       : context.status(500);
   };

@@ -24,6 +24,7 @@ SplashScreen.preventAutoHideAsync();
 const envVariable = z.object({
   EXPO_PUBLIC_API_MOCKING: z.optional(z.enum(['true', 'false'])),
   EXPO_PUBLIC_MOCKING_DELAY: z.optional(z.string()),
+  EXPO_PUBLIC_MOCKING_ERROR_CHANCE: z.optional(z.string()),
 });
 envVariable.parse(process.env);
 

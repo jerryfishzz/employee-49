@@ -4,8 +4,15 @@ import { rest } from 'msw';
 import { HOST_URL } from 'src/data/host';
 import { STORAGE_KEY_TASKS } from './setUpDB';
 import { delayedResponse, createErrorChangeOnResponse } from './utils';
+import { strToNum } from 'src/utils/helpers';
 
-const getResponseWithErrorByChance = createErrorChangeOnResponse(0);
+const { EXPO_PUBLIC_MOCKING_ERROR_CHANCE } = process.env;
+const errorChance =
+  EXPO_PUBLIC_MOCKING_ERROR_CHANCE === undefined
+    ? 0
+    : strToNum(EXPO_PUBLIC_MOCKING_ERROR_CHANCE);
+
+const getResponseWithErrorByChance = createErrorChangeOnResponse(errorChance);
 
 const handlers = [
   rest.get(`${HOST_URL}`, async (req, res, ctx) => {
