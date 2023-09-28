@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { Redirect, Stack } from 'expo-router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { hideNotice, showNotice, useEmployee } from 'src/context/employee';
 import { useTaskLocalSearchParams } from 'src/hooks/useTaskLocalSearchParams';
@@ -12,6 +12,7 @@ import { getDetail } from 'src/utils/api';
 export default function Route() {
   const { id } = useTaskLocalSearchParams();
 
+  const [enabled, setEnabled] = useState<boolean>(true);
   const {
     isLoading,
     isFetching,
@@ -21,6 +22,7 @@ export default function Route() {
   } = useQuery({
     queryKey: ['detail', id],
     queryFn: () => getDetail(id),
+    enabled,
   });
 
   const [
@@ -44,6 +46,11 @@ export default function Route() {
     !isLoading && !isFetching && !isError && visible && hideNotice(dispatch);
   }, [dispatch, isError, isFetching, isLoading, visible]);
 
+  // Disable the query when data received
+  useEffect(() => {
+    !isLoading && !isFetching && setEnabled(false);
+  }, [isFetching, isLoading]);
+
   // Redirect when id does not exists
   if (!isLoading && !isFetching && !isError && !task) {
     return <Redirect href="/404" />;
@@ -61,7 +68,7 @@ export default function Route() {
       ) : task ? (
         <Detail task={task} />
       ) : (
-        <ErrorScreen msg={(error as Error).message} />
+        <ErrorScreen msg={(error as Error).message} setState={setEnabled} />
       )}
     </>
   );

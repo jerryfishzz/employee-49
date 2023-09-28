@@ -12,7 +12,7 @@ import { STATUS } from 'src/data/Status';
 import { useAppTheme } from 'src/hooks/useAppTheme';
 
 export function Detail({
-  task: { id, status, description, due, priority },
+  task: { status, description, due, priority },
 }: DetailProps) {
   const {
     colors: { borderBottom },

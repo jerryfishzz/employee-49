@@ -1,20 +1,26 @@
-import { Link } from 'expo-router';
+import { Dispatch, SetStateAction } from 'react';
 import { StyleSheet } from 'react-native';
+import { Button } from 'react-native-paper';
 
 import { Text, View } from 'src/components/Themed';
 
 type ErrorScreenProps = {
   msg: string;
+  setState: Dispatch<SetStateAction<boolean>>;
 };
 
-export function ErrorScreen({ msg }: ErrorScreenProps) {
+export function ErrorScreen({ msg, setState }: ErrorScreenProps) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{msg}</Text>
 
-      <Link href="/" style={styles.link}>
-        <Text style={styles.linkText}>Go to home screen!</Text>
-      </Link>
+      <Button
+        onPress={() => {
+          setState(true);
+        }}
+      >
+        Refresh
+      </Button>
     </View>
   );
 }
@@ -29,13 +35,5 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-  },
-  link: {
-    marginTop: 15,
-    paddingVertical: 15,
-  },
-  linkText: {
-    fontSize: 14,
-    color: '#2e78b7',
   },
 });
