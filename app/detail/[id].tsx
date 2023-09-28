@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { hideNotice, showNotice, useEmployee } from 'src/context/employee';
 import { useTaskLocalSearchParams } from 'src/hooks/useTaskLocalSearchParams';
 import { Detail } from 'src/screens/Detail';
+import { ErrorScreen } from 'src/screens/ErrorScreen';
 import { Loading } from 'src/screens/Loading';
 import { getDetail } from 'src/utils/api';
 
@@ -55,7 +56,13 @@ export default function Route() {
           title: task?.title.toUpperCase(),
         }}
       />
-      {isLoading ? <Loading /> : <Detail task={task} />}
+      {isLoading ? (
+        <Loading />
+      ) : task ? (
+        <Detail task={task} />
+      ) : (
+        <ErrorScreen msg={(error as Error).message} />
+      )}
     </>
   );
 }

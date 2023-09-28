@@ -10,8 +10,6 @@ import { DetailProps, DetailRowData } from './types';
 import { createContentBlock, createTitleBlock } from './helpers';
 import { STATUS } from 'src/data/Status';
 import { useAppTheme } from 'src/hooks/useAppTheme';
-import { useQuery } from '@tanstack/react-query';
-import { getDetail } from 'src/utils/api';
 
 export function Detail({
   task: { id, status, description, due, priority },
@@ -60,11 +58,6 @@ export function Detail({
       isBorderBottomHidden: true,
     },
   ];
-
-  useQuery({
-    queryKey: ['detail', id],
-    queryFn: () => getDetail(id),
-  });
 
   return (
     <View style={styles.container}>
