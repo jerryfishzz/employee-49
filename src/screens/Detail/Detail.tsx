@@ -12,13 +12,16 @@ import { STATUS } from 'src/data/Status';
 import { useAppTheme } from 'src/hooks/useAppTheme';
 
 export function Detail({
-  task: { status, description, due, priority },
+  task: { title, status, description, due, priority },
 }: DetailProps) {
   const {
     colors: { borderBottom },
   } = useAppTheme();
 
   const detailRowData: DetailRowData[] = [
+    {
+      blocks: [createTitleBlock('Title'), createContentBlock(title)],
+    },
     {
       blocks: [createTitleBlock('Status'), createContentBlock(STATUS[status])],
     },

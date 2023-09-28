@@ -19,5 +19,8 @@ export function createContentBlock(content: string): Block {
     type: 'text',
     variant: 'titleMedium',
     content,
+    viewStyle: {
+      maxWidth: '70%',
+    },
   };
 }
