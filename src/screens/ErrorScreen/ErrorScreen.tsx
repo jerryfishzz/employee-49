@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction } from 'react';
 import { StyleSheet } from 'react-native';
-import { Button } from 'react-native-paper';
+import { Button, Text } from 'react-native-paper';
 
-import { Text, View } from 'src/components/Themed';
+import { View } from 'src/components/Themed';
 
 type ErrorScreenProps = {
   msg: string;
@@ -12,7 +12,7 @@ type ErrorScreenProps = {
 export function ErrorScreen({ msg, setState }: ErrorScreenProps) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{msg}</Text>
+      <Text variant="bodyLarge">{msg}</Text>
 
       <Button
         onPress={() => {
@@ -31,9 +31,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
   },
 });
