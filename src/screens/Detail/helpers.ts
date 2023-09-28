@@ -11,6 +11,9 @@ export function createTitleBlock(title: string): Block {
       flex: 1,
       paddingLeft: Platform.OS === 'android' ? 16 : 0,
     },
+    textStyle: {
+      fontSize: 20,
+    },
   };
 }
 
