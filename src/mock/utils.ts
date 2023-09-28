@@ -16,11 +16,15 @@ export const delayedResponse = createResponseComposition(undefined, [
 
 // Return response with a chance of the server error 500
 export function createErrorChangeOnResponse(zeroToTen: number) {
-  return (data: string, context: RestContext) => {
+  return (
+    data: string,
+    processData: (data: string) => unknown,
+    context: RestContext,
+  ) => {
     const random = Math.floor(Math.random() * 9); // random number from 0 to 9
     console.log(random);
     return random >= zeroToTen
-      ? context.json(JSON.parse(data))
+      ? context.json(processData(data))
       : context.status(500);
   };
 }

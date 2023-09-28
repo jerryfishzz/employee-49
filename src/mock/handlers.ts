@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { rest } from 'msw';
 
 import { HOST_URL } from 'src/data/host';
-import { STORAGE_KEY_TASKS } from './setUpDB';
+import { STORAGE_KEY_TASK_MAP_OBJECT } from './setUpDB';
 import { delayedResponse, createErrorChangeOnResponse } from './utils';
 import { strToNum } from 'src/utils/helpers';
 
@@ -17,9 +17,15 @@ const getResponseWithErrorByChance = createErrorChangeOnResponse(errorChance);
 const handlers = [
   rest.get(`${HOST_URL}`, async (req, res, ctx) => {
     try {
-      const tasks = await AsyncStorage.getItem(STORAGE_KEY_TASKS);
+      const taskObjStr = await AsyncStorage.getItem(
+        STORAGE_KEY_TASK_MAP_OBJECT,
+      );
       return delayedResponse(
-        getResponseWithErrorByChance(tasks as string, ctx),
+        getResponseWithErrorByChance(
+          taskObjStr as string,
+          parseTaskObjStrToTasks,
+          ctx,
+        ),
       );
     } catch (error) {
       console.error(error);
@@ -33,5 +39,9 @@ const handlers = [
     return delayedResponse(ctx.json({ message: 'detail' }));
   }),
 ];
+
+function parseTaskObjStrToTasks(taskObjStr: string) {
+  return Object.values(JSON.parse(taskObjStr));
+}
 
 export { handlers };
