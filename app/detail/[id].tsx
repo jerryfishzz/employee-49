@@ -58,11 +58,6 @@ export default function Route() {
 
   return (
     <>
-      <Stack.Screen
-        options={{
-          title: task?.title.toUpperCase(),
-        }}
-      />
       {isLoading ? (
         <Loading />
       ) : task ? (

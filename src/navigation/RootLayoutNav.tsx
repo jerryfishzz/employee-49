@@ -71,7 +71,7 @@ export function RootLayoutNav() {
               }}
             >
               <Stack.Screen name="(tabs)" options={{ title: 'TASKS' }} />
-              <Stack.Screen name="detail/[id]" />
+              <Stack.Screen name="detail/[id]" options={{ title: 'DETAIL' }} />
             </Stack>
           </EmployeeProvider>
         </SafeAreaProvider>
