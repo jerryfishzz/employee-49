@@ -32,7 +32,7 @@ export default function Route() {
     dispatch,
   ] = useEmployee();
 
-  // Show notice only when task already exists
+  // Show error notice only when task already exists
   useEffect(() => {
     !isLoading &&
       !isFetching &&
