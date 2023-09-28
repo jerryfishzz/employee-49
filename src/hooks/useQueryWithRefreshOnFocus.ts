@@ -10,12 +10,7 @@ import {
 } from 'react';
 
 import { getTasks } from 'src/utils/api';
-import { useNotification } from './useNotification';
-
-type ErrorResultState = {
-  isError: boolean;
-  error: Error | null;
-};
+import { hideNotice, showNotice, useEmployee } from 'src/context/employee';
 
 export function useQueryWithRefreshOnFocus<T>(
   query: () => Promise<T>,
@@ -29,23 +24,20 @@ export function useQueryWithRefreshOnFocus<T>(
   });
   const { data, isError, error, isFetching } = result;
 
-  const [errorResult, setErrorResult] = useState<ErrorResultState>({
-    isError: false,
-    error: null,
-  });
+  const [, dispatch] = useEmployee();
 
   const [isEitherFetching, setIsEitherFetching] = useState<boolean>(false);
 
   useEffect(() => {
     if (data) {
       setState(data as T);
-      setErrorResult({ isError: false, error: null });
+      hideNotice(dispatch);
     }
-  }, [data, setState]);
+  }, [data, dispatch, setState]);
 
   useEffect(() => {
-    isError && setErrorResult({ isError, error: error as Error });
-  }, [error, isError]);
+    isError && showNotice(dispatch, (error as Error).message);
+  }, [dispatch, error, isError]);
 
   useEffect(() => {
     setIsEitherFetching(isFetching);
@@ -66,14 +58,14 @@ export function useQueryWithRefreshOnFocus<T>(
         .then((result) => {
           if (isMounted) {
             setState(result);
-            setErrorResult({ isError: false, error: null });
+            hideNotice(dispatch);
             setIsEitherFetching(false);
           }
         })
         .catch((err) => {
           console.error(err);
           if (isMounted) {
-            setErrorResult({ isError: true, error: err as Error });
+            showNotice(dispatch, (err as Error).message);
             setIsEitherFetching(false);
           }
 
@@ -83,10 +75,8 @@ export function useQueryWithRefreshOnFocus<T>(
       return () => {
         isMounted = false;
       };
-    }, [query, setState]),
+    }, [dispatch, query, setState]),
   );
-
-  useNotification({ handler: errorResult.isError, content: errorResult.error });
 
   return [result, isEitherFetching] as const;
 }
