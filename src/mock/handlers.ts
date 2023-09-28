@@ -61,7 +61,8 @@ function parseTaskObjStrToTasks(taskObjStr: string) {
 }
 
 function setTaskKey(key: string) {
-  return (taskObjStr: string) => JSON.parse(taskObjStr)[key];
+  return (taskObjStr: string) =>
+    JSON.parse(taskObjStr)[key] ? JSON.parse(taskObjStr)[key] : undefined;
 }
 
 export { handlers };

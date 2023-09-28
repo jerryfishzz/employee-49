@@ -43,13 +43,9 @@ export default function Route() {
     !isLoading && !isFetching && !isError && visible && hideNotice(dispatch);
   }, [dispatch, isError, isFetching, isLoading, visible]);
 
-  // Show notice and redirect
-  if (!isLoading && !isFetching) {
-    if (isError && !task) {
-      showNotice(dispatch, (error as Error).message);
-
-      return <Redirect href="/404" />;
-    }
+  // Redirect when id does not exists
+  if (!isLoading && !isFetching && !isError && !task) {
+    return <Redirect href="/404" />;
   }
 
   return (

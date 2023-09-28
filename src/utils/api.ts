@@ -16,7 +16,7 @@ export async function getTasks(): Promise<Task[]> {
   }
 }
 
-export async function getDetail(id: string): Promise<Task> {
+export async function getDetail(id: string): Promise<Task | undefined> {
   try {
     const response = await axios(`${HOST_URL}/detail/${id}`);
     console.log('getDetail');
