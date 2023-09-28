@@ -24,3 +24,13 @@ export function createErrorChangeOnResponse(zeroToTen: number) {
       : context.status(500);
   };
 }
+
+export function arrayToMap<T extends object>(
+  arr: T[],
+  handler: keyof T,
+): Map<string, T> {
+  const mapReadyArray = arr.map(
+    (item) => [item[handler] as string, item] as const,
+  );
+  return new Map(mapReadyArray);
+}

@@ -2,8 +2,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { faker } from '@faker-js/faker';
 
 import { createFakeDataArray, taskBuilder } from './builder';
+import { arrayToMap } from './utils';
 
 export const STORAGE_KEY_TASKS = 'EMPLOYEE_TASKS';
+export const STORAGE_KEY_TASK_MAP = 'EMPLOYEE_TASK_MAP';
 
 export async function setUpDB() {
   const tasks = createFakeDataArray(
@@ -13,6 +15,10 @@ export async function setUpDB() {
 
   try {
     await AsyncStorage.setItem(STORAGE_KEY_TASKS, JSON.stringify(tasks));
+    await AsyncStorage.setItem(
+      STORAGE_KEY_TASK_MAP,
+      JSON.stringify(Object.fromEntries(arrayToMap(tasks, 'id'))),
+    );
   } catch (error) {
     console.log(error);
     throw error;
