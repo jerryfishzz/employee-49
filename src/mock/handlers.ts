@@ -36,12 +36,32 @@ const handlers = [
     return delayedResponse(ctx.json({ message: 'done' }));
   }),
   rest.get(`${HOST_URL}/detail/:id`, async (req, res, ctx) => {
-    return delayedResponse(ctx.json({ message: 'detail' }));
+    try {
+      const taskObjStr = await AsyncStorage.getItem(
+        STORAGE_KEY_TASK_MAP_OBJECT,
+      );
+
+      const getTaskByKeyFromTaskObjStr = setTaskKey(req.params.id as string);
+      return delayedResponse(
+        getResponseWithErrorByChance(
+          taskObjStr as string,
+          getTaskByKeyFromTaskObjStr,
+          ctx,
+        ),
+      );
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   }),
 ];
 
 function parseTaskObjStrToTasks(taskObjStr: string) {
   return Object.values(JSON.parse(taskObjStr));
+}
+
+function setTaskKey(key: string) {
+  return (taskObjStr: string) => JSON.parse(taskObjStr)[key];
 }
 
 export { handlers };

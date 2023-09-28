@@ -1,14 +1,20 @@
+import { useQuery } from '@tanstack/react-query';
 import { Redirect, Stack } from 'expo-router';
 
-import { taskMap } from 'src/data/task';
 import { useTaskLocalSearchParams } from 'src/hooks/useTaskLocalSearchParams';
 import { Detail } from 'src/screens/Detail';
+import { Loading } from 'src/screens/Loading';
+import { getDetail } from 'src/utils/api';
 
 export default function Route() {
   const { id } = useTaskLocalSearchParams();
-  const task = taskMap.get(id);
 
-  if (task === undefined) {
+  const { isLoading, data: task } = useQuery({
+    queryKey: ['detail', id],
+    queryFn: () => getDetail(id),
+  });
+
+  if (!isLoading && task === undefined) {
     return <Redirect href="/404" />;
   }
 
@@ -16,10 +22,10 @@ export default function Route() {
     <>
       <Stack.Screen
         options={{
-          title: task.title.toUpperCase(),
+          title: task?.title.toUpperCase(),
         }}
       />
-      <Detail task={task} />
+      {isLoading ? <Loading /> : <Detail task={task} />}
     </>
   );
 }
