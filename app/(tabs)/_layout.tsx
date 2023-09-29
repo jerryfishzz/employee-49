@@ -4,7 +4,7 @@ import {
 } from '@react-navigation/material-top-tabs';
 import { Platform } from 'react-native';
 import { Text } from 'react-native-paper';
-import { memo, useMemo } from 'react';
+import { Dispatch, SetStateAction, memo, useMemo } from 'react';
 
 import { paySauceColor } from 'src/data/Colors';
 import { STATUS } from 'src/data/Status';
@@ -15,6 +15,7 @@ import { useQueryWithRefreshOnFocus } from 'src/hooks/useQueryWithRefreshOnFocus
 import { Loading } from 'src/screens/Loading/Loading';
 import { Task } from 'src/utils/schema';
 import { ErrorScreen } from 'src/screens/ErrorScreen';
+import { RouteProp } from '@react-navigation/native';
 
 const Tabs = createMaterialTopTabNavigator<RootTabParamList>();
 
@@ -50,35 +51,25 @@ export default function TabLayout() {
         name="index"
         options={createOptions(STATUS.toDo, toDo ? toDo.length : '--')}
       >
-        {(props) =>
-          isLoading ? (
-            <MemoizedLoading />
-          ) : toDo ? (
-            <MemoizedList isPressDisabled={isFetching} data={toDo} {...props} />
-          ) : (
-            <MemoizedErrorScreen
-              msg={error ? (error as Error).message : ''}
-              setState={setEnabled}
-            />
-          )
-        }
+        {setChildrenByConditions({
+          isLoading,
+          tasks: toDo,
+          isFetching,
+          error: error as Error | null,
+          setEnabled,
+        })}
       </Tabs.Screen>
       <Tabs.Screen
         name="done"
         options={createOptions(STATUS.done, done ? done.length : '--')}
       >
-        {(props) =>
-          isLoading ? (
-            <MemoizedLoading />
-          ) : done ? (
-            <MemoizedList isPressDisabled={isFetching} data={done} {...props} />
-          ) : (
-            <MemoizedErrorScreen
-              msg={error ? (error as Error).message : ''}
-              setState={setEnabled}
-            />
-          )
-        }
+        {setChildrenByConditions({
+          isLoading,
+          tasks: done,
+          isFetching,
+          error: error as Error | null,
+          setEnabled,
+        })}
       </Tabs.Screen>
     </Tabs.Navigator>
   );
@@ -125,4 +116,37 @@ function separateTasks(tasks: Task[] | undefined) {
   }
 
   return [toDo, done] as const;
+}
+
+type SetChildrenByConditionsParam = {
+  isLoading: boolean;
+  tasks: Task[] | undefined;
+  isFetching: boolean;
+  error: Error | null;
+  setEnabled: Dispatch<SetStateAction<boolean>>;
+};
+type GetChildrenParam = {
+  route: RouteProp<RootTabParamList, keyof RootTabParamList>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  navigation: any;
+};
+function setChildrenByConditions({
+  isLoading,
+  tasks,
+  isFetching,
+  error,
+  setEnabled,
+}: SetChildrenByConditionsParam) {
+  // eslint-disable-next-line react/display-name
+  return (props: GetChildrenParam) =>
+    isLoading ? (
+      <MemoizedLoading />
+    ) : tasks ? (
+      <MemoizedList isPressDisabled={isFetching} data={tasks} {...props} />
+    ) : (
+      <MemoizedErrorScreen
+        msg={error ? (error as Error).message : ''}
+        setState={setEnabled}
+      />
+    );
 }
