@@ -2,12 +2,12 @@ import { Banner, Text } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { OpaqueColorValue, StyleSheet } from 'react-native';
+import { FC } from 'react';
 
 import { View } from './Themed';
 import { hideNotice, useEmployee } from 'src/context/employee';
 import { Error } from './ui';
 import { useAppTheme } from 'src/hooks/useAppTheme';
-import { FC, memo } from 'react';
 import { IconProps } from './ui/icons/types';
 
 type NoticeElement = {
@@ -26,8 +26,6 @@ function getStyledIcon({
   );
 }
 
-const MemoizedError = memo(Error);
-
 export function Notification() {
   const [
     {
@@ -39,9 +37,9 @@ export function Notification() {
   const { top, bottom } = useSafeAreaInsets();
 
   // eslint-disable-next-line prefer-const
-  let Icon: NoticeElement['Icon'] = MemoizedError;
-  let bannerColor: NoticeElement['bannerColor'] = '';
-  let contentColor: NoticeElement['contentColor'] = '';
+  let Icon: NoticeElement['Icon'] = Error;
+  let bannerColor: NoticeElement['bannerColor'] = undefined;
+  let contentColor: NoticeElement['contentColor'] = undefined;
 
   const { colors } = useAppTheme();
 
