@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    paddingTop: 32,
+    padding: 32,
   },
   indicator: {
     margin: 16,

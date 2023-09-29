@@ -6,7 +6,10 @@ const { colors } = paySauceThemeLight;
 
 const theme = {
   ...MD3LightTheme,
-  colors,
+  colors: {
+    ...MD3LightTheme.colors,
+    ...colors,
+  },
 };
 
 type AppTheme = typeof theme;
