@@ -4,7 +4,7 @@ import {
 } from '@react-navigation/material-top-tabs';
 import { Platform } from 'react-native';
 import { Text } from 'react-native-paper';
-import { memo, useState } from 'react';
+import { memo } from 'react';
 
 import { paySauceColor } from 'src/data/Colors';
 import { STATUS } from 'src/data/Status';
@@ -14,6 +14,7 @@ import { getTasks } from 'src/utils/api';
 import { useQueryWithRefreshOnFocus } from 'src/hooks/useQueryWithRefreshOnFocus';
 import { Loading } from 'src/screens/Loading/Loading';
 import { Task } from 'src/utils/schema';
+import { ErrorScreen } from 'src/screens/ErrorScreen';
 
 const Tabs = createMaterialTopTabNavigator<RootTabParamList>();
 
@@ -21,21 +22,21 @@ const { white, hotChilli } = paySauceColor;
 
 const MemoizedList = memo(List);
 const MemoizedLoading = memo(Loading);
+const MemoizedErrorScreen = memo(ErrorScreen);
 
 export default function TabLayout() {
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [{ isLoading }, isFetching] = useQueryWithRefreshOnFocus(
-    getTasks,
-    setTasks,
-  );
+  const [{ isLoading, isFetching, error, data: tasks }, setEnabled] =
+    useQueryWithRefreshOnFocus(getTasks);
 
-  const toDo: Task[] = [];
-  const done: Task[] = [];
+  const toDo: Task[] | undefined = tasks ? [] : undefined;
+  const done: Task[] | undefined = tasks ? [] : undefined;
 
-  for (let i = 0; i < tasks.length; i++) {
-    if (tasks) {
-      tasks[i].status === 'toDo' && toDo.push(tasks[i]);
-      tasks[i].status === 'done' && done.push(tasks[i]);
+  if (tasks) {
+    for (let i = 0; i < tasks.length; i++) {
+      {
+        tasks[i].status === 'toDo' && (toDo as Task[]).push(tasks[i]);
+        tasks[i].status === 'done' && (done as Task[]).push(tasks[i]);
+      }
     }
   }
 
@@ -57,25 +58,35 @@ export default function TabLayout() {
     >
       <Tabs.Screen
         name="index"
-        options={createOptions(STATUS.toDo, isLoading ? '--' : toDo.length)}
+        options={createOptions(STATUS.toDo, toDo ? toDo.length : '--')}
       >
         {(props) =>
           isLoading ? (
             <MemoizedLoading />
-          ) : (
+          ) : toDo ? (
             <MemoizedList isPressDisabled={isFetching} data={toDo} {...props} />
+          ) : (
+            <MemoizedErrorScreen
+              msg={error ? (error as Error).message : ''}
+              setState={setEnabled}
+            />
           )
         }
       </Tabs.Screen>
       <Tabs.Screen
         name="done"
-        options={createOptions(STATUS.done, isLoading ? '--' : done.length)}
+        options={createOptions(STATUS.done, done ? done.length : '--')}
       >
         {(props) =>
           isLoading ? (
             <MemoizedLoading />
-          ) : (
+          ) : done ? (
             <MemoizedList isPressDisabled={isFetching} data={done} {...props} />
+          ) : (
+            <MemoizedErrorScreen
+              msg={error ? (error as Error).message : ''}
+              setState={setEnabled}
+            />
           )
         }
       </Tabs.Screen>

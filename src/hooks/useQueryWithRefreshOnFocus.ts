@@ -1,82 +1,46 @@
 import { useFocusEffect } from '@react-navigation/native';
 import { useQuery } from '@tanstack/react-query';
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { getTasks } from 'src/utils/api';
 import { hideNotice, showErrorNotice, useEmployee } from 'src/context/employee';
 
-export function useQueryWithRefreshOnFocus<T>(
-  query: () => Promise<T>,
-  setState: Dispatch<SetStateAction<T>>,
-) {
+export function useQueryWithRefreshOnFocus<T>(query: () => Promise<T[]>) {
   const firstTimeRef = useRef(true);
 
+  const [enabled, setEnabled] = useState<boolean>(true);
   const result = useQuery({
     queryKey: ['tasks'],
-    queryFn: getTasks,
+    queryFn: query,
+    enabled, // Using manual query will lose the focus ability on web
   });
-  const { data, isError, error, isFetching } = result;
+  const { data, isError, error, isFetching, isSuccess } = result;
 
   const [, dispatch] = useEmployee();
 
-  const [isEitherFetching, setIsEitherFetching] = useState<boolean>(false);
-
   useEffect(() => {
-    if (data) {
-      setState(data as T);
+    if (isSuccess && !isFetching) {
       hideNotice(dispatch);
+      setEnabled(false);
     }
-  }, [data, dispatch, setState]);
+  }, [dispatch, isFetching, isSuccess]);
 
   useEffect(() => {
-    isError && showErrorNotice(dispatch, (error as Error).message);
-  }, [dispatch, error, isError]);
-
-  useEffect(() => {
-    setIsEitherFetching(isFetching);
-  }, [isFetching]);
+    if (isError) {
+      data && showErrorNotice(dispatch, (error as Error).message);
+      setEnabled(false);
+    }
+  }, [data, dispatch, error, isError]);
 
   useFocusEffect(
     useCallback(() => {
-      let isMounted: boolean = true;
-
       if (firstTimeRef.current) {
         firstTimeRef.current = false;
         return;
       }
 
-      setIsEitherFetching(true);
-
-      query()
-        .then((result) => {
-          if (isMounted) {
-            setState(result);
-            hideNotice(dispatch);
-            setIsEitherFetching(false);
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-          if (isMounted) {
-            showErrorNotice(dispatch, (err as Error).message);
-            setIsEitherFetching(false);
-          }
-
-          // Don't throw error here since it is the most outside layer
-        });
-
-      return () => {
-        isMounted = false;
-      };
-    }, [dispatch, query, setState]),
+      setEnabled(true);
+    }, []),
   );
 
-  return [result, isEitherFetching] as const;
+  return [result, setEnabled] as const;
 }
