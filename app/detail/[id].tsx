@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Redirect } from 'expo-router';
 import { useEffect, useState } from 'react';
 
-import { hideNotice, showNotice, useEmployee } from 'src/context/employee';
+import { hideNotice, showErrorNotice, useEmployee } from 'src/context/employee';
 import { useTaskLocalSearchParams } from 'src/hooks/useTaskLocalSearchParams';
 import { Detail } from 'src/screens/Detail';
 import { ErrorScreen } from 'src/screens/ErrorScreen';
@@ -38,7 +38,7 @@ export default function Route() {
       !isFetching &&
       isError &&
       task &&
-      showNotice(dispatch, (error as Error).message);
+      showErrorNotice(dispatch, (error as Error).message);
   }, [dispatch, error, isError, isFetching, isLoading, task]);
 
   // Hide previous notice if no errors from query

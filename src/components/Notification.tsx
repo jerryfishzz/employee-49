@@ -1,22 +1,54 @@
 import { Banner, Text } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { StyleSheet } from 'react-native';
+import { OpaqueColorValue, StyleSheet } from 'react-native';
 
 import { View } from './Themed';
-import { paySauceColor } from 'src/data/Colors';
 import { hideNotice, useEmployee } from 'src/context/employee';
 import { Error } from './ui';
+import { useAppTheme } from 'src/hooks/useAppTheme';
+import { FC, memo } from 'react';
+import { IconProps } from './ui/icons/types';
+
+type NoticeElement = {
+  Icon: FC<IconProps>;
+  bannerColor?: string | OpaqueColorValue | undefined;
+  contentColor?: string | OpaqueColorValue | undefined;
+};
+
+function getStyledIcon({
+  Icon,
+  bannerColor,
+  contentColor,
+}: NoticeElement): JSX.Element {
+  return (
+    <Icon iconColor={contentColor} style={{ backgroundColor: bannerColor }} />
+  );
+}
+
+const MemoizedError = memo(Error);
 
 export function Notification() {
   const [
     {
-      notification: { visible, notice },
+      notification: { visible, notice, type },
     },
     dispatch,
   ] = useEmployee();
 
   const { top, bottom } = useSafeAreaInsets();
+
+  // eslint-disable-next-line prefer-const
+  let Icon: NoticeElement['Icon'] = MemoizedError;
+  let bannerColor: NoticeElement['bannerColor'] = '';
+  let contentColor: NoticeElement['contentColor'] = '';
+
+  const { colors } = useAppTheme();
+
+  if (type === 'error') {
+    bannerColor = colors.error;
+    contentColor = colors.onError;
+  }
 
   return (
     <View style={styles.container}>
@@ -28,10 +60,10 @@ export function Notification() {
             marginTop: visible ? top : 0,
             marginBottom: visible ? bottom : 0,
           }}
-          style={styles.banner}
-          icon={() => <Error />}
+          style={{ backgroundColor: bannerColor }}
+          icon={() => getStyledIcon({ Icon, bannerColor, contentColor })}
         >
-          <Text variant="bodyLarge" style={styles.text}>
+          <Text variant="bodyLarge" style={{ color: contentColor }}>
             {notice}
           </Text>
         </Banner>
@@ -47,11 +79,5 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     zIndex: 1,
-  },
-  banner: {
-    backgroundColor: paySauceColor.blueberry,
-  },
-  text: {
-    color: paySauceColor.white,
   },
 });

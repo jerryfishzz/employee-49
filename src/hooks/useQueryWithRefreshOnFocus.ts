@@ -10,7 +10,7 @@ import {
 } from 'react';
 
 import { getTasks } from 'src/utils/api';
-import { hideNotice, showNotice, useEmployee } from 'src/context/employee';
+import { hideNotice, showErrorNotice, useEmployee } from 'src/context/employee';
 
 export function useQueryWithRefreshOnFocus<T>(
   query: () => Promise<T>,
@@ -36,7 +36,7 @@ export function useQueryWithRefreshOnFocus<T>(
   }, [data, dispatch, setState]);
 
   useEffect(() => {
-    isError && showNotice(dispatch, (error as Error).message);
+    isError && showErrorNotice(dispatch, (error as Error).message);
   }, [dispatch, error, isError]);
 
   useEffect(() => {
@@ -65,7 +65,7 @@ export function useQueryWithRefreshOnFocus<T>(
         .catch((err) => {
           console.error(err);
           if (isMounted) {
-            showNotice(dispatch, (err as Error).message);
+            showErrorNotice(dispatch, (err as Error).message);
             setIsEitherFetching(false);
           }
 
