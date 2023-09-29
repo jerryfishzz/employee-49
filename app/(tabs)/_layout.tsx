@@ -4,7 +4,7 @@ import {
 } from '@react-navigation/material-top-tabs';
 import { Platform } from 'react-native';
 import { Text } from 'react-native-paper';
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 
 import { paySauceColor } from 'src/data/Colors';
 import { STATUS } from 'src/data/Status';
@@ -28,17 +28,7 @@ export default function TabLayout() {
   const [{ isLoading, isFetching, error, data: tasks }, setEnabled] =
     useQueryWithRefreshOnFocus(getTasks);
 
-  const toDo: Task[] | undefined = tasks ? [] : undefined;
-  const done: Task[] | undefined = tasks ? [] : undefined;
-
-  if (tasks) {
-    for (let i = 0; i < tasks.length; i++) {
-      {
-        tasks[i].status === 'toDo' && (toDo as Task[]).push(tasks[i]);
-        tasks[i].status === 'done' && (done as Task[]).push(tasks[i]);
-      }
-    }
-  }
+  const [toDo, done] = useMemo(() => separateTasks(tasks), [tasks]);
 
   return (
     <Tabs.Navigator
@@ -119,4 +109,20 @@ function createOptions(title: string, counts: number | string) {
   };
 
   return options;
+}
+
+function separateTasks(tasks: Task[] | undefined) {
+  if (!tasks) return [undefined, undefined] as const;
+
+  const toDo: Task[] = [];
+  const done: Task[] = [];
+
+  for (let i = 0; i < tasks.length; i++) {
+    {
+      tasks[i].status === 'toDo' && toDo.push(tasks[i]);
+      tasks[i].status === 'done' && done.push(tasks[i]);
+    }
+  }
+
+  return [toDo, done] as const;
 }
