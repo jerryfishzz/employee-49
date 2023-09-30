@@ -33,11 +33,27 @@ export const paySauceColor = {
 export const paySauceThemeLight = {
   colors: {
     borderBottom: paySauceColor.lightGrey,
+    normal: 'rgb(86, 101, 0)',
+    onNormal: 'rgb(255, 255, 255)',
+    normalContainer: 'rgb(212, 239, 87)',
+    onNormalContainer: 'rgb(24, 30, 0)',
+    low: 'rgb(0, 102, 138)',
+    onLow: 'rgb(255, 255, 255)',
+    lowContainer: 'rgb(196, 231, 255)',
+    onLowContainer: 'rgb(0, 30, 44)',
   },
 };
 
 export const paySauceThemeDark = {
   colors: {
     borderBottom: paySauceColor.white,
+    normal: 'rgb(184, 210, 60)',
+    onNormal: 'rgb(43, 52, 0)',
+    normalContainer: 'rgb(64, 76, 0)',
+    onNormalContainer: 'rgb(212, 239, 87)',
+    low: 'rgb(124, 208, 255)',
+    onLow: 'rgb(0, 52, 74)',
+    lowContainer: 'rgb(0, 76, 105)',
+    onLowContainer: 'rgb(196, 231, 255)',
   },
 };

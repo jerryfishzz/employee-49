@@ -18,7 +18,7 @@ export function Detail({
   task: { title, status, description, due, priority },
 }: DetailProps) {
   const {
-    colors: { borderBottom, surfaceVariant },
+    colors: { borderBottom, surfaceVariant, normal, low },
   } = useAppTheme();
 
   const detailRowData: DetailRowData[] = [
@@ -118,11 +118,13 @@ export function Detail({
                 Icon: CheckCircle,
                 size: 56,
                 backgroundColor: surfaceVariant,
+                contentColor: normal,
               })
             : getStyledIcon({
                 Icon: RotateLeft,
                 size: 56,
                 backgroundColor: surfaceVariant,
+                contentColor: low,
               })}
           <Text variant="titleLarge" style={styles.btnText}>
             MARK AS {status === 'toDo' ? 'DONE' : 'TODO'}
