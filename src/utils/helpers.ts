@@ -21,9 +21,6 @@ export function safeValidateSource<T>(
   schema: z.Schema<T>,
   value: T | 'undefined',
 ) {
-  // For cases when the server result is undefined
-  if (value === '') return { data: '' };
-
   const newValue = schema.safeParse(value);
 
   if (!newValue.success) {
