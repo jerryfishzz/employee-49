@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const taskSchema = z.object({
+export const taskSchema = z.object({
   id: z.string({
     required_error: 'ID is required',
   }),
