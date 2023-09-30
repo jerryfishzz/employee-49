@@ -4,7 +4,7 @@ import date from 'date-and-time';
 
 import { View } from 'src/components/Themed';
 import { ContentRow, ContentRowAndroid } from 'src/components/ContentRow';
-import { Dot, RowDotAndroid } from 'src/components/ui';
+import { CheckCircle, Dot, RotateLeft, RowDotAndroid } from 'src/components/ui';
 import { PRIORITY } from 'src/data/Priority';
 import { DetailProps, DetailRowData } from './types';
 import { createContentBlock, createTitleBlock } from './helpers';
@@ -12,6 +12,7 @@ import { STATUS } from 'src/data/Status';
 import { useAppTheme } from 'src/hooks/useAppTheme';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { paySauceColor } from 'src/data/Colors';
+import { getStyledIcon } from 'src/components/utils';
 
 export function Detail({
   task: { title, status, description, due, priority },
@@ -112,6 +113,17 @@ export function Detail({
             console.log('yeah');
           }}
         >
+          {status === 'toDo'
+            ? getStyledIcon({
+                Icon: CheckCircle,
+                size: 56,
+                backgroundColor: surfaceVariant,
+              })
+            : getStyledIcon({
+                Icon: RotateLeft,
+                size: 56,
+                backgroundColor: surfaceVariant,
+              })}
           <Text variant="titleLarge" style={styles.btnText}>
             MARK AS {status === 'toDo' ? 'DONE' : 'TODO'}
           </Text>
