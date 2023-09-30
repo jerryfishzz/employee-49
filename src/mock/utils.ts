@@ -27,7 +27,7 @@ export const delayedResponse = createResponseComposition(undefined, [
 export function createErrorChangeOnResponse(zeroToTen: number) {
   return (
     data: string,
-    processData: (data: string) => unknown,
+    processData: (data: string) => unknown | undefined,
     context: RestContext,
   ) => {
     const random = Math.floor(Math.random() * 9); // random number from 0 to 9

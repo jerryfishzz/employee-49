@@ -10,6 +10,7 @@ import {
   makeGetEndpoint,
 } from './utils';
 import { strToNum } from 'src/utils/helpers';
+import { Task } from 'src/utils/schema';
 
 const { EXPO_PUBLIC_MOCKING_ERROR_CHANCE } = process.env;
 const errorChance =
@@ -70,7 +71,7 @@ function parseTaskObjStrToTasks(taskObjStr: string) {
 }
 
 function setTaskKey(key: string) {
-  return (taskObjStr: string) =>
+  return (taskObjStr: string): Task | undefined =>
     JSON.parse(taskObjStr)[key] ? JSON.parse(taskObjStr)[key] : undefined;
 }
 

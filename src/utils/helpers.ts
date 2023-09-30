@@ -17,7 +17,13 @@ export function validateSource<T>(schema: z.Schema<T>, value: T) {
 
 // Use this at the client side api, not the server side handler.
 // This is for the validation of return data from the server.
-export function safeValidateSource<T>(schema: z.Schema<T>, value: T) {
+export function safeValidateSource<T>(
+  schema: z.Schema<T>,
+  value: T | 'undefined',
+) {
+  // For cases when the server result is undefined
+  if (value === '') return { data: '' };
+
   const newValue = schema.safeParse(value);
 
   if (!newValue.success) {
