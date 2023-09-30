@@ -52,6 +52,8 @@ export default function Route() {
   }, [isFetching, isLoading]);
 
   // Redirect when id does not exists
+  // Note, task should be a blank string '' under this case
+  // since isError is false.
   if (!isLoading && !isFetching && !isError && !task) {
     return <Redirect href="/404" />;
   }
