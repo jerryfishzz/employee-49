@@ -64,6 +64,28 @@ const handlers = [
     return delayedResponse(ctx.json({ message: 'done' }));
   }),
   rest.get(`${HOST_URL}/detail/:id`, detailHandler),
+  rest.post(`${HOST_URL}/detail`, async (req, res, ctx) => {
+    try {
+      const task = (await req.json()) as Task;
+      console.log(task);
+
+      const taskObjStr = await AsyncStorage.getItem(
+        STORAGE_KEY_TASK_MAP_OBJECT,
+      );
+      const taskObj = JSON.parse(taskObjStr as string);
+      taskObj[task.id] = task;
+
+      await AsyncStorage.setItem(
+        STORAGE_KEY_TASK_MAP_OBJECT,
+        JSON.stringify(taskObj),
+      );
+
+      return delayedResponse(ctx.json(task));
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }),
 ];
 
 function parseTaskObjStrToTasks(taskObjStr: string) {

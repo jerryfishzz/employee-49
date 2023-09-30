@@ -27,3 +27,16 @@ export async function getDetail(id: string): Promise<Task> {
     throw e;
   }
 }
+
+export async function updateDetail(task: Task): Promise<Task> {
+  try {
+    const response = await axios.post(`${HOST_URL}/detail`, task);
+    console.log('updateDetail');
+    console.log(response);
+    const validatedTasks = safeValidateSource(taskSchema, response.data);
+    return validatedTasks.data;
+  } catch (e) {
+    console.error(e);
+    throw e;
+  }
+}

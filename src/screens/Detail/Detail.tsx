@@ -1,6 +1,7 @@
 import { Platform, ScrollView, StyleSheet } from 'react-native';
 import { List, Text } from 'react-native-paper';
 import date from 'date-and-time';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { View } from 'src/components/Themed';
 import { ContentRow, ContentRowAndroid } from 'src/components/ContentRow';
@@ -13,13 +14,31 @@ import { useAppTheme } from 'src/hooks/useAppTheme';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { paySauceColor } from 'src/data/Colors';
 import { getStyledIcon } from 'src/components/utils';
+import { updateDetail } from 'src/utils/api';
 
-export function Detail({
-  task: { title, status, description, due, priority },
-}: DetailProps) {
+export function Detail({ task }: DetailProps) {
+  const { id, title, status, description, due, priority } = task;
   const {
     colors: { borderBottom, surfaceVariant, normal, low },
   } = useAppTheme();
+
+  const queryClient = useQueryClient();
+  const updateDetailMutation = useMutation({
+    mutationFn: updateDetail,
+    onSuccess: (data) => {
+      console.log(data);
+      queryClient.invalidateQueries(['detail', id]);
+      queryClient.setQueryData(['detail', id], data);
+    },
+  });
+
+  const handlePress = () => {
+    updateDetailMutation.mutate({
+      ...task,
+      status: status === 'done' ? 'toDo' : 'done',
+      completed: status === 'done' ? null : new Date().toISOString(),
+    });
+  };
 
   const detailRowData: DetailRowData[] = [
     {
@@ -107,12 +126,7 @@ export function Detail({
       <View
         style={[styles.touchableWrapper, { backgroundColor: surfaceVariant }]}
       >
-        <TouchableOpacity
-          style={styles.touchableBtn}
-          onPress={() => {
-            console.log('yeah');
-          }}
-        >
+        <TouchableOpacity style={styles.touchableBtn} onPress={handlePress}>
           {status === 'toDo'
             ? getStyledIcon({
                 Icon: CheckCircle,
