@@ -1,30 +1,13 @@
 import { Banner, Text } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { OpaqueColorValue, StyleSheet } from 'react-native';
-import { FC } from 'react';
+import { StyleSheet } from 'react-native';
 
 import { View } from './Themed';
 import { hideNotice, useEmployee } from 'src/context/employee';
 import { Error } from './ui';
 import { useAppTheme } from 'src/hooks/useAppTheme';
-import { IconProps } from './ui/icons/types';
-
-type NoticeElement = {
-  Icon: FC<IconProps>;
-  bannerColor?: string | OpaqueColorValue | undefined;
-  contentColor?: string | OpaqueColorValue | undefined;
-};
-
-function getStyledIcon({
-  Icon,
-  bannerColor,
-  contentColor,
-}: NoticeElement): JSX.Element {
-  return (
-    <Icon iconColor={contentColor} style={{ backgroundColor: bannerColor }} />
-  );
-}
+import { NoticeElement, getStyledIcon } from './utils';
 
 export function Notification() {
   const [
@@ -38,13 +21,13 @@ export function Notification() {
 
   // eslint-disable-next-line prefer-const
   let Icon: NoticeElement['Icon'] = Error;
-  let bannerColor: NoticeElement['bannerColor'] = undefined;
+  let backgroundColor: NoticeElement['backgroundColor'] = undefined;
   let contentColor: NoticeElement['contentColor'] = undefined;
 
   const { colors } = useAppTheme();
 
   if (type === 'error') {
-    bannerColor = colors.error;
+    backgroundColor = colors.error;
     contentColor = colors.onError;
   }
 
@@ -58,8 +41,8 @@ export function Notification() {
             marginTop: visible ? top : 0,
             marginBottom: visible ? bottom : 0,
           }}
-          style={{ backgroundColor: bannerColor }}
-          icon={() => getStyledIcon({ Icon, bannerColor, contentColor })}
+          style={{ backgroundColor }}
+          icon={() => getStyledIcon({ Icon, backgroundColor, contentColor })}
         >
           <Text variant="bodyLarge" style={{ color: contentColor }}>
             {notice}
