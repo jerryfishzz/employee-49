@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import { Redirect } from 'expo-router';
 import { useEffect, useState } from 'react';
 
@@ -52,9 +53,12 @@ export default function Route() {
   }, [isFetching, isLoading]);
 
   // Redirect when id does not exists
-  // Note, task should be a blank string '' under this case
-  // since isError is false.
-  if (!isLoading && !isFetching && !isError && !task) {
+  if (
+    !isLoading &&
+    !isFetching &&
+    isError &&
+    (error as AxiosError).response?.status === 404
+  ) {
     return <Redirect href="/404" />;
   }
 

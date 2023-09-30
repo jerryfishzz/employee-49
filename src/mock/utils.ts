@@ -33,7 +33,9 @@ export function createErrorChangeOnResponse(zeroToTen: number) {
     const random = Math.floor(Math.random() * 9); // random number from 0 to 9
     console.log(random);
     return random >= zeroToTen
-      ? context.json(processData(data))
+      ? processData(data) === undefined
+        ? context.status(404)
+        : context.json(processData(data))
       : context.status(500);
   };
 }
