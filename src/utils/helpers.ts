@@ -15,6 +15,8 @@ export function validateSource<T>(schema: z.Schema<T>, value: T) {
   return newValue;
 }
 
+// Use this at the client side api, not the server side handler.
+// This is for the validation of return data from the server.
 export function safeValidateSource<T>(schema: z.Schema<T>, value: T) {
   const newValue = schema.safeParse(value);
 

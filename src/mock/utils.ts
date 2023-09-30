@@ -1,4 +1,13 @@
-import { createResponseComposition, context, RestContext } from 'msw';
+import {
+  createResponseComposition,
+  context,
+  RestContext,
+  RestRequest,
+  PathParams,
+  ResponseComposition,
+} from 'msw';
+import { z } from 'zod';
+
 import { strToNum } from 'src/utils/helpers';
 
 const { NODE_ENV, EXPO_PUBLIC_MOCKING_DELAY } = process.env;
@@ -37,4 +46,32 @@ export function arrayToMap<T extends object>(
     (item) => [item[handler] as string, item] as const,
   );
   return new Map(mapReadyArray);
+}
+
+interface CallbackRequest<TParams extends PathParams> extends RestRequest {
+  params: TParams;
+}
+
+export function makeGetEndpoint<TParams extends PathParams>(
+  paramsSchema: z.Schema<TParams>,
+  callback: (
+    req: CallbackRequest<TParams>,
+    res: ResponseComposition,
+    ctx: RestContext,
+  ) => void,
+) {
+  return (req: RestRequest, res: ResponseComposition, ctx: RestContext) => {
+    const schema = z.object({
+      params: paramsSchema,
+    });
+    const result = schema.safeParse(req);
+
+    if (!result.success) {
+      // No need to return message since axios will ignore it and use its own message
+      return delayedResponse(ctx.status(400));
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return callback(req as any, res, ctx);
+  };
 }
