@@ -26,7 +26,6 @@ export function Detail({ task }: DetailProps) {
   const updateDetailMutation = useMutation({
     mutationFn: updateDetail,
     onSuccess: (data) => {
-      console.log(data);
       queryClient.invalidateQueries(['detail', id]);
       queryClient.setQueryData(['detail', id], data);
     },
