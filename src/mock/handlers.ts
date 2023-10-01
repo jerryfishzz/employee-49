@@ -48,7 +48,7 @@ const postDetailHandler = makeGetEndpoint(
   taskSchema,
   async (req, res, ctx) => {
     try {
-      const task = await req.json<z.infer<typeof taskSchema>>();
+      const task = await req.json();
 
       const taskObjStr = await AsyncStorage.getItem(
         STORAGE_KEY_TASK_MAP_OBJECT,

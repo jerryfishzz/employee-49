@@ -56,6 +56,7 @@ interface CallbackRequest<
   TBody extends DefaultBodyType = DefaultBodyType,
 > extends RestRequest<TBody> {
   params: TParams;
+  json: <T = TBody>() => Promise<T>;
 }
 
 export function makeGetEndpoint<
