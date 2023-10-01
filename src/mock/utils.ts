@@ -5,6 +5,7 @@ import {
   RestRequest,
   PathParams,
   ResponseComposition,
+  DefaultBodyType,
 } from 'msw';
 import { z } from 'zod';
 
@@ -50,22 +51,33 @@ export function arrayToMap<T extends object>(
   return new Map(mapReadyArray);
 }
 
-interface CallbackRequest<TParams extends PathParams> extends RestRequest {
+interface CallbackRequest<
+  TParams extends PathParams,
+  TBody extends DefaultBodyType = DefaultBodyType,
+> extends RestRequest<TBody> {
   params: TParams;
 }
 
-export function makeGetEndpoint<TParams extends PathParams>(
-  paramsSchema: z.Schema<TParams>,
+export function makeGetEndpoint<
+  TParams extends PathParams,
+  TBody extends DefaultBodyType = DefaultBodyType,
+>(
+  paramsSchema: z.Schema<TParams> | null,
+  bodySchema: z.Schema<TBody> | null,
   callback: (
-    req: CallbackRequest<TParams>,
+    req: CallbackRequest<TParams, TBody>,
     res: ResponseComposition,
     ctx: RestContext,
   ) => void,
 ) {
   return (req: RestRequest, res: ResponseComposition, ctx: RestContext) => {
-    const schema = z.object({
-      params: paramsSchema,
-    });
+    const params = paramsSchema ? { params: paramsSchema } : {};
+    const body = bodySchema ? { body: bodySchema } : {};
+    const schema = z.object(
+      !paramsSchema && !bodySchema
+        ? {}
+        : { ...(params as object), ...(body as object) },
+    );
     const result = schema.safeParse(req);
 
     if (!result.success) {

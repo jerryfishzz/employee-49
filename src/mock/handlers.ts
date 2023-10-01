@@ -10,7 +10,7 @@ import {
   makeGetEndpoint,
 } from './utils';
 import { strToNum } from 'src/utils/helpers';
-import { Task } from 'src/utils/schema';
+import { Task, taskSchema } from 'src/utils/schema';
 
 const { EXPO_PUBLIC_MOCKING_ERROR_CHANCE } = process.env;
 const errorChance =
@@ -20,8 +20,9 @@ const errorChance =
 
 const getResponseWithErrorByChance = createErrorChangeOnResponse(errorChance);
 
-const detailHandler = makeGetEndpoint(
+const getDetailHandler = makeGetEndpoint(
   z.object({ id: z.string() }),
+  null,
   async (req, res, ctx) => {
     try {
       const taskObjStr = await AsyncStorage.getItem(
@@ -35,6 +36,33 @@ const detailHandler = makeGetEndpoint(
           ctx,
         ),
       );
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
+);
+
+const postDetailHandler = makeGetEndpoint(
+  null,
+  taskSchema,
+  async (req, res, ctx) => {
+    try {
+      const task = await req.json<z.infer<typeof taskSchema>>();
+      console.log(task);
+
+      const taskObjStr = await AsyncStorage.getItem(
+        STORAGE_KEY_TASK_MAP_OBJECT,
+      );
+      const taskObj = JSON.parse(taskObjStr as string);
+      taskObj[task.id] = task;
+
+      await AsyncStorage.setItem(
+        STORAGE_KEY_TASK_MAP_OBJECT,
+        JSON.stringify(taskObj),
+      );
+
+      return delayedResponse(ctx.json(task));
     } catch (error) {
       console.error(error);
       throw error;
@@ -63,29 +91,8 @@ const handlers = [
   rest.get(`${HOST_URL}/done`, async (req, res, ctx) => {
     return delayedResponse(ctx.json({ message: 'done' }));
   }),
-  rest.get(`${HOST_URL}/detail/:id`, detailHandler),
-  rest.post(`${HOST_URL}/detail`, async (req, res, ctx) => {
-    try {
-      const task = (await req.json()) as Task;
-      console.log(task);
-
-      const taskObjStr = await AsyncStorage.getItem(
-        STORAGE_KEY_TASK_MAP_OBJECT,
-      );
-      const taskObj = JSON.parse(taskObjStr as string);
-      taskObj[task.id] = task;
-
-      await AsyncStorage.setItem(
-        STORAGE_KEY_TASK_MAP_OBJECT,
-        JSON.stringify(taskObj),
-      );
-
-      return delayedResponse(ctx.json(task));
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  }),
+  rest.get(`${HOST_URL}/detail/:id`, getDetailHandler),
+  rest.post(`${HOST_URL}/detail`, postDetailHandler),
 ];
 
 function parseTaskObjStrToTasks(taskObjStr: string) {
