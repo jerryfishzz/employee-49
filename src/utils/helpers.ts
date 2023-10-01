@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { z } from 'zod';
 
 // Get a date object offset by offsetDays
@@ -38,4 +39,8 @@ export function safeValidateSource<T>(schema: z.Schema<T>, value: T) {
 
 export function strToNum(str: string): number {
   return isNaN(Number(str)) ? 0 : Number(str);
+}
+
+export function getErrorText(error: AxiosError): string {
+  return error.response ? error.response.statusText : error.message;
 }

@@ -9,6 +9,7 @@ import { Detail } from 'src/screens/Detail';
 import { ErrorScreen } from 'src/screens/ErrorScreen';
 import { Loading } from 'src/screens/Loading';
 import { getDetail } from 'src/utils/api';
+import { getErrorText } from 'src/utils/helpers';
 
 export default function Route() {
   const { id } = useTaskLocalSearchParams();
@@ -39,7 +40,7 @@ export default function Route() {
       !isFetching &&
       isError &&
       task &&
-      showErrorNotice(dispatch, (error as Error).message);
+      showErrorNotice(dispatch, getErrorText(error as AxiosError));
   }, [dispatch, error, isError, isFetching, isLoading, task]);
 
   // Hide previous notice if no errors from query

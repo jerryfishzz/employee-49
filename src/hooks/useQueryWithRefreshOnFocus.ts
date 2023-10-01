@@ -1,8 +1,10 @@
 import { useFocusEffect } from '@react-navigation/native';
 import { useQuery } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { hideNotice, showErrorNotice, useEmployee } from 'src/context/employee';
+import { getErrorText } from 'src/utils/helpers';
 
 export function useQueryWithRefreshOnFocus<T>(
   query: () => Promise<T[]>,
@@ -29,7 +31,7 @@ export function useQueryWithRefreshOnFocus<T>(
 
   useEffect(() => {
     if (isError) {
-      data && showErrorNotice(dispatch, (error as Error).message);
+      data && showErrorNotice(dispatch, getErrorText(error as AxiosError));
       setEnabled(false);
     }
   }, [data, dispatch, error, isError]);
