@@ -9,7 +9,7 @@ import {
   createErrorChangeOnResponse,
   makeGetEndpoint,
 } from './utils';
-import { strToNum } from 'src/utils/helpers';
+import { createZodErrorMessage, strToNum } from 'src/utils/helpers';
 import { Task, taskSchema } from 'src/utils/schema';
 
 const { EXPO_PUBLIC_MOCKING_ERROR_CHANCE } = process.env;
@@ -22,7 +22,6 @@ const getResponseWithErrorByChance = createErrorChangeOnResponse(errorChance);
 
 const getDetailHandler = makeGetEndpoint(
   z.object({ id: z.string({ required_error: 'id is required' }) }),
-  null,
   async (req, res, ctx) => {
     try {
       const taskObjStr = await AsyncStorage.getItem(
@@ -38,33 +37,7 @@ const getDetailHandler = makeGetEndpoint(
       );
     } catch (error) {
       console.error(error);
-      throw error;
-    }
-  },
-);
-
-const postDetailHandler = makeGetEndpoint(
-  null,
-  taskSchema,
-  async (req, res, ctx) => {
-    try {
-      const task = await req.json();
-
-      const taskObjStr = await AsyncStorage.getItem(
-        STORAGE_KEY_TASK_MAP_OBJECT,
-      );
-      const taskObj = JSON.parse(taskObjStr as string);
-      taskObj[task.id] = task;
-
-      await AsyncStorage.setItem(
-        STORAGE_KEY_TASK_MAP_OBJECT,
-        JSON.stringify(taskObj),
-      );
-
-      return delayedResponse(ctx.json(task));
-    } catch (error) {
-      console.error(error);
-      throw error;
+      return delayedResponse(ctx.status(500, (error as Error).message));
     }
   },
 );
@@ -84,14 +57,42 @@ const handlers = [
       );
     } catch (error) {
       console.error(error);
-      throw error;
+      return delayedResponse(ctx.status(500, (error as Error).message));
     }
   }),
   rest.get(`${HOST_URL}/done`, async (req, res, ctx) => {
     return delayedResponse(ctx.json({ message: 'done' }));
   }),
   rest.get(`${HOST_URL}/detail/:id`, getDetailHandler),
-  rest.post(`${HOST_URL}/detail`, postDetailHandler),
+  rest.post(`${HOST_URL}/detail`, async (req, res, ctx) => {
+    try {
+      const task = await req.json();
+
+      // task cannot be validated in makeGetEndpoint
+      // since req.json() can only be called once.
+      const result = taskSchema.safeParse(task);
+      if (!result.success) {
+        const { issues } = result.error;
+        return delayedResponse(ctx.status(400, createZodErrorMessage(issues)));
+      }
+
+      const taskObjStr = await AsyncStorage.getItem(
+        STORAGE_KEY_TASK_MAP_OBJECT,
+      );
+      const taskObj = JSON.parse(taskObjStr as string);
+      taskObj[task.id] = task;
+
+      await AsyncStorage.setItem(
+        STORAGE_KEY_TASK_MAP_OBJECT,
+        JSON.stringify(taskObj),
+      );
+
+      return delayedResponse(ctx.json(task));
+    } catch (error) {
+      console.error(error);
+      return delayedResponse(ctx.status(500, (error as Error).message));
+    }
+  }),
 ];
 
 function parseTaskObjStrToTasks(taskObjStr: string) {
