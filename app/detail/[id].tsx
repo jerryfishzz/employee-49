@@ -27,12 +27,7 @@ export default function Route() {
     enabled,
   });
 
-  const [
-    {
-      notification: { visible },
-    },
-    dispatch,
-  ] = useEmployee();
+  const [, dispatch] = useEmployee();
 
   // Show error notice only when task already exists
   useEffect(() => {
@@ -45,12 +40,14 @@ export default function Route() {
 
   // Hide previous notice if no errors from query
   useEffect(() => {
-    !isLoading && !isFetching && !isError && visible && hideNotice(dispatch);
-  }, [dispatch, isError, isFetching, isLoading, visible]);
+    !isLoading && !isFetching && !isError && hideNotice(dispatch);
+  }, [dispatch, isError, isFetching, isLoading]);
 
   // Disable the query when data received
   useEffect(() => {
-    !isLoading && !isFetching && setEnabled(false);
+    if (!isLoading && !isFetching) {
+      setEnabled(false);
+    }
   }, [isFetching, isLoading]);
 
   // Redirect when id does not exists
@@ -73,7 +70,7 @@ export default function Route() {
         <ErrorScreen
           msg={(error as AxiosError).message}
           zodMsg={(error as AxiosError).response?.statusText}
-          setState={setEnabled}
+          setEnabled={setEnabled}
         />
       )}
     </>

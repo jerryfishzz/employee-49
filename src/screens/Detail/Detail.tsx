@@ -2,6 +2,7 @@ import { Platform, ScrollView, StyleSheet } from 'react-native';
 import { List, Text } from 'react-native-paper';
 import date from 'date-and-time';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
 import { View } from 'src/components/Themed';
 import { ContentRow, ContentRowAndroid } from 'src/components/ContentRow';
@@ -16,6 +17,8 @@ import { paySauceColor } from 'src/data/Colors';
 import { getStyledIcon } from 'src/components/utils';
 import { getTasks, updateDetail } from 'src/utils/api';
 import { useQueryWithRefreshOnFocus } from 'src/hooks/useQueryWithRefreshOnFocus';
+import { hideNotice, showErrorNotice, useEmployee } from 'src/context/employee';
+import { getErrorText } from 'src/utils/helpers';
 
 export function Detail({ task }: DetailProps) {
   const { id, title, status, description, due, priority } = task;
@@ -25,18 +28,24 @@ export function Detail({ task }: DetailProps) {
 
   const [, setEnabled] = useQueryWithRefreshOnFocus(getTasks, false);
 
+  const [, dispatch] = useEmployee();
+
   const queryClient = useQueryClient();
-  const updateDetailMutation = useMutation({
+  const createPostMutation = useMutation({
     mutationFn: updateDetail,
     onSuccess: (data) => {
       queryClient.invalidateQueries(['detail', id]);
       queryClient.setQueryData(['detail', id], data);
       setEnabled(true);
+      hideNotice(dispatch);
+    },
+    onError: (error) => {
+      showErrorNotice(dispatch, getErrorText(error as AxiosError));
     },
   });
 
   const handlePress = () => {
-    updateDetailMutation.mutate({
+    createPostMutation.mutate({
       ...task,
       status: status === 'done' ? 'toDo' : 'done',
       completed: status === 'done' ? null : new Date().toISOString(),

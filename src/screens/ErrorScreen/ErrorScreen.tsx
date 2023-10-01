@@ -8,10 +8,10 @@ import { Error } from 'src/components/ui';
 type ErrorScreenProps = {
   msg: string;
   zodMsg?: string;
-  setState: Dispatch<SetStateAction<boolean>>;
+  setEnabled: Dispatch<SetStateAction<boolean>>;
 };
 
-export function ErrorScreen({ msg, zodMsg, setState }: ErrorScreenProps) {
+export function ErrorScreen({ msg, zodMsg, setEnabled }: ErrorScreenProps) {
   return (
     <View style={styles.container}>
       <Error size={64} style={styles.error} />
@@ -25,7 +25,7 @@ export function ErrorScreen({ msg, zodMsg, setState }: ErrorScreenProps) {
       )}
       <Button
         onPress={() => {
-          setState(true);
+          setEnabled(true);
         }}
       >
         REFRESH

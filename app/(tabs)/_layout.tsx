@@ -148,7 +148,7 @@ function setChildrenByConditions({
       <MemoizedErrorScreen
         msg={error ? (error as AxiosError).message : 'Unknown error'}
         zodMsg={error ? (error as AxiosError).response?.statusText : ''}
-        setState={setEnabled}
+        setEnabled={setEnabled}
       />
     );
 }
