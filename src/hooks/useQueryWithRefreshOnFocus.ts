@@ -4,10 +4,13 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { hideNotice, showErrorNotice, useEmployee } from 'src/context/employee';
 
-export function useQueryWithRefreshOnFocus<T>(query: () => Promise<T[]>) {
+export function useQueryWithRefreshOnFocus<T>(
+  query: () => Promise<T[]>,
+  initialEnabled: boolean = true,
+) {
   const firstTimeRef = useRef(true);
 
-  const [enabled, setEnabled] = useState<boolean>(true);
+  const [enabled, setEnabled] = useState<boolean>(initialEnabled);
   const result = useQuery({
     queryKey: ['tasks'],
     queryFn: query,

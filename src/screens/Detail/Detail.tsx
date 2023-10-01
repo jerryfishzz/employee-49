@@ -14,7 +14,8 @@ import { useAppTheme } from 'src/hooks/useAppTheme';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { paySauceColor } from 'src/data/Colors';
 import { getStyledIcon } from 'src/components/utils';
-import { updateDetail } from 'src/utils/api';
+import { getTasks, updateDetail } from 'src/utils/api';
+import { useQueryWithRefreshOnFocus } from 'src/hooks/useQueryWithRefreshOnFocus';
 
 export function Detail({ task }: DetailProps) {
   const { id, title, status, description, due, priority } = task;
@@ -22,12 +23,15 @@ export function Detail({ task }: DetailProps) {
     colors: { borderBottom, surfaceVariant, normal, low },
   } = useAppTheme();
 
+  const [, setEnabled] = useQueryWithRefreshOnFocus(getTasks, false);
+
   const queryClient = useQueryClient();
   const updateDetailMutation = useMutation({
     mutationFn: updateDetail,
     onSuccess: (data) => {
       queryClient.invalidateQueries(['detail', id]);
       queryClient.setQueryData(['detail', id], data);
+      setEnabled(true);
     },
   });
 
