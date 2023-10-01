@@ -5,7 +5,7 @@ import { StyleSheet } from 'react-native';
 
 import { View } from './Themed';
 import { hideNotice, useEmployee } from 'src/context/employee';
-import { Error } from './ui';
+import { CheckCircle, Error } from './ui';
 import { useAppTheme } from 'src/hooks/useAppTheme';
 import { NoticeElement, getStyledIcon } from './utils';
 
@@ -29,6 +29,12 @@ export function Notification() {
   if (type === 'error') {
     backgroundColor = colors.error;
     contentColor = colors.onError;
+  }
+
+  if (type === 'success') {
+    Icon = CheckCircle;
+    backgroundColor = colors.normal;
+    contentColor = colors.onNormal;
   }
 
   return (

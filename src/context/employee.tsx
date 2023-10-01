@@ -7,13 +7,17 @@ type Action =
   | {
       type: 'SHOW_ERROR_NOTICE';
       notice: string;
+    }
+  | {
+      type: 'SHOW_SUCCESS_NOTICE';
+      notice: string;
     };
 
 type EmployeeState = {
   notification: {
     visible: boolean;
     notice: string;
-    type?: 'error';
+    type?: 'error' | 'success';
   };
 };
 
@@ -58,6 +62,16 @@ function employeeReducer(state: EmployeeState, action: Action): EmployeeState {
           type: 'error',
         },
       };
+    case 'SHOW_SUCCESS_NOTICE':
+      return {
+        ...state,
+        notification: {
+          ...state.notification,
+          visible: true,
+          notice: action.notice,
+          type: 'success',
+        },
+      };
     default:
       throw new Error('Unknown action type');
   }
@@ -70,6 +84,13 @@ export function hideNotice(dispatch: Dispatch<Action>) {
 export function showErrorNotice(dispatch: Dispatch<Action>, notice: string) {
   dispatch({
     type: 'SHOW_ERROR_NOTICE',
+    notice,
+  });
+}
+
+export function showSuccessNotice(dispatch: Dispatch<Action>, notice: string) {
+  dispatch({
+    type: 'SHOW_SUCCESS_NOTICE',
     notice,
   });
 }

@@ -5,7 +5,6 @@ import {
   RestRequest,
   PathParams,
   ResponseComposition,
-  DefaultBodyType,
 } from 'msw';
 import { z } from 'zod';
 

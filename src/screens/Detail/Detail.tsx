@@ -17,7 +17,11 @@ import { paySauceColor } from 'src/data/Colors';
 import { getStyledIcon } from 'src/components/utils';
 import { getTasks, updateDetail } from 'src/utils/api';
 import { useQueryWithRefreshOnFocus } from 'src/hooks/useQueryWithRefreshOnFocus';
-import { hideNotice, showErrorNotice, useEmployee } from 'src/context/employee';
+import {
+  showErrorNotice,
+  showSuccessNotice,
+  useEmployee,
+} from 'src/context/employee';
 import { getErrorText } from 'src/utils/helpers';
 
 export function Detail({ task }: DetailProps) {
@@ -36,8 +40,8 @@ export function Detail({ task }: DetailProps) {
     onSuccess: (data) => {
       queryClient.invalidateQueries(['detail', id]);
       queryClient.setQueryData(['detail', id], data);
-      setEnabled(true);
-      hideNotice(dispatch);
+      // setEnabled(true);
+      showSuccessNotice(dispatch, 'Status modified');
     },
     onError: (error) => {
       showErrorNotice(dispatch, getErrorText(error as AxiosError));
