@@ -5,6 +5,7 @@ import {
 import { Platform } from 'react-native';
 import { Text } from 'react-native-paper';
 import { Dispatch, SetStateAction, memo, useMemo } from 'react';
+import { AxiosError } from 'axios';
 
 import { paySauceColor } from 'src/data/Colors';
 import { STATUS } from 'src/data/Status';
@@ -145,7 +146,8 @@ function setChildrenByConditions({
       <MemoizedList isPressDisabled={isFetching} data={tasks} {...props} />
     ) : (
       <MemoizedErrorScreen
-        msg={error ? (error as Error).message : ''}
+        msg={error ? (error as AxiosError).message : 'Unknown error'}
+        zodMsg={error ? (error as AxiosError).response?.statusText : ''}
         setState={setEnabled}
       />
     );

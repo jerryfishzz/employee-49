@@ -69,7 +69,11 @@ export default function Route() {
       ) : task ? (
         <Detail task={task} />
       ) : (
-        <ErrorScreen msg={(error as Error).message} setState={setEnabled} />
+        <ErrorScreen
+          msg={(error as AxiosError).message}
+          zodMsg={(error as AxiosError).response?.statusText}
+          setState={setEnabled}
+        />
       )}
     </>
   );

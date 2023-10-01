@@ -9,7 +9,7 @@ import {
 } from 'msw';
 import { z } from 'zod';
 
-import { strToNum } from 'src/utils/helpers';
+import { createZodErrorMessage, strToNum } from 'src/utils/helpers';
 
 const { NODE_ENV, EXPO_PUBLIC_MOCKING_DELAY } = process.env;
 
@@ -83,7 +83,8 @@ export function makeGetEndpoint<
 
     if (!result.success) {
       // No need to return message since axios will ignore it and use its own message
-      return delayedResponse(ctx.status(400));
+      const { issues } = result.error;
+      return delayedResponse(ctx.status(400, createZodErrorMessage(issues)));
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

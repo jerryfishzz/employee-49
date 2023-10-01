@@ -21,7 +21,7 @@ const errorChance =
 const getResponseWithErrorByChance = createErrorChangeOnResponse(errorChance);
 
 const getDetailHandler = makeGetEndpoint(
-  z.object({ id: z.string() }),
+  z.object({ id: z.string({ required_error: 'id is required' }) }),
   null,
   async (req, res, ctx) => {
     try {

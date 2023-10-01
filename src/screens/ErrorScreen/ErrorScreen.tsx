@@ -7,17 +7,22 @@ import { Error } from 'src/components/ui';
 
 type ErrorScreenProps = {
   msg: string;
+  zodMsg?: string;
   setState: Dispatch<SetStateAction<boolean>>;
 };
 
-export function ErrorScreen({ msg, setState }: ErrorScreenProps) {
+export function ErrorScreen({ msg, zodMsg, setState }: ErrorScreenProps) {
   return (
     <View style={styles.container}>
       <Error size={64} style={styles.error} />
       <Text variant="bodyLarge" style={styles.text}>
         {msg}
       </Text>
-
+      {zodMsg && (
+        <Text variant="bodyLarge" style={styles.text}>
+          {zodMsg}
+        </Text>
+      )}
       <Button
         onPress={() => {
           setState(true);
@@ -40,5 +45,6 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: 'center',
+    marginVertical: 4,
   },
 });

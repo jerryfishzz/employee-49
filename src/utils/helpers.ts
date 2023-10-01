@@ -15,22 +15,22 @@ export function validateSource<T>(schema: z.Schema<T>, value: T) {
   return newValue;
 }
 
+export function createZodErrorMessage(issues: z.ZodIssue[]) {
+  return `Zod - ${
+    issues.length > 1
+      ? `${issues[0].message}, and ${issues.length - 1} more`
+      : issues[0].message
+  }`;
+}
+
 // Use this at the client side api, not the server side handler.
 // This is for the validation of return data from the server.
-export function safeValidateSource<T>(
-  schema: z.Schema<T>,
-  value: T | 'undefined',
-) {
+export function safeValidateSource<T>(schema: z.Schema<T>, value: T) {
   const newValue = schema.safeParse(value);
 
   if (!newValue.success) {
     const { issues } = newValue.error;
-    const errorContent =
-      issues.length > 1
-        ? `${issues[0].message}, and ${issues.length - 1} more`
-        : issues[0].message;
-
-    throw new Error(`Zod - ${errorContent}`);
+    throw new Error(createZodErrorMessage(issues));
   }
 
   return newValue;
