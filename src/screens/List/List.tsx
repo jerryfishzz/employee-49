@@ -1,11 +1,4 @@
-import {
-  ColorValue,
-  FlatList,
-  Platform,
-  RefreshControl,
-  StyleSheet,
-  ViewStyle,
-} from 'react-native';
+import { FlatList, Platform, RefreshControl, StyleSheet } from 'react-native';
 import date from 'date-and-time';
 import { List as PaperList } from 'react-native-paper';
 import { Link } from 'expo-router';
@@ -54,7 +47,7 @@ export function List({ data, route, setEnabled, fetchStatus }: ListProps) {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
         data={data}
-        renderItem={({ item: { id, title, due, priority }, index }) => {
+        renderItem={({ item: { id, title, due, priority } }) => {
           const priorityColor = PRIORITY[priority].color;
           const dueColor =
             route.name === 'index'
@@ -96,12 +89,6 @@ export function List({ data, route, setEnabled, fetchStatus }: ListProps) {
             content: <RowForwardAndroid style={styles.forward} />,
           };
 
-          const borderBottomStyle = getBorderBottomStyle(
-            borderBottom,
-            index,
-            data.length,
-          );
-
           if (Platform.OS === 'android')
             return (
               <Link href={`/detail/${id}`} asChild>
@@ -114,7 +101,10 @@ export function List({ data, route, setEnabled, fetchStatus }: ListProps) {
                       dueBlock,
                       forwardBlockAndroid,
                     ]}
-                    style={borderBottomStyle}
+                    style={[
+                      { borderBottomColor: borderBottom },
+                      styles.bottomBorder,
+                    ]}
                   />
                 </TouchableOpacity>
               </Link>
@@ -140,7 +130,11 @@ export function List({ data, route, setEnabled, fetchStatus }: ListProps) {
                       icon={() => <Forward />}
                     />
                   )}
-                  style={[borderBottomStyle, styles.listPadding]}
+                  style={[
+                    { borderBottomColor: borderBottom },
+                    styles.listPadding,
+                    styles.bottomBorder,
+                  ]}
                 />
               </TouchableOpacity>
             </Link>
@@ -156,24 +150,16 @@ function isOverdue(due: Task['due']) {
   return new Date(due) < new Date() ? true : false;
 }
 
-function getBorderBottomStyle(
-  color: ColorValue,
-  index: number,
-  dataLength: number,
-): ViewStyle {
-  return {
-    borderBottomColor: color,
-    borderBottomWidth: index === dataLength - 1 ? 0 : 2,
-  };
-}
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'stretch',
   },
+  bottomBorder: {
+    borderBottomWidth: 2,
+  },
   listPadding: {
-    paddingVertical: 4,
+    paddingVertical: 12,
   },
   forward: {
     marginLeft: 4,

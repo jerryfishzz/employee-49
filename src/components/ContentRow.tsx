@@ -61,6 +61,6 @@ const styles = StyleSheet.create({
   },
   android: {
     paddingRight: 24,
-    paddingVertical: 6,
+    paddingVertical: 12,
   },
 });
