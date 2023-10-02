@@ -53,7 +53,7 @@ export function RootLayoutNav() {
       <PaperProvider theme={paperTheme}>
         <SafeAreaProvider>
           <EmployeeProvider
-            initialState={{ notification: { visible: false, notice: '' } }}
+            initialState={{ notification: { visible: '', notice: '' } }}
           >
             <Notification />
             <Stack

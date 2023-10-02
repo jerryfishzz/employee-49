@@ -7,15 +7,17 @@ type Action =
   | {
       type: 'SHOW_ERROR_NOTICE';
       notice: string;
+      id: string;
     }
   | {
       type: 'SHOW_SUCCESS_NOTICE';
       notice: string;
+      id: string;
     };
 
 type EmployeeState = {
   notification: {
-    visible: boolean;
+    visible: string;
     notice: string;
     type?: 'error' | 'success';
   };
@@ -49,7 +51,7 @@ function employeeReducer(state: EmployeeState, action: Action): EmployeeState {
         ...state,
         notification: {
           ...state.notification,
-          visible: false,
+          visible: '',
         },
       };
     case 'SHOW_ERROR_NOTICE':
@@ -57,7 +59,7 @@ function employeeReducer(state: EmployeeState, action: Action): EmployeeState {
         ...state,
         notification: {
           ...state.notification,
-          visible: true,
+          visible: action.id,
           notice: action.notice,
           type: 'error',
         },
@@ -67,7 +69,7 @@ function employeeReducer(state: EmployeeState, action: Action): EmployeeState {
         ...state,
         notification: {
           ...state.notification,
-          visible: true,
+          visible: action.id,
           notice: action.notice,
           type: 'success',
         },
@@ -81,17 +83,27 @@ export function hideNotice(dispatch: Dispatch<Action>) {
   dispatch({ type: 'HIDE_NOTICE' });
 }
 
-export function showErrorNotice(dispatch: Dispatch<Action>, notice: string) {
+export function showErrorNotice(
+  dispatch: Dispatch<Action>,
+  notice: string,
+  id: string,
+) {
   dispatch({
     type: 'SHOW_ERROR_NOTICE',
     notice,
+    id,
   });
 }
 
-export function showSuccessNotice(dispatch: Dispatch<Action>, notice: string) {
+export function showSuccessNotice(
+  dispatch: Dispatch<Action>,
+  notice: string,
+  id: string,
+) {
   dispatch({
     type: 'SHOW_SUCCESS_NOTICE',
     notice,
+    id,
   });
 }
 

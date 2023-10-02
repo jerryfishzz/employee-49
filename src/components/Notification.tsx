@@ -41,7 +41,7 @@ export function Notification() {
     <View style={styles.container}>
       <TouchableOpacity onPress={() => hideNotice(dispatch)}>
         <Banner
-          visible={visible}
+          visible={!!visible}
           elevation={3}
           contentStyle={{
             marginTop: visible ? top : 0,
