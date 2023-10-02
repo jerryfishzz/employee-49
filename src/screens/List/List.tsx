@@ -70,6 +70,7 @@ export function List({ data, route, setEnabled, fetchStatus }: ListProps) {
             viewStyle: {
               flex: 1,
               paddingLeft: Platform.OS === 'android' ? 16 : 0,
+              paddingRight: 12,
             },
             textStyle: {
               fontSize: 20,
@@ -172,7 +173,7 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
   },
   listPadding: {
-    paddingVertical: 12,
+    paddingVertical: 4,
   },
   forward: {
     marginLeft: 4,
