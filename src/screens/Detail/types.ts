@@ -7,7 +7,7 @@ import { Task } from 'src/utils/schema';
 export interface DetailProps {
   task: Task;
   setEnabled: Dispatch<SetStateAction<boolean>>;
-  fetchingStatus: UseQueryResult['fetchStatus'];
+  fetchStatus: UseQueryResult['fetchStatus'];
 }
 
 export interface DetailRowData {

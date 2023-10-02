@@ -63,11 +63,7 @@ export default function Route() {
       {isLoading ? (
         <Loading />
       ) : task ? (
-        <Detail
-          task={task}
-          setEnabled={setEnabled}
-          fetchingStatus={fetchStatus}
-        />
+        <Detail task={task} setEnabled={setEnabled} fetchStatus={fetchStatus} />
       ) : (
         <ErrorScreen
           msg={(error as AxiosError).message}

@@ -24,7 +24,7 @@ import { useRefreshing } from 'src/hooks/useRefreshing';
 export function Detail({
   task,
   setEnabled: setTaskQueryEnabled,
-  fetchingStatus,
+  fetchStatus,
 }: DetailProps) {
   const { id, title, status, description, due, priority } = task;
   const {
@@ -60,7 +60,7 @@ export function Detail({
 
   const [refreshing, onRefresh] = useRefreshing(
     setTaskQueryEnabled,
-    fetchingStatus,
+    fetchStatus,
   );
 
   const handlePress = () => {
