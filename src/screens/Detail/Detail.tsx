@@ -7,7 +7,6 @@ import { AxiosError } from 'axios';
 import { View } from 'src/components/Themed';
 import { ContentRow, ContentRowAndroid } from 'src/components/ContentRow';
 import { CheckCircle, Dot, RotateLeft, RowDotAndroid } from 'src/components/ui';
-import { PRIORITY } from 'src/data/Priority';
 import { DetailProps, DetailRowData } from './types';
 import { createContentBlock, createTitleBlock } from './helpers';
 import { STATUS } from 'src/data/Status';
@@ -27,9 +26,8 @@ export function Detail({
   fetchStatus,
 }: DetailProps) {
   const { id, title, status, description, due, priority } = task;
-  const {
-    colors: { borderBottom, surfaceVariant, normal, low },
-  } = useAppTheme();
+  const { colors } = useAppTheme();
+  const { borderBottom, surfaceVariant, normal, low } = colors;
 
   const [, setEnabled] = useQueryWithRefreshOnFocus(getTasks, false);
 
@@ -94,9 +92,9 @@ export function Detail({
       right: {
         android: {
           type: 'icon',
-          content: <RowDotAndroid iconColor={PRIORITY[priority].color} />,
+          content: <RowDotAndroid iconColor={colors[priority]} />,
         },
-        others: <Dot iconColor={PRIORITY[priority].color} />,
+        others: <Dot iconColor={colors[priority]} />,
       },
     },
     {

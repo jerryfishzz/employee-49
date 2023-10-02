@@ -41,6 +41,10 @@ export const paySauceThemeLight = {
     onLow: 'rgb(255, 255, 255)',
     lowContainer: 'rgb(196, 231, 255)',
     onLowContainer: 'rgb(0, 30, 44)',
+    high: 'rgb(178, 44, 13)',
+    onHigh: 'rgb(255, 255, 255)',
+    highContainer: 'rgb(255, 218, 210)',
+    onHighContainer: 'rgb(61, 6, 0)',
   },
 };
 
@@ -55,5 +59,9 @@ export const paySauceThemeDark = {
     onLow: 'rgb(0, 52, 74)',
     lowContainer: 'rgb(0, 76, 105)',
     onLowContainer: 'rgb(196, 231, 255)',
+    high: 'rgb(255, 180, 163)',
+    onHigh: 'rgb(99, 15, 0)',
+    highContainer: 'rgb(140, 25, 0)',
+    onHighContainer: 'rgb(255, 218, 210)',
   },
 };

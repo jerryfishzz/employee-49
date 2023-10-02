@@ -8,7 +8,6 @@ import { UseQueryResult } from '@tanstack/react-query';
 
 import { View } from 'src/components/Themed';
 import { paySauceColor } from 'src/data/Colors';
-import { PRIORITY } from 'src/data/Priority';
 import { RootTabParamList, RootTabScreenProps } from 'src/navigation/types';
 import { Task } from 'src/utils/schema';
 import {
@@ -25,7 +24,7 @@ import {
 } from 'src/components/ContentRow';
 import { useRefreshing } from 'src/hooks/useRefreshing';
 
-const { hotChilli, midGrey, mint } = paySauceColor;
+const { midGrey } = paySauceColor;
 
 type ListProps = {
   data: Task[];
@@ -34,9 +33,8 @@ type ListProps = {
 } & RootTabScreenProps<keyof RootTabParamList>;
 
 export function List({ data, route, setEnabled, fetchStatus }: ListProps) {
-  const {
-    colors: { borderBottom },
-  } = useAppTheme();
+  const { colors } = useAppTheme();
+  const { borderBottom, high, normal } = colors;
 
   const [refreshing, onRefresh] = useRefreshing(setEnabled, fetchStatus);
 
@@ -48,13 +46,8 @@ export function List({ data, route, setEnabled, fetchStatus }: ListProps) {
         }
         data={data}
         renderItem={({ item: { id, title, due, priority } }) => {
-          const priorityColor = PRIORITY[priority].color;
           const dueColor =
-            route.name === 'index'
-              ? isOverdue(due)
-                ? hotChilli
-                : midGrey
-              : mint;
+            route.name === 'index' ? (isOverdue(due) ? high : midGrey) : normal;
 
           const titleBlock: Block = {
             type: 'text',
@@ -81,7 +74,7 @@ export function List({ data, route, setEnabled, fetchStatus }: ListProps) {
 
           const dotBlockAndroid: Block = {
             type: 'icon',
-            content: <RowDotAndroid iconColor={priorityColor} />,
+            content: <RowDotAndroid iconColor={colors[priority]} />,
           };
 
           const forwardBlockAndroid: Block = {
@@ -120,7 +113,7 @@ export function List({ data, route, setEnabled, fetchStatus }: ListProps) {
                   left={(props) => (
                     <PaperList.Icon
                       {...props}
-                      icon={() => <Dot iconColor={priorityColor} />}
+                      icon={() => <Dot iconColor={colors[priority]} />}
                     />
                   )}
                   right={({ style, ...props }) => (
