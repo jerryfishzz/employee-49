@@ -3,7 +3,7 @@ import { Dispatch, ReactNode, useReducer } from 'react';
 import { createContext } from 'src/utils/context-utils';
 
 type Action =
-  | { type: 'HIDE_NOTICE' }
+  | { type: 'HIDE_NOTICE'; id: string }
   | {
       type: 'SHOW_ERROR_NOTICE';
       notice: string;
@@ -51,7 +51,10 @@ function employeeReducer(state: EmployeeState, action: Action): EmployeeState {
         ...state,
         notification: {
           ...state.notification,
-          visible: '',
+          visible:
+            action.id === state.notification.visible
+              ? ''
+              : state.notification.visible,
         },
       };
     case 'SHOW_ERROR_NOTICE':
@@ -79,8 +82,8 @@ function employeeReducer(state: EmployeeState, action: Action): EmployeeState {
   }
 }
 
-export function hideNotice(dispatch: Dispatch<Action>) {
-  dispatch({ type: 'HIDE_NOTICE' });
+export function hideNotice(dispatch: Dispatch<Action>, id: string) {
+  dispatch({ type: 'HIDE_NOTICE', id });
 }
 
 export function showErrorNotice(

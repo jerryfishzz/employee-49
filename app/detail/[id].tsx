@@ -33,17 +33,14 @@ export default function Route() {
 
   // Show error notice only when task already exists
   useEffect(() => {
-    !isLoading &&
-      !isFetching &&
-      isError &&
-      task &&
-      showErrorNotice(dispatch, getErrorText(error as AxiosError), uuidv4());
+    if (!isLoading && !isFetching && isError && task) {
+      const noticeId = uuidv4();
+      showErrorNotice(dispatch, getErrorText(error as AxiosError), noticeId);
+      setTimeout(() => {
+        hideNotice(dispatch, noticeId);
+      }, 3000);
+    }
   }, [dispatch, error, isError, isFetching, isLoading, task]);
-
-  // Hide previous notice if no errors from query
-  useEffect(() => {
-    !isLoading && !isFetching && !isError && hideNotice(dispatch);
-  }, [dispatch, isError, isFetching, isLoading]);
 
   // Disable the query when data received
   useEffect(() => {

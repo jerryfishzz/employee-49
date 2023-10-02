@@ -39,7 +39,7 @@ export function Notification() {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => hideNotice(dispatch)}>
+      <TouchableOpacity onPress={() => hideNotice(dispatch, visible)}>
         <Banner
           visible={!!visible}
           elevation={3}

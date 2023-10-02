@@ -26,15 +26,20 @@ export function useQueryWithRefreshOnFocus<T>(
 
   useEffect(() => {
     if (isSuccess && !isFetching) {
-      hideNotice(dispatch);
       setEnabled(false);
     }
   }, [dispatch, isFetching, isSuccess]);
 
   useEffect(() => {
     if (isError) {
-      data &&
-        showErrorNotice(dispatch, getErrorText(error as AxiosError), uuidv4());
+      if (data) {
+        const noticeId = uuidv4();
+        showErrorNotice(dispatch, getErrorText(error as AxiosError), noticeId);
+        setTimeout(() => {
+          hideNotice(dispatch, noticeId);
+        }, 3000);
+      }
+
       setEnabled(false);
     }
   }, [data, dispatch, error, isError]);

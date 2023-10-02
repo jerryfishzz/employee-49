@@ -20,6 +20,7 @@ import { getStyledIcon } from 'src/components/utils';
 import { getTasks, updateDetail } from 'src/utils/api';
 import { useQueryWithRefreshOnFocus } from 'src/hooks/useQueryWithRefreshOnFocus';
 import {
+  hideNotice,
   showErrorNotice,
   showSuccessNotice,
   useEmployee,
@@ -42,11 +43,24 @@ export function Detail({ task }: DetailProps) {
     onSuccess: (data) => {
       queryClient.invalidateQueries(['detail', id]);
       queryClient.setQueryData(['detail', id], data);
-      // setEnabled(true);
-      showSuccessNotice(dispatch, 'Status modified', uuidv4());
+
+      // Delay setEnabled a little bit to have a better visual effect on notice emerging
+      setTimeout(() => {
+        setEnabled(true);
+      }, 500);
+
+      const noticeId = uuidv4();
+      showSuccessNotice(dispatch, 'Status modified', noticeId);
+      setTimeout(() => {
+        hideNotice(dispatch, noticeId);
+      }, 3000);
     },
     onError: (error) => {
-      showErrorNotice(dispatch, getErrorText(error as AxiosError), uuidv4());
+      const noticeId = uuidv4();
+      showErrorNotice(dispatch, getErrorText(error as AxiosError), noticeId);
+      setTimeout(() => {
+        hideNotice(dispatch, noticeId);
+      }, 3000);
     },
   });
 
