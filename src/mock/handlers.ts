@@ -29,7 +29,7 @@ const getDetailHandler = makeGetEndpoint(
       );
       const getTaskByKeyFromTaskObjStr = setTaskKey(req.params.id);
       return delayedResponse(
-        getResponseWithErrorByChance(
+        await getResponseWithErrorByChance(
           taskObjStr as string,
           getTaskByKeyFromTaskObjStr,
           ctx,
@@ -49,11 +49,7 @@ const handlers = [
         STORAGE_KEY_TASK_MAP_OBJECT,
       );
       return delayedResponse(
-        getResponseWithErrorByChance(
-          taskObjStr as string,
-          parseTaskObjStrToTasks,
-          ctx,
-        ),
+        await getResponseWithErrorByChance(taskObjStr as string, getTasks, ctx),
       );
     } catch (error) {
       console.error(error);
@@ -79,15 +75,15 @@ const handlers = [
       const taskObjStr = await AsyncStorage.getItem(
         STORAGE_KEY_TASK_MAP_OBJECT,
       );
-      const taskObj = JSON.parse(taskObjStr as string);
-      taskObj[task.id] = task;
+      const updateTask = receiveTask(task);
 
-      await AsyncStorage.setItem(
-        STORAGE_KEY_TASK_MAP_OBJECT,
-        JSON.stringify(taskObj),
+      return delayedResponse(
+        await getResponseWithErrorByChance(
+          taskObjStr as string,
+          updateTask,
+          ctx,
+        ),
       );
-
-      return delayedResponse(ctx.json(task));
     } catch (error) {
       console.error(error);
       return delayedResponse(ctx.status(500, (error as Error).message));
@@ -95,13 +91,30 @@ const handlers = [
   }),
 ];
 
-function parseTaskObjStrToTasks(taskObjStr: string) {
+function getTasks(taskObjStr: string) {
   return Object.values(JSON.parse(taskObjStr));
 }
 
 function setTaskKey(key: string) {
-  return (taskObjStr: string): Task | undefined =>
-    JSON.parse(taskObjStr)[key] ? JSON.parse(taskObjStr)[key] : undefined;
+  return (taskObjStr: string): Task | null =>
+    JSON.parse(taskObjStr)[key] ? JSON.parse(taskObjStr)[key] : null;
+}
+
+function receiveTask(task: Task) {
+  return async (taskObjStr: string) => {
+    const taskObj = JSON.parse(taskObjStr);
+
+    if (!taskObj[task.id]) return null;
+
+    taskObj[task.id] = task;
+
+    await AsyncStorage.setItem(
+      STORAGE_KEY_TASK_MAP_OBJECT,
+      JSON.stringify(taskObj),
+    );
+
+    return task;
+  };
 }
 
 export { handlers };
