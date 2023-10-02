@@ -3,8 +3,6 @@ import { List, Text } from 'react-native-paper';
 import date from 'date-and-time';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import 'react-native-get-random-values';
-import { v4 as uuidv4 } from 'uuid';
 
 import { View } from 'src/components/Themed';
 import { ContentRow, ContentRowAndroid } from 'src/components/ContentRow';
@@ -19,12 +17,7 @@ import { paySauceColor } from 'src/data/Colors';
 import { getStyledIcon } from 'src/components/utils';
 import { getTasks, updateDetail } from 'src/utils/api';
 import { useQueryWithRefreshOnFocus } from 'src/hooks/useQueryWithRefreshOnFocus';
-import {
-  hideNotice,
-  showErrorNotice,
-  showSuccessNotice,
-  useEmployee,
-} from 'src/context/employee';
+import { runNoticeCombo, useEmployee } from 'src/context/employee';
 import { getErrorText } from 'src/utils/helpers';
 
 export function Detail({ task }: DetailProps) {
@@ -49,18 +42,14 @@ export function Detail({ task }: DetailProps) {
         setEnabled(true);
       }, 500);
 
-      const noticeId = uuidv4();
-      showSuccessNotice(dispatch, 'Status modified', noticeId);
-      setTimeout(() => {
-        hideNotice(dispatch, noticeId);
-      }, 3000);
+      runNoticeCombo(dispatch, 'Status modified', 'SHOW_SUCCESS_NOTICE');
     },
     onError: (error) => {
-      const noticeId = uuidv4();
-      showErrorNotice(dispatch, getErrorText(error as AxiosError), noticeId);
-      setTimeout(() => {
-        hideNotice(dispatch, noticeId);
-      }, 3000);
+      runNoticeCombo(
+        dispatch,
+        getErrorText(error as AxiosError),
+        'SHOW_ERROR_NOTICE',
+      );
     },
   });
 

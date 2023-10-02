@@ -2,10 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { Redirect } from 'expo-router';
 import { useEffect, useState } from 'react';
-import 'react-native-get-random-values';
-import { v4 as uuidv4 } from 'uuid';
 
-import { hideNotice, showErrorNotice, useEmployee } from 'src/context/employee';
+import { runNoticeCombo, useEmployee } from 'src/context/employee';
 import { useTaskLocalSearchParams } from 'src/hooks/useTaskLocalSearchParams';
 import { Detail } from 'src/screens/Detail';
 import { ErrorScreen } from 'src/screens/ErrorScreen';
@@ -34,11 +32,11 @@ export default function Route() {
   // Show error notice only when task already exists
   useEffect(() => {
     if (!isLoading && !isFetching && isError && task) {
-      const noticeId = uuidv4();
-      showErrorNotice(dispatch, getErrorText(error as AxiosError), noticeId);
-      setTimeout(() => {
-        hideNotice(dispatch, noticeId);
-      }, 3000);
+      runNoticeCombo(
+        dispatch,
+        getErrorText(error as AxiosError),
+        'SHOW_ERROR_NOTICE',
+      );
     }
   }, [dispatch, error, isError, isFetching, isLoading, task]);
 

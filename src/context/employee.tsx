@@ -1,4 +1,6 @@
 import { Dispatch, ReactNode, useReducer } from 'react';
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
 
 import { createContext } from 'src/utils/context-utils';
 
@@ -86,7 +88,7 @@ export function hideNotice(dispatch: Dispatch<Action>, id: string) {
   dispatch({ type: 'HIDE_NOTICE', id });
 }
 
-export function showErrorNotice(
+function showErrorNotice(
   dispatch: Dispatch<Action>,
   notice: string,
   id: string,
@@ -98,7 +100,7 @@ export function showErrorNotice(
   });
 }
 
-export function showSuccessNotice(
+function showSuccessNotice(
   dispatch: Dispatch<Action>,
   notice: string,
   id: string,
@@ -108,6 +110,20 @@ export function showSuccessNotice(
     notice,
     id,
   });
+}
+
+export function runNoticeCombo(
+  dispatch: Dispatch<Action>,
+  notice: string,
+  type: 'SHOW_ERROR_NOTICE' | 'SHOW_SUCCESS_NOTICE',
+) {
+  const noticeId = uuidv4();
+  type === 'SHOW_ERROR_NOTICE'
+    ? showErrorNotice(dispatch, notice, noticeId)
+    : showSuccessNotice(dispatch, notice, noticeId);
+  setTimeout(() => {
+    hideNotice(dispatch, noticeId);
+  }, 3000);
 }
 
 export { useEmployee, employeeContext };
