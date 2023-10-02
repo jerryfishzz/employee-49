@@ -2,6 +2,8 @@ import { useFocusEffect } from '@react-navigation/native';
 import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
 
 import { hideNotice, showErrorNotice, useEmployee } from 'src/context/employee';
 import { getErrorText } from 'src/utils/helpers';
@@ -31,7 +33,8 @@ export function useQueryWithRefreshOnFocus<T>(
 
   useEffect(() => {
     if (isError) {
-      data && showErrorNotice(dispatch, getErrorText(error as AxiosError));
+      data &&
+        showErrorNotice(dispatch, getErrorText(error as AxiosError), uuidv4());
       setEnabled(false);
     }
   }, [data, dispatch, error, isError]);

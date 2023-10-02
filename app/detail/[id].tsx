@@ -2,6 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { Redirect } from 'expo-router';
 import { useEffect, useState } from 'react';
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
 
 import { hideNotice, showErrorNotice, useEmployee } from 'src/context/employee';
 import { useTaskLocalSearchParams } from 'src/hooks/useTaskLocalSearchParams';
@@ -35,7 +37,7 @@ export default function Route() {
       !isFetching &&
       isError &&
       task &&
-      showErrorNotice(dispatch, getErrorText(error as AxiosError));
+      showErrorNotice(dispatch, getErrorText(error as AxiosError), uuidv4());
   }, [dispatch, error, isError, isFetching, isLoading, task]);
 
   // Hide previous notice if no errors from query

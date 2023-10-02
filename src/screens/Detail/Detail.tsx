@@ -3,6 +3,8 @@ import { List, Text } from 'react-native-paper';
 import date from 'date-and-time';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
 
 import { View } from 'src/components/Themed';
 import { ContentRow, ContentRowAndroid } from 'src/components/ContentRow';
@@ -41,10 +43,10 @@ export function Detail({ task }: DetailProps) {
       queryClient.invalidateQueries(['detail', id]);
       queryClient.setQueryData(['detail', id], data);
       // setEnabled(true);
-      showSuccessNotice(dispatch, 'Status modified');
+      showSuccessNotice(dispatch, 'Status modified', uuidv4());
     },
     onError: (error) => {
-      showErrorNotice(dispatch, getErrorText(error as AxiosError));
+      showErrorNotice(dispatch, getErrorText(error as AxiosError), uuidv4());
     },
   });
 
