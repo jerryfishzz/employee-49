@@ -32,10 +32,9 @@ const { hotChilli, midGrey, mint } = paySauceColor;
 
 type ListProps = {
   data: Task[];
-  isPressDisabled: boolean;
 } & RootTabScreenProps<keyof RootTabParamList>;
 
-export function List({ data, isPressDisabled, route }: ListProps) {
+export function List({ data, route }: ListProps) {
   const {
     colors: { borderBottom },
   } = useAppTheme();
@@ -94,7 +93,7 @@ export function List({ data, isPressDisabled, route }: ListProps) {
           if (Platform.OS === 'android')
             return (
               <Link href={`/detail/${id}`} asChild>
-                <TouchableOpacity disabled={isPressDisabled}>
+                <TouchableOpacity>
                   <ContentRowAndroid
                     testID={id}
                     blocks={[
@@ -111,7 +110,7 @@ export function List({ data, isPressDisabled, route }: ListProps) {
 
           return (
             <Link href={`/detail/${id}`} asChild>
-              <TouchableOpacity disabled={isPressDisabled}>
+              <TouchableOpacity>
                 <PaperList.Item
                   title={
                     <ContentRow testID={id} blocks={[titleBlock, dueBlock]} />

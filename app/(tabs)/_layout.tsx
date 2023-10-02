@@ -17,6 +17,7 @@ import { Loading } from 'src/screens/Loading/Loading';
 import { Task } from 'src/utils/schema';
 import { ErrorScreen } from 'src/screens/ErrorScreen';
 import { RouteProp } from '@react-navigation/native';
+import { UseQueryResult } from '@tanstack/react-query';
 
 const Tabs = createMaterialTopTabNavigator<RootTabParamList>();
 
@@ -27,7 +28,7 @@ const MemoizedLoading = memo(Loading);
 const MemoizedErrorScreen = memo(ErrorScreen);
 
 export default function TabLayout() {
-  const [{ isLoading, isFetching, error, data: tasks }, setEnabled] =
+  const [{ isLoading, error, data: tasks, fetchStatus }, setEnabled] =
     useQueryWithRefreshOnFocus(getTasks);
 
   const [toDo, done] = useMemo(() => separateTasks(tasks), [tasks]);
@@ -55,9 +56,9 @@ export default function TabLayout() {
         {setChildrenByConditions({
           isLoading,
           tasks: toDo,
-          isFetching,
           error: error as Error | null,
           setEnabled,
+          fetchStatus,
         })}
       </Tabs.Screen>
       <Tabs.Screen
@@ -67,9 +68,9 @@ export default function TabLayout() {
         {setChildrenByConditions({
           isLoading,
           tasks: done,
-          isFetching,
           error: error as Error | null,
           setEnabled,
+          fetchStatus,
         })}
       </Tabs.Screen>
     </Tabs.Navigator>
@@ -122,9 +123,9 @@ function separateTasks(tasks: Task[] | undefined) {
 type SetChildrenByConditionsParam = {
   isLoading: boolean;
   tasks: Task[] | undefined;
-  isFetching: boolean;
   error: Error | null;
   setEnabled: Dispatch<SetStateAction<boolean>>;
+  fetchStatus: UseQueryResult['fetchStatus'];
 };
 type GetChildrenParam = {
   route: RouteProp<RootTabParamList, keyof RootTabParamList>;
@@ -134,16 +135,16 @@ type GetChildrenParam = {
 function setChildrenByConditions({
   isLoading,
   tasks,
-  isFetching,
   error,
   setEnabled,
+  fetchStatus,
 }: SetChildrenByConditionsParam) {
   // eslint-disable-next-line react/display-name
   return (props: GetChildrenParam) =>
     isLoading ? (
       <MemoizedLoading />
     ) : tasks ? (
-      <MemoizedList isPressDisabled={isFetching} data={tasks} {...props} />
+      <MemoizedList data={tasks} {...props} />
     ) : (
       <MemoizedErrorScreen
         msg={error ? (error as AxiosError).message : 'Unknown error'}
