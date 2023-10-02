@@ -21,6 +21,7 @@ export default function Route() {
     data: task,
     isError,
     error,
+    fetchStatus,
   } = useQuery({
     queryKey: ['detail', id],
     queryFn: () => getDetail(id),
@@ -62,7 +63,11 @@ export default function Route() {
       {isLoading ? (
         <Loading />
       ) : task ? (
-        <Detail task={task} />
+        <Detail
+          task={task}
+          setEnabled={setEnabled}
+          fetchingStatus={fetchStatus}
+        />
       ) : (
         <ErrorScreen
           msg={(error as AxiosError).message}

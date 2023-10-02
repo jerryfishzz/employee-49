@@ -1,8 +1,9 @@
-import { Platform, ScrollView, StyleSheet } from 'react-native';
+import { Platform, RefreshControl, ScrollView, StyleSheet } from 'react-native';
 import { List, Text } from 'react-native-paper';
 import date from 'date-and-time';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { useCallback, useEffect, useState } from 'react';
 
 import { View } from 'src/components/Themed';
 import { ContentRow, ContentRowAndroid } from 'src/components/ContentRow';
@@ -20,7 +21,11 @@ import { useQueryWithRefreshOnFocus } from 'src/hooks/useQueryWithRefreshOnFocus
 import { runNoticeCombo, useEmployee } from 'src/context/employee';
 import { getErrorText } from 'src/utils/helpers';
 
-export function Detail({ task }: DetailProps) {
+export function Detail({
+  task,
+  setEnabled: setTaskQueryEnabled,
+  fetchingStatus,
+}: DetailProps) {
   const { id, title, status, description, due, priority } = task;
   const {
     colors: { borderBottom, surfaceVariant, normal, low },
@@ -52,6 +57,16 @@ export function Detail({ task }: DetailProps) {
       );
     },
   });
+
+  const [refreshing, setRefreshing] = useState<boolean>(false);
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    setTaskQueryEnabled(true);
+  }, [setTaskQueryEnabled]);
+
+  useEffect(() => {
+    fetchingStatus === 'idle' && setRefreshing(false);
+  }, [fetchingStatus]);
 
   const handlePress = () => {
     createPostMutation.mutate({
@@ -107,7 +122,11 @@ export function Detail({ task }: DetailProps) {
 
   return (
     <View style={styles.container}>
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         <>
           {detailRowData.map(
             ({ blocks, right, isBorderBottomHidden }, index) => {
