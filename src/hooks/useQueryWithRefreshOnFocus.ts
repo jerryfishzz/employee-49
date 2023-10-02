@@ -6,13 +6,22 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { hideNotice, showErrorNotice, useEmployee } from 'src/context/employee';
 import { getErrorText } from 'src/utils/helpers';
 
+type EnabledState = {
+  enabled: boolean;
+  isNoticeHidden: boolean;
+};
+
 export function useQueryWithRefreshOnFocus<T>(
   query: () => Promise<T[]>,
+  componentSeg: '(tabs)' | 'detail',
   initialEnabled: boolean = true,
 ) {
   const firstTimeRef = useRef(true);
 
-  const [enabled, setEnabled] = useState<boolean>(initialEnabled);
+  const [{ enabled, isNoticeHidden }, setEnabled] = useState<EnabledState>({
+    enabled: initialEnabled,
+    isNoticeHidden: true,
+  });
   const result = useQuery({
     queryKey: ['tasks'],
     queryFn: query,
@@ -20,19 +29,32 @@ export function useQueryWithRefreshOnFocus<T>(
   });
   const { data, isError, error, isFetching, isSuccess } = result;
 
-  const [, dispatch] = useEmployee();
+  const [
+    {
+      notification: { focus },
+    },
+    dispatch,
+  ] = useEmployee();
+  console.log(focus);
+  console.log(componentSeg);
 
   useEffect(() => {
     if (isSuccess && !isFetching) {
-      hideNotice(dispatch);
-      setEnabled(false);
+      focus === componentSeg && isNoticeHidden && hideNotice(dispatch);
+      setEnabled((cur) => ({
+        ...cur,
+        enabled: false,
+      }));
     }
-  }, [dispatch, isFetching, isSuccess]);
+  }, [componentSeg, dispatch, focus, isFetching, isNoticeHidden, isSuccess]);
 
   useEffect(() => {
     if (isError) {
       data && showErrorNotice(dispatch, getErrorText(error as AxiosError));
-      setEnabled(false);
+      setEnabled((cur) => ({
+        ...cur,
+        enabled: false,
+      }));
     }
   }, [data, dispatch, error, isError]);
 
@@ -43,7 +65,10 @@ export function useQueryWithRefreshOnFocus<T>(
         return;
       }
 
-      setEnabled(true);
+      setEnabled({
+        isNoticeHidden: true,
+        enabled: true,
+      });
     }, []),
   );
 

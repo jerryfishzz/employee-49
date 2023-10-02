@@ -2,6 +2,8 @@ import { Dispatch, ReactNode, useReducer } from 'react';
 
 import { createContext } from 'src/utils/context-utils';
 
+export type Focus = '(tabs)' | 'detail';
+
 type Action =
   | { type: 'HIDE_NOTICE' }
   | {
@@ -11,6 +13,10 @@ type Action =
   | {
       type: 'SHOW_SUCCESS_NOTICE';
       notice: string;
+    }
+  | {
+      type: 'SET_FOCUS_ROUTE';
+      focus: Focus;
     };
 
 type EmployeeState = {
@@ -18,6 +24,7 @@ type EmployeeState = {
     visible: boolean;
     notice: string;
     type?: 'error' | 'success';
+    focus?: Focus;
   };
 };
 
@@ -72,6 +79,14 @@ function employeeReducer(state: EmployeeState, action: Action): EmployeeState {
           type: 'success',
         },
       };
+    case 'SET_FOCUS_ROUTE':
+      return {
+        ...state,
+        notification: {
+          ...state.notification,
+          focus: action.focus,
+        },
+      };
     default:
       throw new Error('Unknown action type');
   }
@@ -92,6 +107,13 @@ export function showSuccessNotice(dispatch: Dispatch<Action>, notice: string) {
   dispatch({
     type: 'SHOW_SUCCESS_NOTICE',
     notice,
+  });
+}
+
+export function setFocusRoute(dispatch: Dispatch<Action>, focus: Focus) {
+  dispatch({
+    type: 'SET_FOCUS_ROUTE',
+    focus,
   });
 }
 

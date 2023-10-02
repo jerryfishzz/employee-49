@@ -1,9 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { Redirect } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 
-import { hideNotice, showErrorNotice, useEmployee } from 'src/context/employee';
+import {
+  hideNotice,
+  setFocusRoute,
+  showErrorNotice,
+  useEmployee,
+} from 'src/context/employee';
 import { useTaskLocalSearchParams } from 'src/hooks/useTaskLocalSearchParams';
 import { Detail } from 'src/screens/Detail';
 import { ErrorScreen } from 'src/screens/ErrorScreen';
@@ -49,6 +55,12 @@ export default function Route() {
       setEnabled(false);
     }
   }, [isFetching, isLoading]);
+
+  useFocusEffect(
+    useCallback(() => {
+      setFocusRoute(dispatch, 'detail');
+    }, [dispatch]),
+  );
 
   // Redirect when id does not exists
   if (

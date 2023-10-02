@@ -30,7 +30,7 @@ export function Detail({ task }: DetailProps) {
     colors: { borderBottom, surfaceVariant, normal, low },
   } = useAppTheme();
 
-  const [, setEnabled] = useQueryWithRefreshOnFocus(getTasks, false);
+  const [, setEnabled] = useQueryWithRefreshOnFocus(getTasks, 'detail', false);
 
   const [, dispatch] = useEmployee();
 
@@ -40,8 +40,15 @@ export function Detail({ task }: DetailProps) {
     onSuccess: (data) => {
       queryClient.invalidateQueries(['detail', id]);
       queryClient.setQueryData(['detail', id], data);
-      // setEnabled(true);
+
       showSuccessNotice(dispatch, 'Status modified');
+      // Add delay to make the rendering smooth
+      setTimeout(() => {
+        setEnabled({
+          isNoticeHidden: false,
+          enabled: true,
+        });
+      }, 500);
     },
     onError: (error) => {
       showErrorNotice(dispatch, getErrorText(error as AxiosError));

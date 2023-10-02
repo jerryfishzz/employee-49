@@ -4,7 +4,7 @@ import {
 } from '@react-navigation/material-top-tabs';
 import { Platform } from 'react-native';
 import { Text } from 'react-native-paper';
-import { Dispatch, SetStateAction, memo, useMemo } from 'react';
+import { Dispatch, SetStateAction, memo, useCallback, useMemo } from 'react';
 import { AxiosError } from 'axios';
 
 import { paySauceColor } from 'src/data/Colors';
@@ -16,7 +16,8 @@ import { useQueryWithRefreshOnFocus } from 'src/hooks/useQueryWithRefreshOnFocus
 import { Loading } from 'src/screens/Loading/Loading';
 import { Task } from 'src/utils/schema';
 import { ErrorScreen } from 'src/screens/ErrorScreen';
-import { RouteProp } from '@react-navigation/native';
+import { RouteProp, useFocusEffect } from '@react-navigation/native';
+import { setFocusRoute, useEmployee } from 'src/context/employee';
 
 const Tabs = createMaterialTopTabNavigator<RootTabParamList>();
 
@@ -28,9 +29,17 @@ const MemoizedErrorScreen = memo(ErrorScreen);
 
 export default function TabLayout() {
   const [{ isLoading, isFetching, error, data: tasks }, setEnabled] =
-    useQueryWithRefreshOnFocus(getTasks);
+    useQueryWithRefreshOnFocus(getTasks, '(tabs)');
+
+  const [, dispatch] = useEmployee();
 
   const [toDo, done] = useMemo(() => separateTasks(tasks), [tasks]);
+
+  useFocusEffect(
+    useCallback(() => {
+      setFocusRoute(dispatch, '(tabs)');
+    }, [dispatch]),
+  );
 
   return (
     <Tabs.Navigator
