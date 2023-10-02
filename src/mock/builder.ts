@@ -21,7 +21,9 @@ export const taskBuilder = build<Task>({
         .toISOString(),
     ),
     priority: oneOf('high', 'normal', 'low'),
-    description: perBuild(() => faker.lorem.paragraph({ min: 1, max: 3 })),
+    description: perBuild(() =>
+      faker.lorem.paragraphs({ min: 1, max: 5 }, '\n'),
+    ),
   },
 });
 
