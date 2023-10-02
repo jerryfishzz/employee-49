@@ -5,10 +5,14 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
 import { View } from 'src/components/Themed';
-import { ContentRow, ContentRowAndroid } from 'src/components/ContentRow';
+import {
+  Block,
+  ContentRow,
+  ContentRowAndroid,
+} from 'src/components/ContentRow';
 import { CheckCircle, Dot, RotateLeft, RowDotAndroid } from 'src/components/ui';
 import { DetailProps, DetailRowData } from './types';
-import { createContentBlock, createTitleBlock } from './helpers';
+import { createContentBlock, createTitleBlock, makeGetBlocks } from './helpers';
 import { STATUS } from 'src/data/Status';
 import { useAppTheme } from 'src/hooks/useAppTheme';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -25,7 +29,7 @@ export function Detail({
   setEnabled: setTaskQueryEnabled,
   fetchStatus,
 }: DetailProps) {
-  const { id, title, status, description, due, priority } = task;
+  const { id, title, status, description, due, priority, completed } = task;
   const { colors } = useAppTheme();
   const { borderBottom, surfaceVariant, normal, low } = colors;
 
@@ -83,6 +87,10 @@ export function Detail({
       ],
     },
     {
+      blocks: [],
+      getBlocks: makeGetBlocks('Completed', completed),
+    },
+    {
       blocks: [
         createTitleBlock('Priority'),
         createContentBlock(
@@ -122,7 +130,20 @@ export function Detail({
       >
         <>
           {detailRowData.map(
-            ({ blocks, right, isBorderBottomHidden }, index) => {
+            (
+              {
+                blocks: blocksFromSetting,
+                right,
+                isBorderBottomHidden,
+                getBlocks,
+              },
+              index,
+            ) => {
+              let blocks: Block[] = blocksFromSetting;
+              if (getBlocks) blocks = [...getBlocks()];
+
+              if (!blocks.length) return null;
+
               const borderBottomStyle = !isBorderBottomHidden && [
                 styles.borderBottom,
                 { borderBottomColor: borderBottom },

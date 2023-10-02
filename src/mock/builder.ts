@@ -14,8 +14,7 @@ export const taskBuilder = build<Task>({
         .between({ from: getCertainDate(-7), to: getCertainDate(7) })
         .toISOString(),
     ),
-    completed: oneOf(
-      null,
+    completed: perBuild(() =>
       faker.date
         .between({ from: getCertainDate(-7), to: new Date() })
         .toISOString(),
@@ -24,6 +23,10 @@ export const taskBuilder = build<Task>({
     description: perBuild(() =>
       faker.lorem.paragraphs({ min: 1, max: 5 }, '\n'),
     ),
+  },
+  postBuild: (task) => {
+    task['completed'] = task.status === 'done' ? task.completed : null;
+    return task;
   },
 });
 

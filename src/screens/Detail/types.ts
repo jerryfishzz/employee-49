@@ -17,4 +17,5 @@ export interface DetailRowData {
     others: ReactNode;
   };
   isBorderBottomHidden?: boolean;
+  getBlocks?: () => Block[];
 }
