@@ -3,7 +3,6 @@ import { List, Text } from 'react-native-paper';
 import date from 'date-and-time';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { useCallback, useEffect, useState } from 'react';
 
 import { View } from 'src/components/Themed';
 import { ContentRow, ContentRowAndroid } from 'src/components/ContentRow';
@@ -20,6 +19,7 @@ import { getTasks, updateDetail } from 'src/utils/api';
 import { useQueryWithRefreshOnFocus } from 'src/hooks/useQueryWithRefreshOnFocus';
 import { runNoticeCombo, useEmployee } from 'src/context/employee';
 import { getErrorText } from 'src/utils/helpers';
+import { useRefreshing } from 'src/hooks/useRefreshing';
 
 export function Detail({
   task,
@@ -58,15 +58,10 @@ export function Detail({
     },
   });
 
-  const [refreshing, setRefreshing] = useState<boolean>(false);
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    setTaskQueryEnabled(true);
-  }, [setTaskQueryEnabled]);
-
-  useEffect(() => {
-    fetchingStatus === 'idle' && setRefreshing(false);
-  }, [fetchingStatus]);
+  const [refreshing, onRefresh] = useRefreshing(
+    setTaskQueryEnabled,
+    fetchingStatus,
+  );
 
   const handlePress = () => {
     createPostMutation.mutate({
