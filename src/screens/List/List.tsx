@@ -2,6 +2,7 @@ import {
   ColorValue,
   FlatList,
   Platform,
+  RefreshControl,
   StyleSheet,
   ViewStyle,
 } from 'react-native';
@@ -9,6 +10,8 @@ import date from 'date-and-time';
 import { List as PaperList } from 'react-native-paper';
 import { Link } from 'expo-router';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Dispatch, SetStateAction } from 'react';
+import { UseQueryResult } from '@tanstack/react-query';
 
 import { View } from 'src/components/Themed';
 import { paySauceColor } from 'src/data/Colors';
@@ -27,21 +30,29 @@ import {
   ContentRow,
   ContentRowAndroid,
 } from 'src/components/ContentRow';
+import { useRefreshing } from 'src/hooks/useRefreshing';
 
 const { hotChilli, midGrey, mint } = paySauceColor;
 
 type ListProps = {
   data: Task[];
+  setEnabled: Dispatch<SetStateAction<boolean>>;
+  fetchStatus: UseQueryResult['fetchStatus'];
 } & RootTabScreenProps<keyof RootTabParamList>;
 
-export function List({ data, route }: ListProps) {
+export function List({ data, route, setEnabled, fetchStatus }: ListProps) {
   const {
     colors: { borderBottom },
   } = useAppTheme();
 
+  const [refreshing, onRefresh] = useRefreshing(setEnabled, fetchStatus);
+
   return (
     <View style={styles.container}>
       <FlatList
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
         data={data}
         renderItem={({ item: { id, title, due, priority }, index }) => {
           const priorityColor = PRIORITY[priority].color;

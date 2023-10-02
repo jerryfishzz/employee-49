@@ -144,7 +144,12 @@ function setChildrenByConditions({
     isLoading ? (
       <MemoizedLoading />
     ) : tasks ? (
-      <MemoizedList data={tasks} {...props} />
+      <MemoizedList
+        data={tasks}
+        fetchStatus={fetchStatus}
+        setEnabled={setEnabled}
+        {...props}
+      />
     ) : (
       <MemoizedErrorScreen
         msg={error ? (error as AxiosError).message : 'Unknown error'}
