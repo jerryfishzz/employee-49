@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { build, oneOf, perBuild } from '@jackfranklin/test-data-bot';
+import { titleCase } from 'title-case';
 
 import { getCertainDate } from 'src/utils/helpers';
 import { Task } from 'src/utils/schema';
@@ -7,7 +8,7 @@ import { Task } from 'src/utils/schema';
 export const taskBuilder = build<Task>({
   fields: {
     id: perBuild(() => faker.string.uuid()),
-    title: perBuild(() => faker.company.buzzPhrase()),
+    title: perBuild(() => titleCase(faker.company.buzzPhrase())),
     status: oneOf('toDo', 'done'),
     due: perBuild(() =>
       faker.date
