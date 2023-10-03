@@ -32,14 +32,19 @@ export default function Route() {
 
   // Show error notice only when task already exists
   useEffect(() => {
+    let isMounted: boolean = true;
     if (!isLoading && !isFetching && isError && task) {
       (error as AxiosError).status !== 404 &&
         runNoticeCombo(
           dispatch,
           getErrorText(error as AxiosError),
           'SHOW_ERROR_NOTICE',
+          isMounted,
         );
     }
+    return () => {
+      isMounted = false;
+    };
   }, [dispatch, error, isError, isFetching, isLoading, task]);
 
   // Disable the query when data received

@@ -116,13 +116,14 @@ export function runNoticeCombo(
   dispatch: Dispatch<Action>,
   notice: string,
   type: 'SHOW_ERROR_NOTICE' | 'SHOW_SUCCESS_NOTICE',
+  isMount?: boolean,
 ) {
   const noticeId = uuidv4();
   type === 'SHOW_ERROR_NOTICE'
     ? showErrorNotice(dispatch, notice, noticeId)
     : showSuccessNotice(dispatch, notice, noticeId);
   setTimeout(() => {
-    hideNotice(dispatch, noticeId);
+    isMount !== false && hideNotice(dispatch, noticeId);
   }, 3000);
 }
 

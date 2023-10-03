@@ -29,6 +29,7 @@ export function useQueryWithRefreshOnFocus<T>(
   }, [dispatch, isFetching, isSuccess]);
 
   useEffect(() => {
+    let isMounted: boolean = true;
     if (isError) {
       if (data) {
         (error as AxiosError).status !== 404 &&
@@ -36,11 +37,15 @@ export function useQueryWithRefreshOnFocus<T>(
             dispatch,
             getErrorText(error as AxiosError),
             'SHOW_ERROR_NOTICE',
+            isMounted,
           );
       }
 
       setEnabled(false);
     }
+    return () => {
+      isMounted = false;
+    };
   }, [data, dispatch, error, isError]);
 
   useFocusEffect(
