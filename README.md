@@ -1,5 +1,10 @@
 # Task Manager - Employee
 
+This project has not been completed yet. The following features will be online soon:
+
+- Uses can do the quick action on the task row of the task list by swiping left.
+- A function panel above the task list for searching, sorting, and prioritizing by time, priority, and alphanumeric title.
+
 ## Node
 
 Make sure node version is _18 or above_.
