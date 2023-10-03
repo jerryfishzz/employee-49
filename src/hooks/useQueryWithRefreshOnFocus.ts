@@ -31,11 +31,12 @@ export function useQueryWithRefreshOnFocus<T>(
   useEffect(() => {
     if (isError) {
       if (data) {
-        runNoticeCombo(
-          dispatch,
-          getErrorText(error as AxiosError),
-          'SHOW_ERROR_NOTICE',
-        );
+        (error as AxiosError).status !== 404 &&
+          runNoticeCombo(
+            dispatch,
+            getErrorText(error as AxiosError),
+            'SHOW_ERROR_NOTICE',
+          );
       }
 
       setEnabled(false);

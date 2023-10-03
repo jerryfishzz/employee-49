@@ -33,11 +33,12 @@ export default function Route() {
   // Show error notice only when task already exists
   useEffect(() => {
     if (!isLoading && !isFetching && isError && task) {
-      runNoticeCombo(
-        dispatch,
-        getErrorText(error as AxiosError),
-        'SHOW_ERROR_NOTICE',
-      );
+      (error as AxiosError).status !== 404 &&
+        runNoticeCombo(
+          dispatch,
+          getErrorText(error as AxiosError),
+          'SHOW_ERROR_NOTICE',
+        );
     }
   }, [dispatch, error, isError, isFetching, isLoading, task]);
 

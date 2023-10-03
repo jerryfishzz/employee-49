@@ -52,11 +52,12 @@ export function Detail({
       runNoticeCombo(dispatch, 'Status modified', 'SHOW_SUCCESS_NOTICE');
     },
     onError: (error) => {
-      runNoticeCombo(
-        dispatch,
-        getErrorText(error as AxiosError),
-        'SHOW_ERROR_NOTICE',
-      );
+      (error as AxiosError).status !== 404 &&
+        runNoticeCombo(
+          dispatch,
+          getErrorText(error as AxiosError),
+          'SHOW_ERROR_NOTICE',
+        );
     },
   });
 
