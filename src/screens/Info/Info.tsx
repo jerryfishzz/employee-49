@@ -5,34 +5,29 @@ import { Button, Text } from 'react-native-paper';
 import { View } from 'src/components/Themed';
 import { CheckCircle, Error } from 'src/components/ui';
 
-type ErrorScreenProps = {
+type InfoProps = {
   type: 'error' | 'hint';
   msg?: string;
-  zodMsg?: string;
+  secondMsg?: string;
   setEnabled: Dispatch<SetStateAction<boolean>>;
 };
 
-export function ErrorScreen({
-  type,
-  msg,
-  zodMsg,
-  setEnabled,
-}: ErrorScreenProps) {
+export function Info({ type, msg, secondMsg, setEnabled }: InfoProps) {
   return (
     <View style={styles.container}>
       {type === 'error' ? (
-        <Error size={64} style={styles.error} />
+        <Error size={64} style={styles.icon} />
       ) : (
-        <CheckCircle size={64} style={[styles.error]} />
+        <CheckCircle size={64} style={styles.icon} />
       )}
       {msg && (
         <Text variant="bodyLarge" style={styles.text}>
           {msg}
         </Text>
       )}
-      {zodMsg && (
+      {secondMsg && (
         <Text variant="bodyLarge" style={styles.text}>
-          {zodMsg}
+          {secondMsg}
         </Text>
       )}
 
@@ -53,7 +48,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 32,
   },
-  error: {
+  icon: {
     margin: 16,
   },
   text: {

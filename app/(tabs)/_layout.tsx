@@ -17,7 +17,7 @@ import { getTasks } from 'src/utils/api';
 import { useQueryWithRefreshOnFocus } from 'src/hooks/useQueryWithRefreshOnFocus';
 import { Loading } from 'src/screens/Loading/Loading';
 import { Task } from 'src/utils/schema';
-import { ErrorScreen } from 'src/screens/ErrorScreen';
+import { Info } from 'src/screens/Info';
 
 const Tabs = createMaterialTopTabNavigator<RootTabParamList>();
 
@@ -25,7 +25,7 @@ const { white, hotChilli } = paySauceColor;
 
 const MemoizedList = memo(List);
 const MemoizedLoading = memo(Loading);
-const MemoizedErrorScreen = memo(ErrorScreen);
+const MemoizedInfo = memo(Info);
 
 export default function TabLayout() {
   const [{ isLoading, error, data: tasks, fetchStatus }, setEnabled] =
@@ -159,18 +159,18 @@ function setChildrenByConditions({
           {...props}
         />
       ) : (
-        <MemoizedErrorScreen
+        <MemoizedInfo
           type="hint"
           msg={primaryMsg}
-          zodMsg={secondaryMsg}
+          secondMsg={secondaryMsg}
           setEnabled={setEnabled}
         />
       )
     ) : (
-      <MemoizedErrorScreen
+      <MemoizedInfo
         type="error"
         msg={error ? (error as AxiosError).message : 'Unknown error'}
-        zodMsg={error ? (error as AxiosError).response?.statusText : ''}
+        secondMsg={error ? (error as AxiosError).response?.statusText : ''}
         setEnabled={setEnabled}
       />
     );

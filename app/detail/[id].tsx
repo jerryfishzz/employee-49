@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { runNoticeCombo, useEmployee } from 'src/context/employee';
 import { useTaskLocalSearchParams } from 'src/hooks/useTaskLocalSearchParams';
 import { Detail } from 'src/screens/Detail';
-import { ErrorScreen } from 'src/screens/ErrorScreen';
+import { ErrorScreen } from 'src/screens/Info';
 import { Loading } from 'src/screens/Loading';
 import { getDetail } from 'src/utils/api';
 import { getErrorText } from 'src/utils/helpers';
