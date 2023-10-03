@@ -70,7 +70,7 @@ export function RootLayoutNav() {
                 headerBackTitleVisible: false,
               }}
             >
-              <Stack.Screen name="(tabs)" options={{ title: 'TASKS' }} />
+              <Stack.Screen name="(tabs)" />
               <Stack.Screen name="detail/[id]" options={{ title: 'DETAIL' }} />
             </Stack>
           </EmployeeProvider>

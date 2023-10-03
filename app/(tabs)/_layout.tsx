@@ -8,6 +8,7 @@ import { Dispatch, SetStateAction, memo, useMemo } from 'react';
 import { AxiosError } from 'axios';
 import { UseQueryResult } from '@tanstack/react-query';
 import { RouteProp } from '@react-navigation/native';
+import { Stack } from 'expo-router';
 
 import { paySauceColor } from 'src/data/Colors';
 import { STATUS } from 'src/data/Status';
@@ -34,49 +35,56 @@ export default function TabLayout() {
   const [toDo, done] = useMemo(() => separateTasks(tasks), [tasks]);
 
   return (
-    <Tabs.Navigator
-      initialRouteName="index"
-      screenOptions={{
-        tabBarActiveTintColor: white,
-        tabBarStyle: {
-          backgroundColor: hotChilli,
-          // borderBottomWidth: 0,
-        },
-        tabBarIndicatorStyle: {
-          backgroundColor: white,
-          marginBottom: -1, // Make the border riding between elements
-        },
-        swipeEnabled: false,
-      }}
-    >
-      <Tabs.Screen
-        name="index"
-        options={createOptions(STATUS.toDo, toDo ? toDo.length : '--')}
+    <>
+      <Stack.Screen
+        options={{
+          title: fetchStatus === 'fetching' ? 'LOADING...' : 'TASKS',
+        }}
+      />
+      <Tabs.Navigator
+        initialRouteName="index"
+        screenOptions={{
+          tabBarActiveTintColor: white,
+          tabBarStyle: {
+            backgroundColor: hotChilli,
+            // borderBottomWidth: 0,
+          },
+          tabBarIndicatorStyle: {
+            backgroundColor: white,
+            marginBottom: -1, // Make the border riding between elements
+          },
+          swipeEnabled: false,
+        }}
       >
-        {setChildrenByConditions({
-          isLoading,
-          tasks: toDo,
-          error: error as Error | null,
-          setEnabled,
-          fetchStatus,
-          primaryMsg: "It looks like you're all caught up.",
-          secondaryMsg: 'There are no tasks to do!',
-        })}
-      </Tabs.Screen>
-      <Tabs.Screen
-        name="done"
-        options={createOptions(STATUS.done, done ? done.length : '--')}
-      >
-        {setChildrenByConditions({
-          isLoading,
-          tasks: done,
-          error: error as Error | null,
-          setEnabled,
-          fetchStatus,
-          primaryMsg: 'Completed tasks will show here',
-        })}
-      </Tabs.Screen>
-    </Tabs.Navigator>
+        <Tabs.Screen
+          name="index"
+          options={createOptions(STATUS.toDo, toDo ? toDo.length : '--')}
+        >
+          {setChildrenByConditions({
+            isLoading,
+            tasks: toDo,
+            error: error as Error | null,
+            setEnabled,
+            fetchStatus,
+            primaryMsg: "It looks like you're all caught up.",
+            secondaryMsg: 'There are no tasks to do!',
+          })}
+        </Tabs.Screen>
+        <Tabs.Screen
+          name="done"
+          options={createOptions(STATUS.done, done ? done.length : '--')}
+        >
+          {setChildrenByConditions({
+            isLoading,
+            tasks: done,
+            error: error as Error | null,
+            setEnabled,
+            fetchStatus,
+            primaryMsg: 'Completed tasks will show here',
+          })}
+        </Tabs.Screen>
+      </Tabs.Navigator>
+    </>
   );
 }
 
