@@ -4,6 +4,7 @@ import { Button, Text } from 'react-native-paper';
 
 import { View } from 'src/components/Themed';
 import { CheckCircle, Error } from 'src/components/ui';
+import { useAppTheme } from 'src/hooks/useAppTheme';
 
 type InfoProps = {
   type: 'error' | 'hint';
@@ -13,6 +14,8 @@ type InfoProps = {
 };
 
 export function Info({ type, msg, secondMsg, setEnabled }: InfoProps) {
+  const { colors } = useAppTheme();
+
   return (
     <View style={styles.container}>
       {type === 'error' ? (
@@ -35,6 +38,9 @@ export function Info({ type, msg, secondMsg, setEnabled }: InfoProps) {
         onPress={() => {
           setEnabled?.(true);
         }}
+        style={styles.button}
+        labelStyle={styles.label}
+        textColor={colors.high}
       >
         REFRESH
       </Button>
@@ -54,5 +60,13 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
     marginVertical: 4,
+  },
+  button: {
+    margin: 16,
+    padding: 8,
+  },
+  label: {
+    fontSize: 24,
+    lineHeight: 24,
   },
 });
