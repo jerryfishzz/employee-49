@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { Redirect } from 'expo-router';
+import { Redirect, Stack } from 'expo-router';
 import { useEffect, useState } from 'react';
 
 import { runNoticeCombo, useEmployee } from 'src/context/employee';
@@ -60,6 +60,11 @@ export default function Route() {
 
   return (
     <>
+      <Stack.Screen
+        options={{
+          title: fetchStatus === 'fetching' ? 'LOADING...' : 'DETAIL',
+        }}
+      />
       {isLoading ? (
         <Loading />
       ) : task ? (
