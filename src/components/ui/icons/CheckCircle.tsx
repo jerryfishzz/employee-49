@@ -13,7 +13,7 @@ export function CheckCircle({ style, size, iconColor }: IconProps) {
       <FontAwesome
         name="check-circle"
         size={size ? size : DEFAULT_SIZE}
-        color={iconColor ? iconColor : colors.primary}
+        color={iconColor ? iconColor : colors.normal}
         style={style}
       />
     </IconBase>

@@ -6,6 +6,8 @@ import { Platform } from 'react-native';
 import { Text } from 'react-native-paper';
 import { Dispatch, SetStateAction, memo, useMemo } from 'react';
 import { AxiosError } from 'axios';
+import { UseQueryResult } from '@tanstack/react-query';
+import { RouteProp } from '@react-navigation/native';
 
 import { paySauceColor } from 'src/data/Colors';
 import { STATUS } from 'src/data/Status';
@@ -16,8 +18,6 @@ import { useQueryWithRefreshOnFocus } from 'src/hooks/useQueryWithRefreshOnFocus
 import { Loading } from 'src/screens/Loading/Loading';
 import { Task } from 'src/utils/schema';
 import { ErrorScreen } from 'src/screens/ErrorScreen';
-import { RouteProp } from '@react-navigation/native';
-import { UseQueryResult } from '@tanstack/react-query';
 
 const Tabs = createMaterialTopTabNavigator<RootTabParamList>();
 
@@ -59,6 +59,8 @@ export default function TabLayout() {
           error: error as Error | null,
           setEnabled,
           fetchStatus,
+          primaryMsg: "It looks like you're all caught up.",
+          secondaryMsg: 'There are no tasks to do!',
         })}
       </Tabs.Screen>
       <Tabs.Screen
@@ -71,6 +73,7 @@ export default function TabLayout() {
           error: error as Error | null,
           setEnabled,
           fetchStatus,
+          primaryMsg: 'Completed tasks will show here',
         })}
       </Tabs.Screen>
     </Tabs.Navigator>
@@ -123,9 +126,11 @@ function separateTasks(tasks: Task[] | undefined) {
 type SetChildrenByConditionsParam = {
   isLoading: boolean;
   tasks: Task[] | undefined;
-  error: Error | null;
+  error?: Error | null;
   setEnabled: Dispatch<SetStateAction<boolean>>;
   fetchStatus: UseQueryResult['fetchStatus'];
+  primaryMsg?: string;
+  secondaryMsg?: string;
 };
 type GetChildrenParam = {
   route: RouteProp<RootTabParamList, keyof RootTabParamList>;
@@ -138,20 +143,32 @@ function setChildrenByConditions({
   error,
   setEnabled,
   fetchStatus,
+  primaryMsg,
+  secondaryMsg,
 }: SetChildrenByConditionsParam) {
   // eslint-disable-next-line react/display-name
   return (props: GetChildrenParam) =>
     isLoading ? (
       <MemoizedLoading />
     ) : tasks ? (
-      <MemoizedList
-        data={tasks}
-        fetchStatus={fetchStatus}
-        setEnabled={setEnabled}
-        {...props}
-      />
+      tasks.length > 0 ? (
+        <MemoizedList
+          data={tasks}
+          fetchStatus={fetchStatus}
+          setEnabled={setEnabled}
+          {...props}
+        />
+      ) : (
+        <MemoizedErrorScreen
+          type="hint"
+          msg={primaryMsg}
+          zodMsg={secondaryMsg}
+          setEnabled={setEnabled}
+        />
+      )
     ) : (
       <MemoizedErrorScreen
+        type="error"
         msg={error ? (error as AxiosError).message : 'Unknown error'}
         zodMsg={error ? (error as AxiosError).response?.statusText : ''}
         setEnabled={setEnabled}

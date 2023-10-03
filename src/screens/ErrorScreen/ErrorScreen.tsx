@@ -3,29 +3,42 @@ import { StyleSheet } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 
 import { View } from 'src/components/Themed';
-import { Error } from 'src/components/ui';
+import { CheckCircle, Error } from 'src/components/ui';
 
 type ErrorScreenProps = {
-  msg: string;
+  type: 'error' | 'hint';
+  msg?: string;
   zodMsg?: string;
   setEnabled: Dispatch<SetStateAction<boolean>>;
 };
 
-export function ErrorScreen({ msg, zodMsg, setEnabled }: ErrorScreenProps) {
+export function ErrorScreen({
+  type,
+  msg,
+  zodMsg,
+  setEnabled,
+}: ErrorScreenProps) {
   return (
     <View style={styles.container}>
-      <Error size={64} style={styles.error} />
-      <Text variant="bodyLarge" style={styles.text}>
-        {msg}
-      </Text>
+      {type === 'error' ? (
+        <Error size={64} style={styles.error} />
+      ) : (
+        <CheckCircle size={64} style={[styles.error]} />
+      )}
+      {msg && (
+        <Text variant="bodyLarge" style={styles.text}>
+          {msg}
+        </Text>
+      )}
       {zodMsg && (
         <Text variant="bodyLarge" style={styles.text}>
           {zodMsg}
         </Text>
       )}
+
       <Button
         onPress={() => {
-          setEnabled(true);
+          setEnabled?.(true);
         }}
       >
         REFRESH
