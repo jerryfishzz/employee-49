@@ -105,7 +105,7 @@ function createOptions(title: string, counts: number | string) {
     ),
     tabBarIconStyle: {
       minHeight: Platform.OS === 'ios' ? 32 : 36, // Equal to the above Text variant font size in iOS while a little bigger in Android
-      minWidth: 32, // Also need to adapt the above variant size to show enough width when counts are 2-digit
+      minWidth: 40, // Also need to adapt the above variant size to show enough width when counts are 2-digit
     },
     tabBarLabelStyle: {
       fontFamily: 'MontserratBold',
