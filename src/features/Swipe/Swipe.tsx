@@ -25,6 +25,8 @@ type SwipeProps = {
   id: Task['id'];
   data: Task[]; // Results from the server
   routeName: keyof RootTabParamList;
+  isFoldingUp: boolean;
+  setIsFoldingUp: Dispatch<SetStateAction<boolean>>;
 };
 
 export function Swipe({
@@ -33,9 +35,9 @@ export function Swipe({
   children,
   id,
   data,
+  isFoldingUp,
+  setIsFoldingUp,
 }: SwipeProps) {
-  const [isFoldingUp, setIsFoldingUp] = useState<boolean>(false);
-
   const scaleAnim = useRef<Animated.Value>(new Animated.Value(1)).current;
   const transYAnim = useRef<Animated.Value>(new Animated.Value(0)).current;
 

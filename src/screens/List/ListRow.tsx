@@ -20,7 +20,7 @@ import {
 import { Swipe } from 'src/features/Swipe/Swipe';
 import { Link } from 'expo-router';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 type ListRowProps = {
   item: Task;
@@ -32,6 +32,8 @@ type ListRowProps = {
 const { midGrey } = paySauceColor;
 
 export function ListRow({ item, routeName, data, setEnabled }: ListRowProps) {
+  const [isFoldingUp, setIsFoldingUp] = useState<boolean>(false);
+
   const { id, title, due, priority } = item;
 
   const { colors } = useAppTheme();
@@ -75,7 +77,14 @@ export function ListRow({ item, routeName, data, setEnabled }: ListRowProps) {
 
   if (Platform.OS === 'android')
     return (
-      <Swipe routeName={routeName} setEnabled={setEnabled} id={id} data={data}>
+      <Swipe
+        routeName={routeName}
+        setEnabled={setEnabled}
+        id={id}
+        data={data}
+        isFoldingUp={isFoldingUp}
+        setIsFoldingUp={setIsFoldingUp}
+      >
         <Link href={`/detail/${id}`} asChild>
           <TouchableOpacity>
             <ContentRowAndroid
@@ -94,7 +103,14 @@ export function ListRow({ item, routeName, data, setEnabled }: ListRowProps) {
     );
 
   return (
-    <Swipe routeName={routeName} setEnabled={setEnabled} id={id} data={data}>
+    <Swipe
+      routeName={routeName}
+      setEnabled={setEnabled}
+      id={id}
+      data={data}
+      isFoldingUp={isFoldingUp}
+      setIsFoldingUp={setIsFoldingUp}
+    >
       <Link href={`/detail/${id}`} asChild>
         <TouchableOpacity>
           <List.Item
