@@ -34,6 +34,9 @@ export function Swipe({ route, setEnabled, children, id, data }: SwipeProps) {
 
   const swipeableRef = useRef<Swipeable>(null);
 
+  const runOnSuccess = () => {
+    setEnabled(true);
+  };
   const createPostMutation = useCreatePostMutation();
 
   const openSwipeLeft = () => {
@@ -64,18 +67,25 @@ export function Swipe({ route, setEnabled, children, id, data }: SwipeProps) {
 
       // setTimeout can make the seamless transition between animation
       setTimeout(() => {
+        let modifiedTask: Task;
+
+        // Create expected data and update the query manually.
+        // Note, there is no real query happened by using manual update.
+        // By doing so, it can make the success animation run properly
+        // no matter if the real query later succeeds or not.
         const newData = data.map((item) => {
           if (item.id !== id) return item;
-          return modifyTaskStatus(item);
+
+          modifiedTask = modifyTaskStatus(item);
+          return modifiedTask;
         });
+        queryClient.setQueryData(['tasks'], newData);
+
         // createPostMutation.mutate({
         //   ...task,
         //   status: task.status === 'done' ? 'toDo' : 'done',
         //   completed: task.status === 'done' ? null : new Date().toISOString(),
         // });
-
-        queryClient.invalidateQueries(['tasks']);
-        queryClient.setQueryData(['tasks'], newData);
       }, 5);
     }
   };
