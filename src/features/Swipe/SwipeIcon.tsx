@@ -1,14 +1,21 @@
 import { Animated, StyleSheet } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { View } from 'src/components/Themed';
 
-import { Check } from 'src/components/ui';
+import { Check, RotateLeft } from 'src/components/ui';
 import { useAppTheme } from 'src/hooks/useAppTheme';
+import { RootTabParamList } from 'src/navigation/types';
 
-export function SwipeIcon() {
+type SwipeIconProps = {
+  routeName: keyof RootTabParamList;
+};
+
+export function SwipeIcon({ routeName }: SwipeIconProps) {
   const {
-    colors: { normal, onNormal },
+    colors: { normal, onNormal, low, onLow },
   } = useAppTheme();
 
-  return (
+  return routeName === 'index' ? (
     <Animated.View
       style={[
         styles.container,
@@ -24,6 +31,16 @@ export function SwipeIcon() {
         style={{ backgroundColor: normal }}
       />
     </Animated.View>
+  ) : (
+    <View style={[styles.container, { backgroundColor: low }]}>
+      <TouchableOpacity>
+        <RotateLeft
+          size={36}
+          iconColor={onLow}
+          style={{ backgroundColor: low }}
+        />
+      </TouchableOpacity>
+    </View>
   );
 }
 

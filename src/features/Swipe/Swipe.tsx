@@ -70,7 +70,7 @@ export function Swipe({ route, setEnabled, children }: SwipeProps) {
         {/* This wrapper is for gestures on android  */}
         <GestureHandlerRootView>
           <Swipeable
-            renderRightActions={() => <SwipeIcon />}
+            renderRightActions={() => <SwipeIcon routeName={route.name} />}
             // onSwipeableOpen={() => openSwipeLeft()}
             // onSwipeableClose={() => closeSwipeLeft()}
             ref={swipeableRef}
