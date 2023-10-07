@@ -29,10 +29,10 @@ const MemoizedLoading = memo(Loading);
 const MemoizedInfo = memo(Info);
 
 export default function TabLayout() {
-  const [{ isLoading, error, data: tasks, fetchStatus }, setEnabled] =
+  const [{ isLoading, error, data, fetchStatus }, setEnabled] =
     useQueryWithRefreshOnFocus(getTasks);
 
-  const [toDo, done] = useMemo(() => separateTasks(tasks), [tasks]);
+  const [toDo, done] = useMemo(() => separateTasks(data), [data]);
 
   return (
     <>
@@ -62,6 +62,7 @@ export default function TabLayout() {
         >
           {setChildrenByConditions({
             isLoading,
+            data: data as Task[],
             tasks: toDo,
             error: error as Error | null,
             setEnabled,
@@ -76,6 +77,7 @@ export default function TabLayout() {
         >
           {setChildrenByConditions({
             isLoading,
+            data: data as Task[],
             tasks: done,
             error: error as Error | null,
             setEnabled,
@@ -133,6 +135,7 @@ function separateTasks(tasks: Task[] | undefined) {
 
 type SetChildrenByConditionsParam = {
   isLoading: boolean;
+  data: Task[];
   tasks: Task[] | undefined;
   error?: Error | null;
   setEnabled: Dispatch<SetStateAction<boolean>>;
@@ -147,6 +150,7 @@ type GetChildrenParam = {
 };
 function setChildrenByConditions({
   isLoading,
+  data,
   tasks,
   error,
   setEnabled,
@@ -161,7 +165,8 @@ function setChildrenByConditions({
     ) : tasks ? (
       tasks.length > 0 ? (
         <MemoizedList
-          data={tasks}
+          data={data}
+          tasks={tasks}
           fetchStatus={fetchStatus}
           setEnabled={setEnabled}
           {...props}

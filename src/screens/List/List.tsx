@@ -28,13 +28,15 @@ import { Swipe } from 'src/features/Swipe/Swipe';
 const { midGrey } = paySauceColor;
 
 type ListProps = {
-  data: Task[];
+  data: Task[]; // Results from the server
+  tasks: Task[]; // Results only for the list tab
   setEnabled: Dispatch<SetStateAction<boolean>>;
   fetchStatus: UseQueryResult['fetchStatus'];
 } & RootTabScreenProps<keyof RootTabParamList>;
 
 export function List({
   data,
+  tasks,
   setEnabled,
   fetchStatus,
   ...routeProps
@@ -52,7 +54,7 @@ export function List({
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
-        data={data}
+        data={tasks}
         renderItem={({ item }) => {
           const { id, title, due, priority } = item;
 
@@ -94,7 +96,12 @@ export function List({
 
           if (Platform.OS === 'android')
             return (
-              <Swipe {...routeProps} setEnabled={setEnabled} task={item}>
+              <Swipe
+                {...routeProps}
+                setEnabled={setEnabled}
+                task={item}
+                data={data}
+              >
                 <Link href={`/detail/${id}`} asChild>
                   <TouchableOpacity>
                     <ContentRowAndroid
@@ -116,7 +123,12 @@ export function List({
             );
 
           return (
-            <Swipe {...routeProps} setEnabled={setEnabled} task={item}>
+            <Swipe
+              {...routeProps}
+              setEnabled={setEnabled}
+              task={item}
+              data={data}
+            >
               <Link href={`/detail/${id}`} asChild>
                 <TouchableOpacity>
                   <PaperList.Item

@@ -16,14 +16,16 @@ import { RootTabParamList, RootTabScreenProps } from 'src/navigation/types';
 import { SwipeIcon } from './SwipeIcon';
 import { useCreatePostMutation } from 'src/hooks/useCreatePostMutation';
 import { Task } from 'src/utils/schema';
+import { useQueryClient } from '@tanstack/react-query';
 
 type SwipeProps = {
   setEnabled: Dispatch<SetStateAction<boolean>>;
   children: ReactNode;
   task: Task;
+  data: Task[]; // Results from the server
 } & RootTabScreenProps<keyof RootTabParamList>;
 
-export function Swipe({ route, setEnabled, children, task }: SwipeProps) {
+export function Swipe({ route, setEnabled, children, task, data }: SwipeProps) {
   const [isFoldingUp, setIsFoldingUp] = useState<boolean>(false);
 
   const scaleAnim = useRef<Animated.Value>(new Animated.Value(1)).current;
@@ -40,6 +42,8 @@ export function Swipe({ route, setEnabled, children, task }: SwipeProps) {
       console.log('Tab two swipe left completed');
     }
   };
+
+  const queryClient = useQueryClient();
 
   const closeSwipeLeft = () => {
     // Only run anim and completeTask when swiping left is done
@@ -59,11 +63,22 @@ export function Swipe({ route, setEnabled, children, task }: SwipeProps) {
 
       // setTimeout can make the seamless transition between animation
       setTimeout(() => {
-        createPostMutation.mutate({
-          ...task,
-          status: task.status === 'done' ? 'toDo' : 'done',
-          completed: task.status === 'done' ? null : new Date().toISOString(),
+        const newData = data.map((item) => {
+          if (item.id !== task.id) return item;
+          return {
+            ...task,
+            status: task.status === 'done' ? 'toDo' : 'done',
+            completed: task.status === 'done' ? null : new Date().toISOString(),
+          };
         });
+        // createPostMutation.mutate({
+        //   ...task,
+        //   status: task.status === 'done' ? 'toDo' : 'done',
+        //   completed: task.status === 'done' ? null : new Date().toISOString(),
+        // });
+
+        queryClient.invalidateQueries(['tasks']);
+        queryClient.setQueryData(['tasks'], newData);
       }, 5);
     }
   };
