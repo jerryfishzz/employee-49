@@ -37,7 +37,7 @@ export function ListRow({ item, routeName, data, setEnabled }: ListRowProps) {
   const { id, title, due, priority } = item;
 
   const { colors } = useAppTheme();
-  const { borderBottom, high, normal, background } = colors;
+  const { borderBottom, high, normal, background, surfaceVariant } = colors;
 
   const dueColor =
     routeName === 'index' ? (isOverdue(due) ? high : midGrey) : normal;
@@ -50,6 +50,7 @@ export function ListRow({ item, routeName, data, setEnabled }: ListRowProps) {
       flex: 1,
       paddingLeft: Platform.OS === 'android' ? 16 : 0,
       paddingRight: 12,
+      backgroundColor: isFoldingUp ? surfaceVariant : undefined,
     },
     textStyle: {
       fontSize: 20,
@@ -63,16 +64,31 @@ export function ListRow({ item, routeName, data, setEnabled }: ListRowProps) {
     textStyle: {
       color: dueColor,
     },
+    viewStyle: {
+      backgroundColor: isFoldingUp ? surfaceVariant : undefined,
+    },
   };
 
   const dotBlockAndroid: Block = {
     type: 'icon',
-    content: <RowDotAndroid iconColor={colors[priority]} />,
+    content: (
+      <RowDotAndroid
+        iconColor={colors[priority]}
+        style={getFoldingUpBackGroundColor(isFoldingUp, surfaceVariant)}
+      />
+    ),
   };
 
   const forwardBlockAndroid: Block = {
     type: 'icon',
-    content: <RowForwardAndroid style={styles.forward} />,
+    content: (
+      <RowForwardAndroid
+        style={[
+          styles.forward,
+          getFoldingUpBackGroundColor(isFoldingUp, surfaceVariant),
+        ]}
+      />
+    ),
   };
 
   if (Platform.OS === 'android')
@@ -95,7 +111,11 @@ export function ListRow({ item, routeName, data, setEnabled }: ListRowProps) {
                 dueBlock,
                 forwardBlockAndroid,
               ]}
-              style={[{ borderBottomColor: borderBottom }, styles.bottomBorder]}
+              style={[
+                { borderBottomColor: borderBottom },
+                styles.bottomBorder,
+                getFoldingUpBackGroundColor(isFoldingUp, surfaceVariant),
+              ]}
             />
           </TouchableOpacity>
         </Link>
@@ -114,24 +134,45 @@ export function ListRow({ item, routeName, data, setEnabled }: ListRowProps) {
       <Link href={`/detail/${id}`} asChild>
         <TouchableOpacity>
           <List.Item
-            title={<ContentRow testID={id} blocks={[titleBlock, dueBlock]} />}
+            title={
+              <ContentRow
+                testID={id}
+                blocks={[titleBlock, dueBlock]}
+                style={getFoldingUpBackGroundColor(isFoldingUp, surfaceVariant)}
+              />
+            }
             left={(props) => (
               <List.Icon
                 {...props}
-                icon={() => <Dot iconColor={colors[priority]} />}
+                icon={() => (
+                  <Dot
+                    iconColor={colors[priority]}
+                    style={getFoldingUpBackGroundColor(
+                      isFoldingUp,
+                      surfaceVariant,
+                    )}
+                  />
+                )}
               />
             )}
             right={({ style, ...props }) => (
               <List.Icon
                 style={[style, styles.forward]}
                 {...props}
-                icon={() => <Forward />}
+                icon={() => (
+                  <Forward
+                    style={getFoldingUpBackGroundColor(
+                      isFoldingUp,
+                      surfaceVariant,
+                    )}
+                  />
+                )}
               />
             )}
             style={[
               {
                 borderBottomColor: borderBottom,
-                backgroundColor: background,
+                backgroundColor: isFoldingUp ? surfaceVariant : background,
               },
               styles.listPadding,
               styles.bottomBorder,
@@ -147,6 +188,10 @@ function isOverdue(due: Task['due']) {
   return new Date(due) < new Date() ? true : false;
 }
 
+function getFoldingUpBackGroundColor(isFoldingUp: boolean, color: string) {
+  return isFoldingUp ? { backgroundColor: color } : undefined;
+}
+
 const styles = StyleSheet.create({
   bottomBorder: {
     borderBottomWidth: 2,
@@ -156,5 +201,8 @@ const styles = StyleSheet.create({
   },
   forward: {
     marginLeft: 4,
+  },
+  foldingUp: {
+    textDecorationLine: 'line-through',
   },
 });

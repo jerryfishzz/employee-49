@@ -1,11 +1,4 @@
-import {
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { Dispatch, ReactNode, SetStateAction, useEffect, useRef } from 'react';
 import { Animated } from 'react-native';
 import {
   GestureHandlerRootView,
