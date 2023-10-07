@@ -7,7 +7,6 @@ import {
   ContentRow,
   ContentRowAndroid,
 } from 'src/components/ContentRow';
-import { paySauceColor } from 'src/data/Colors';
 import { useAppTheme } from 'src/hooks/useAppTheme';
 import { Task } from 'src/utils/schema';
 import { RootTabParamList } from 'src/navigation/types';
@@ -28,8 +27,6 @@ type ListRowProps = {
   data: Task[]; // Results from the server
   setEnabled: Dispatch<SetStateAction<boolean>>;
 };
-
-const { midGrey } = paySauceColor;
 
 export function ListRow({ item, routeName, data, setEnabled }: ListRowProps) {
   const [isFoldingUp, setIsFoldingUp] = useState<boolean>(false);
