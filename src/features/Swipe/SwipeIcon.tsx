@@ -1,4 +1,4 @@
-import { Animated, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { View } from 'src/components/Themed';
 
@@ -16,7 +16,7 @@ export function SwipeIcon({ routeName }: SwipeIconProps) {
   } = useAppTheme();
 
   return routeName === 'index' ? (
-    <Animated.View
+    <View
       style={[
         styles.container,
         {
@@ -30,7 +30,7 @@ export function SwipeIcon({ routeName }: SwipeIconProps) {
         iconColor={onNormal}
         style={{ backgroundColor: normal }}
       />
-    </Animated.View>
+    </View>
   ) : (
     <View style={[styles.container, { backgroundColor: low }]}>
       <TouchableOpacity>
@@ -51,9 +51,4 @@ const styles = StyleSheet.create({
     paddingLeft: 24,
     paddingRight: 16,
   },
-
-  // foldingUp: {
-  //   color: greys.lightGrey,
-  //   textDecorationLine: 'line-through',
-  // },
 });
