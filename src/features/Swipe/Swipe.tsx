@@ -27,13 +27,13 @@ export function Swipe({ route, setEnabled, children }: SwipeProps) {
 
   const swipeableRef = useRef<Swipeable>(null);
 
-  // const openSwipeLeft = () => {
-  //   if (route.name === 'index') {
-  //     setIsFoldingUp(true);
-  //   } else {
-  //     console.log('Tab two swipe left completed');
-  //   }
-  // };
+  const openSwipeLeft = () => {
+    if (route.name === 'index') {
+      setIsFoldingUp(true);
+    } else {
+      console.log('Tab two swipe left completed');
+    }
+  };
 
   // const closeSwipeLeft = () => {
   //   // Only run anim and completeTask when swiping left is done
@@ -58,11 +58,12 @@ export function Swipe({ route, setEnabled, children }: SwipeProps) {
   //   }
   // };
 
-  // useEffect(() => {
-  //   // Only run close when isFoldingUp is true
-  //   // to make sure swiping left completed
-  //   isFoldingUp && swipeableRef?.current?.close()
-  // }, [isFoldingUp])
+  useEffect(() => {
+    // Only run close when isFoldingUp is true
+    // to make sure swiping left completed
+    isFoldingUp && swipeableRef?.current?.close();
+    setIsFoldingUp(false);
+  }, [isFoldingUp]);
 
   return (
     <Animated.View style={[{ transform: [{ scaleY: scaleAnim }] }]}>
@@ -71,7 +72,7 @@ export function Swipe({ route, setEnabled, children }: SwipeProps) {
         <GestureHandlerRootView>
           <Swipeable
             renderRightActions={() => <SwipeIcon routeName={route.name} />}
-            // onSwipeableOpen={() => openSwipeLeft()}
+            onSwipeableOpen={() => openSwipeLeft()}
             // onSwipeableClose={() => closeSwipeLeft()}
             ref={swipeableRef}
           >

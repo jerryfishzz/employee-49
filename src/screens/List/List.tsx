@@ -40,7 +40,7 @@ export function List({
   ...routeProps
 }: ListProps) {
   const { colors } = useAppTheme();
-  const { borderBottom, high, normal } = colors;
+  const { borderBottom, high, normal, background } = colors;
 
   const { route } = routeProps;
 
@@ -135,7 +135,10 @@ export function List({
                       />
                     )}
                     style={[
-                      { borderBottomColor: borderBottom },
+                      {
+                        borderBottomColor: borderBottom,
+                        backgroundColor: background,
+                      },
                       styles.listPadding,
                       styles.bottomBorder,
                     ]}

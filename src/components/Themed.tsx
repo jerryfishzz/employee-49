@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 
 import Colors from '../data/Colors';
+import { useAppTheme } from 'src/hooks/useAppTheme';
 
 type ThemeProps = {
   lightColor?: string;
@@ -40,12 +41,26 @@ export function Text(props: TextProps) {
   return <DefaultText style={[{ color }, style]} {...otherProps} />;
 }
 
-export function View(props: ViewProps) {
-  const { style, lightColor, darkColor, ...otherProps } = props;
-  const backgroundColor = useThemeColor(
-    { light: lightColor, dark: darkColor },
-    'background',
-  );
+// export function View(props: ViewProps) {
+//   const { style, lightColor, darkColor, ...otherProps } = props;
+//   const backgroundColor = useThemeColor(
+//     { light: lightColor, dark: darkColor },
+//     'background',
+//   );
 
-  return <DefaultView style={[{ backgroundColor }, style]} {...otherProps} />;
+//   return <DefaultView style={[{ backgroundColor }, style]} {...otherProps} />;
+// }
+
+export function View(props: ViewProps) {
+  const { style, ...otherProps } = props;
+  const {
+    colors: { background },
+  } = useAppTheme();
+
+  return (
+    <DefaultView
+      style={[{ backgroundColor: background }, style]}
+      {...otherProps}
+    />
+  );
 }
