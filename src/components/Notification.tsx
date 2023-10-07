@@ -17,7 +17,7 @@ export function Notification() {
     dispatch,
   ] = useEmployee();
 
-  const { top, bottom } = useSafeAreaInsets();
+  const { top } = useSafeAreaInsets();
 
   // eslint-disable-next-line prefer-const
   let Icon: NoticeElement['Icon'] = Error;
@@ -45,7 +45,6 @@ export function Notification() {
           elevation={3}
           contentStyle={{
             marginTop: visible ? top : 0,
-            marginBottom: visible ? bottom : 0,
           }}
           style={{ backgroundColor }}
           icon={() => getStyledIcon({ Icon, backgroundColor, contentColor })}
