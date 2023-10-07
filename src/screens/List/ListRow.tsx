@@ -37,10 +37,18 @@ export function ListRow({ item, routeName, data, setEnabled }: ListRowProps) {
   const { id, title, due, priority } = item;
 
   const { colors } = useAppTheme();
-  const { borderBottom, high, normal, background, surfaceVariant } = colors;
+  const {
+    borderBottom,
+    high,
+    normal,
+    background,
+    surfaceVariant,
+    onSurfaceVariant,
+    onBackground,
+  } = colors;
 
   const dueColor =
-    routeName === 'index' ? (isOverdue(due) ? high : midGrey) : normal;
+    routeName === 'index' ? (isOverdue(due) ? high : onBackground) : normal;
 
   const titleBlock: Block = {
     type: 'text',
@@ -54,6 +62,8 @@ export function ListRow({ item, routeName, data, setEnabled }: ListRowProps) {
     },
     textStyle: {
       fontSize: 20,
+      textDecorationLine: isFoldingUp ? 'line-through' : undefined,
+      color: isFoldingUp ? onSurfaceVariant : onBackground,
     },
   };
 
@@ -62,7 +72,8 @@ export function ListRow({ item, routeName, data, setEnabled }: ListRowProps) {
     content: date.format(new Date(due), 'D MMM'),
     variant: 'titleMedium',
     textStyle: {
-      color: dueColor,
+      color: isFoldingUp ? onSurfaceVariant : dueColor,
+      textDecorationLine: isFoldingUp ? 'line-through' : undefined,
     },
     viewStyle: {
       backgroundColor: isFoldingUp ? surfaceVariant : undefined,
@@ -73,7 +84,7 @@ export function ListRow({ item, routeName, data, setEnabled }: ListRowProps) {
     type: 'icon',
     content: (
       <RowDotAndroid
-        iconColor={colors[priority]}
+        iconColor={isFoldingUp ? onSurfaceVariant : colors[priority]}
         style={getFoldingUpBackGroundColor(isFoldingUp, surfaceVariant)}
       />
     ),
@@ -83,6 +94,7 @@ export function ListRow({ item, routeName, data, setEnabled }: ListRowProps) {
     type: 'icon',
     content: (
       <RowForwardAndroid
+        iconColor={isFoldingUp ? onSurfaceVariant : undefined}
         style={[
           styles.forward,
           getFoldingUpBackGroundColor(isFoldingUp, surfaceVariant),
@@ -146,7 +158,9 @@ export function ListRow({ item, routeName, data, setEnabled }: ListRowProps) {
                 {...props}
                 icon={() => (
                   <Dot
-                    iconColor={colors[priority]}
+                    iconColor={
+                      isFoldingUp ? onSurfaceVariant : colors[priority]
+                    }
                     style={getFoldingUpBackGroundColor(
                       isFoldingUp,
                       surfaceVariant,
@@ -161,6 +175,7 @@ export function ListRow({ item, routeName, data, setEnabled }: ListRowProps) {
                 {...props}
                 icon={() => (
                   <Forward
+                    iconColor={isFoldingUp ? onSurfaceVariant : undefined}
                     style={getFoldingUpBackGroundColor(
                       isFoldingUp,
                       surfaceVariant,
