@@ -35,11 +35,16 @@ export function Detail({
   const [, setEnabled] = useQueryWithRefreshOnFocus(getTasks, false);
 
   const queryClient = useQueryClient();
-  const run = (data: Task) => {
+  const runOnSuccess = (data: Task) => {
     queryClient.invalidateQueries(['detail', id]);
     queryClient.setQueryData(['detail', id], data);
+
+    // Delay setEnabled a little bit to have a better visual effect on notice emerging
+    setTimeout(() => {
+      setEnabled(true);
+    }, 500);
   };
-  const createPostMutation = useCreatePostMutation(setEnabled, run);
+  const createPostMutation = useCreatePostMutation({ runOnSuccess });
 
   const [refreshing, onRefresh] = useRefreshing(
     setTaskQueryEnabled,

@@ -33,7 +33,7 @@ export function Swipe({ route, setEnabled, children, task, data }: SwipeProps) {
 
   const swipeableRef = useRef<Swipeable>(null);
 
-  const createPostMutation = useCreatePostMutation(setEnabled);
+  const createPostMutation = useCreatePostMutation();
 
   const openSwipeLeft = () => {
     if (route.name === 'index') {
