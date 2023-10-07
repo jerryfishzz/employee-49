@@ -82,6 +82,7 @@ const handlers = [
           taskObjStr as string,
           updateTask,
           ctx,
+          'Mock error from detail post request.',
         ),
       );
     } catch (error) {

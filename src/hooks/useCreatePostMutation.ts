@@ -7,12 +7,13 @@ import { getErrorText } from 'src/utils/helpers';
 import { Task } from 'src/utils/schema';
 
 type UseCreatePostMutationParams = {
-  runOnSuccess?: (data: Task) => void;
+  runOnSuccess?: ((data: Task) => void) | (() => void);
   runOnError?: () => void;
 };
 
 export function useCreatePostMutation({
   runOnSuccess,
+  runOnError,
 }: UseCreatePostMutationParams = {}) {
   const [, dispatch] = useEmployee();
 
@@ -28,6 +29,7 @@ export function useCreatePostMutation({
       );
     },
     onError: (error) => {
+      runOnError?.();
       (error as AxiosError).status !== 404 &&
         runNoticeCombo(
           dispatch,

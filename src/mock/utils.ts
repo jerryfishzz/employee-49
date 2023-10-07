@@ -29,6 +29,7 @@ export function createErrorChangeOnResponse(zeroToTen: number) {
     data: string,
     processData: (data: string) => unknown | null,
     context: RestContext,
+    errMsg?: string,
   ) => {
     const random = Math.floor(Math.random() * 9); // random number from 0 to 9
     console.log(random);
@@ -47,7 +48,7 @@ export function createErrorChangeOnResponse(zeroToTen: number) {
       }
     }
 
-    return context.status(500);
+    return context.status(500, errMsg);
   };
 }
 

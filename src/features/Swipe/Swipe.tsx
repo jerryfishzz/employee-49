@@ -35,9 +35,19 @@ export function Swipe({ route, setEnabled, children, id, data }: SwipeProps) {
   const swipeableRef = useRef<Swipeable>(null);
 
   const runOnSuccess = () => {
-    setEnabled(true);
+    setTimeout(() => {
+      setEnabled(true);
+    }, 500);
   };
-  const createPostMutation = useCreatePostMutation();
+  const runOnError = () => {
+    setTimeout(() => {
+      setEnabled(true);
+    }, 500);
+  };
+  const createPostMutation = useCreatePostMutation({
+    runOnSuccess,
+    runOnError,
+  });
 
   const openSwipeLeft = () => {
     if (route.name === 'index') {
@@ -67,8 +77,6 @@ export function Swipe({ route, setEnabled, children, id, data }: SwipeProps) {
 
       // setTimeout can make the seamless transition between animation
       setTimeout(() => {
-        let modifiedTask: Task;
-
         // Create expected data and update the query manually.
         // Note, there is no real query happened by using manual update.
         // By doing so, it can make the success animation run properly
@@ -76,16 +84,12 @@ export function Swipe({ route, setEnabled, children, id, data }: SwipeProps) {
         const newData = data.map((item) => {
           if (item.id !== id) return item;
 
-          modifiedTask = modifyTaskStatus(item);
+          const modifiedTask = modifyTaskStatus(item);
+          createPostMutation.mutate(modifiedTask);
+
           return modifiedTask;
         });
         queryClient.setQueryData(['tasks'], newData);
-
-        // createPostMutation.mutate({
-        //   ...task,
-        //   status: task.status === 'done' ? 'toDo' : 'done',
-        //   completed: task.status === 'done' ? null : new Date().toISOString(),
-        // });
       }, 5);
     }
   };
