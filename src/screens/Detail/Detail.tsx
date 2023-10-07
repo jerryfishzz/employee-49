@@ -22,6 +22,7 @@ import { useQueryWithRefreshOnFocus } from 'src/hooks/useQueryWithRefreshOnFocus
 import { useRefreshing } from 'src/hooks/useRefreshing';
 import { Task } from 'src/utils/schema';
 import { useCreatePostMutation } from 'src/hooks/useCreatePostMutation';
+import { modifyTaskStatus } from 'src/utils/helpers';
 
 export function Detail({
   task,
@@ -52,11 +53,7 @@ export function Detail({
   );
 
   const handlePress = () => {
-    createPostMutation.mutate({
-      ...task,
-      status: status === 'done' ? 'toDo' : 'done',
-      completed: status === 'done' ? null : new Date().toISOString(),
-    });
+    createPostMutation.mutate(modifyTaskStatus(task));
   };
 
   const detailRowData: DetailRowData[] = [

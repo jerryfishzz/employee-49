@@ -17,15 +17,16 @@ import { SwipeIcon } from './SwipeIcon';
 import { useCreatePostMutation } from 'src/hooks/useCreatePostMutation';
 import { Task } from 'src/utils/schema';
 import { useQueryClient } from '@tanstack/react-query';
+import { modifyTaskStatus } from 'src/utils/helpers';
 
 type SwipeProps = {
   setEnabled: Dispatch<SetStateAction<boolean>>;
   children: ReactNode;
-  task: Task;
+  id: Task['id'];
   data: Task[]; // Results from the server
 } & RootTabScreenProps<keyof RootTabParamList>;
 
-export function Swipe({ route, setEnabled, children, task, data }: SwipeProps) {
+export function Swipe({ route, setEnabled, children, id, data }: SwipeProps) {
   const [isFoldingUp, setIsFoldingUp] = useState<boolean>(false);
 
   const scaleAnim = useRef<Animated.Value>(new Animated.Value(1)).current;
@@ -64,12 +65,8 @@ export function Swipe({ route, setEnabled, children, task, data }: SwipeProps) {
       // setTimeout can make the seamless transition between animation
       setTimeout(() => {
         const newData = data.map((item) => {
-          if (item.id !== task.id) return item;
-          return {
-            ...task,
-            status: task.status === 'done' ? 'toDo' : 'done',
-            completed: task.status === 'done' ? null : new Date().toISOString(),
-          };
+          if (item.id !== id) return item;
+          return modifyTaskStatus(item);
         });
         // createPostMutation.mutate({
         //   ...task,

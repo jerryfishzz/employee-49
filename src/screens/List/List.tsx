@@ -99,7 +99,7 @@ export function List({
               <Swipe
                 {...routeProps}
                 setEnabled={setEnabled}
-                task={item}
+                id={id}
                 data={data}
               >
                 <Link href={`/detail/${id}`} asChild>
@@ -123,12 +123,7 @@ export function List({
             );
 
           return (
-            <Swipe
-              {...routeProps}
-              setEnabled={setEnabled}
-              task={item}
-              data={data}
-            >
+            <Swipe {...routeProps} setEnabled={setEnabled} id={id} data={data}>
               <Link href={`/detail/${id}`} asChild>
                 <TouchableOpacity>
                   <PaperList.Item

@@ -1,5 +1,6 @@
 import { AxiosError } from 'axios';
 import { z } from 'zod';
+import { Task } from './schema';
 
 // Get a date object offset by offsetDays
 export function getCertainDate(offsetDays?: number): Date {
@@ -43,4 +44,12 @@ export function strToNum(str: string): number {
 
 export function getErrorText(error: AxiosError): string {
   return error.response ? error.response.statusText : error.message;
+}
+
+export function modifyTaskStatus(task: Task): Task {
+  return {
+    ...task,
+    status: task.status === 'done' ? 'toDo' : 'done',
+    completed: task.status === 'done' ? null : new Date().toISOString(),
+  };
 }
