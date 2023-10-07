@@ -8,7 +8,7 @@ import { UseQueryResult } from '@tanstack/react-query';
 
 import { View } from 'src/components/Themed';
 import { paySauceColor } from 'src/data/Colors';
-import { RootTabParamList, RootTabScreenProps } from 'src/navigation/types';
+import { RootTabParamList } from 'src/navigation/types';
 import { Task } from 'src/utils/schema';
 import {
   Dot,
@@ -32,19 +32,18 @@ type ListProps = {
   tasks: Task[]; // Results only for the list tab
   setEnabled: Dispatch<SetStateAction<boolean>>;
   fetchStatus: UseQueryResult['fetchStatus'];
-} & RootTabScreenProps<keyof RootTabParamList>;
+  routeName: keyof RootTabParamList;
+};
 
 export function List({
   data,
   tasks,
   setEnabled,
   fetchStatus,
-  ...routeProps
+  routeName,
 }: ListProps) {
   const { colors } = useAppTheme();
   const { borderBottom, high, normal, background } = colors;
-
-  const { route } = routeProps;
 
   const [refreshing, onRefresh] = useRefreshing(setEnabled, fetchStatus);
 
@@ -59,7 +58,7 @@ export function List({
           const { id, title, due, priority } = item;
 
           const dueColor =
-            route.name === 'index' ? (isOverdue(due) ? high : midGrey) : normal;
+            routeName === 'index' ? (isOverdue(due) ? high : midGrey) : normal;
 
           const titleBlock: Block = {
             type: 'text',
@@ -97,7 +96,7 @@ export function List({
           if (Platform.OS === 'android')
             return (
               <Swipe
-                {...routeProps}
+                routeName={routeName}
                 setEnabled={setEnabled}
                 id={id}
                 data={data}
@@ -123,7 +122,12 @@ export function List({
             );
 
           return (
-            <Swipe {...routeProps} setEnabled={setEnabled} id={id} data={data}>
+            <Swipe
+              routeName={routeName}
+              setEnabled={setEnabled}
+              id={id}
+              data={data}
+            >
               <Link href={`/detail/${id}`} asChild>
                 <TouchableOpacity>
                   <PaperList.Item

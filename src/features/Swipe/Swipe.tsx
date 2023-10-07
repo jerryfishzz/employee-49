@@ -12,7 +12,7 @@ import {
   Swipeable,
 } from 'react-native-gesture-handler';
 
-import { RootTabParamList, RootTabScreenProps } from 'src/navigation/types';
+import { RootTabParamList } from 'src/navigation/types';
 import { SwipeIcon } from './SwipeIcon';
 import { useCreatePostMutation } from 'src/hooks/useCreatePostMutation';
 import { Task } from 'src/utils/schema';
@@ -24,9 +24,16 @@ type SwipeProps = {
   children: ReactNode;
   id: Task['id'];
   data: Task[]; // Results from the server
-} & RootTabScreenProps<keyof RootTabParamList>;
+  routeName: keyof RootTabParamList;
+};
 
-export function Swipe({ route, setEnabled, children, id, data }: SwipeProps) {
+export function Swipe({
+  routeName,
+  setEnabled,
+  children,
+  id,
+  data,
+}: SwipeProps) {
   const [isFoldingUp, setIsFoldingUp] = useState<boolean>(false);
 
   const scaleAnim = useRef<Animated.Value>(new Animated.Value(1)).current;
@@ -44,7 +51,7 @@ export function Swipe({ route, setEnabled, children, id, data }: SwipeProps) {
   });
 
   const openSwipeLeft = () => {
-    if (route.name === 'index') {
+    if (routeName === 'index') {
       setIsFoldingUp(true);
     } else {
       console.log('Tab two swipe left completed');
@@ -55,7 +62,7 @@ export function Swipe({ route, setEnabled, children, id, data }: SwipeProps) {
 
   const closeSwipeLeft = () => {
     // Only run anim and completeTask when swiping left is done
-    if (route.name === 'index' && isFoldingUp) {
+    if (routeName === 'index' && isFoldingUp) {
       Animated.parallel([
         Animated.timing(scaleAnim, {
           toValue: 0.6,
@@ -100,7 +107,7 @@ export function Swipe({ route, setEnabled, children, id, data }: SwipeProps) {
         {/* This wrapper is for gestures on android  */}
         <GestureHandlerRootView>
           <Swipeable
-            renderRightActions={() => <SwipeIcon routeName={route.name} />}
+            renderRightActions={() => <SwipeIcon routeName={routeName} />}
             onSwipeableOpen={() => openSwipeLeft()}
             onSwipeableClose={() => closeSwipeLeft()}
             ref={swipeableRef}

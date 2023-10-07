@@ -169,7 +169,7 @@ function setChildrenByConditions({
           tasks={tasks}
           fetchStatus={fetchStatus}
           setEnabled={setEnabled}
-          {...props}
+          routeName={props.route.name}
         />
       ) : (
         <MemoizedInfo
