@@ -1,5 +1,7 @@
 import { AxiosError } from 'axios';
 import { z } from 'zod';
+import { Dispatch, SetStateAction } from 'react';
+
 import { Task } from './schema';
 
 // Get a date object offset by offsetDays
@@ -52,4 +54,13 @@ export function modifyTaskStatus(task: Task): Task {
     status: task.status === 'done' ? 'toDo' : 'done',
     completed: task.status === 'done' ? null : new Date().toISOString(),
   };
+}
+
+export function refreshTasksWithDelay(
+  setEnabled: Dispatch<SetStateAction<boolean>>,
+) {
+  // Delay setEnabled a little bit to have a better visual effect on notice emerging
+  setTimeout(() => {
+    setEnabled(true);
+  }, 500);
 }

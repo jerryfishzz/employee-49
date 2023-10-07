@@ -22,7 +22,7 @@ import { useQueryWithRefreshOnFocus } from 'src/hooks/useQueryWithRefreshOnFocus
 import { useRefreshing } from 'src/hooks/useRefreshing';
 import { Task } from 'src/utils/schema';
 import { useCreatePostMutation } from 'src/hooks/useCreatePostMutation';
-import { modifyTaskStatus } from 'src/utils/helpers';
+import { modifyTaskStatus, refreshTasksWithDelay } from 'src/utils/helpers';
 
 export function Detail({
   task,
@@ -40,10 +40,7 @@ export function Detail({
     queryClient.invalidateQueries(['detail', id]);
     queryClient.setQueryData(['detail', id], data);
 
-    // Delay setEnabled a little bit to have a better visual effect on notice emerging
-    setTimeout(() => {
-      setEnabled(true);
-    }, 500);
+    refreshTasksWithDelay(setEnabled);
   };
   const createPostMutation = useCreatePostMutation({ runOnSuccess });
 

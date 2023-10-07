@@ -17,7 +17,7 @@ import { SwipeIcon } from './SwipeIcon';
 import { useCreatePostMutation } from 'src/hooks/useCreatePostMutation';
 import { Task } from 'src/utils/schema';
 import { useQueryClient } from '@tanstack/react-query';
-import { modifyTaskStatus } from 'src/utils/helpers';
+import { modifyTaskStatus, refreshTasksWithDelay } from 'src/utils/helpers';
 
 type SwipeProps = {
   setEnabled: Dispatch<SetStateAction<boolean>>;
@@ -34,19 +34,13 @@ export function Swipe({ route, setEnabled, children, id, data }: SwipeProps) {
 
   const swipeableRef = useRef<Swipeable>(null);
 
-  const runOnSuccess = () => {
-    setTimeout(() => {
-      setEnabled(true);
-    }, 500);
-  };
-  const runOnError = () => {
-    setTimeout(() => {
-      setEnabled(true);
-    }, 500);
-  };
   const createPostMutation = useCreatePostMutation({
-    runOnSuccess,
-    runOnError,
+    runOnSuccess: () => {
+      refreshTasksWithDelay(setEnabled);
+    },
+    runOnError: () => {
+      refreshTasksWithDelay(setEnabled);
+    },
   });
 
   const openSwipeLeft = () => {
