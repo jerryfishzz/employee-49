@@ -9,14 +9,14 @@ import { Task } from 'src/utils/schema';
 
 export function useCreatePostMutation(
   setEnabled: Dispatch<SetStateAction<boolean>>,
-  run: (data: Task) => void,
+  run?: (data: Task) => void,
 ) {
   const [, dispatch] = useEmployee();
 
   return useMutation({
     mutationFn: updateDetail,
     onSuccess: (data, variables) => {
-      run(data);
+      run?.(data);
 
       // Delay setEnabled a little bit to have a better visual effect on notice emerging
       setTimeout(() => {

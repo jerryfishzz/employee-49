@@ -53,7 +53,9 @@ export function List({
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
         data={data}
-        renderItem={({ item: { id, title, due, priority } }) => {
+        renderItem={({ item }) => {
+          const { id, title, due, priority } = item;
+
           const dueColor =
             route.name === 'index' ? (isOverdue(due) ? high : midGrey) : normal;
 
@@ -92,7 +94,7 @@ export function List({
 
           if (Platform.OS === 'android')
             return (
-              <Swipe {...routeProps} setEnabled={setEnabled}>
+              <Swipe {...routeProps} setEnabled={setEnabled} task={item}>
                 <Link href={`/detail/${id}`} asChild>
                   <TouchableOpacity>
                     <ContentRowAndroid
@@ -114,7 +116,7 @@ export function List({
             );
 
           return (
-            <Swipe {...routeProps} setEnabled={setEnabled}>
+            <Swipe {...routeProps} setEnabled={setEnabled} task={item}>
               <Link href={`/detail/${id}`} asChild>
                 <TouchableOpacity>
                   <PaperList.Item
