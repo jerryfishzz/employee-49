@@ -1,9 +1,6 @@
 import { Dispatch, ReactNode, SetStateAction, useEffect, useRef } from 'react';
 import { Animated, Platform } from 'react-native';
-import {
-  GestureHandlerRootView,
-  Swipeable,
-} from 'react-native-gesture-handler';
+import { Swipeable } from 'react-native-gesture-handler';
 
 import { RootTabParamList } from 'src/navigation/types';
 import { SwipeIcon } from './SwipeIcon';
@@ -106,17 +103,14 @@ export function Swipe({
   return (
     <Animated.View style={[{ transform: [{ scaleY: scaleAnim }] }]}>
       <Animated.View style={[{ transform: [{ translateY: transYAnim }] }]}>
-        {/* This wrapper is for gestures on android  */}
-        <GestureHandlerRootView>
-          <Swipeable
-            renderRightActions={() => <SwipeIcon routeName={routeName} />}
-            onSwipeableOpen={() => openSwipeLeft()}
-            onSwipeableClose={() => closeSwipeLeft()}
-            ref={swipeableRef}
-          >
-            {children}
-          </Swipeable>
-        </GestureHandlerRootView>
+        <Swipeable
+          renderRightActions={() => <SwipeIcon routeName={routeName} />}
+          onSwipeableOpen={() => openSwipeLeft()}
+          onSwipeableClose={() => closeSwipeLeft()}
+          ref={swipeableRef}
+        >
+          {children}
+        </Swipeable>
       </Animated.View>
     </Animated.View>
   );
