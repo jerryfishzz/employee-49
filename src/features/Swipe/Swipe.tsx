@@ -1,5 +1,5 @@
 import { Dispatch, ReactNode, SetStateAction, useEffect, useRef } from 'react';
-import { Animated } from 'react-native';
+import { Animated, Platform } from 'react-native';
 import {
   GestureHandlerRootView,
   Swipeable,
@@ -11,6 +11,7 @@ import { useCreatePostMutation } from 'src/hooks/useCreatePostMutation';
 import { Task } from 'src/utils/schema';
 import { useQueryClient } from '@tanstack/react-query';
 import { modifyTaskStatus, refreshTasksWithDelay } from 'src/utils/helpers';
+import { runLayoutAnim } from './runLayoutAnim';
 
 type SwipeProps = {
   setEnabled: Dispatch<SetStateAction<boolean>>;
@@ -56,17 +57,19 @@ export function Swipe({
   const queryClient = useQueryClient();
 
   const closeSwipeLeft = () => {
-    // Only run anim and completeTask when swiping left is done
+    // Only run anim when swiping left is done
     if (routeName === 'index' && isFoldingUp) {
+      // Set different values depending on platform
+      // since layout anim doesn't work on Android.
       Animated.parallel([
         Animated.timing(scaleAnim, {
-          toValue: 0.6,
-          duration: 200,
+          toValue: Platform.OS === 'android' ? 0.2 : 0.6,
+          duration: Platform.OS === 'android' ? 100 : 300,
           useNativeDriver: true,
         }),
         Animated.timing(transYAnim, {
-          toValue: -20,
-          duration: 200,
+          toValue: Platform.OS === 'android' ? -180 : -30,
+          duration: 300,
           useNativeDriver: true,
         }),
       ]).start();
@@ -85,6 +88,10 @@ export function Swipe({
 
           return modifiedTask;
         });
+
+        // This method doesn't work on Android. No ideas yet.
+        runLayoutAnim();
+
         queryClient.setQueryData(['tasks'], newData);
       }, 5);
     }
