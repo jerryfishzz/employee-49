@@ -23,6 +23,7 @@ import {
   ContentRowAndroid,
 } from 'src/components/ContentRow';
 import { useRefreshing } from 'src/hooks/useRefreshing';
+import { Swipe } from 'src/features/Swipe/Swipe';
 
 const { midGrey } = paySauceColor;
 
@@ -32,9 +33,16 @@ type ListProps = {
   fetchStatus: UseQueryResult['fetchStatus'];
 } & RootTabScreenProps<keyof RootTabParamList>;
 
-export function List({ data, route, setEnabled, fetchStatus }: ListProps) {
+export function List({
+  data,
+  setEnabled,
+  fetchStatus,
+  ...routeProps
+}: ListProps) {
   const { colors } = useAppTheme();
   const { borderBottom, high, normal } = colors;
+
+  const { route } = routeProps;
 
   const [refreshing, onRefresh] = useRefreshing(setEnabled, fetchStatus);
 
@@ -84,53 +92,57 @@ export function List({ data, route, setEnabled, fetchStatus }: ListProps) {
 
           if (Platform.OS === 'android')
             return (
+              <Swipe {...routeProps} setEnabled={setEnabled}>
+                <Link href={`/detail/${id}`} asChild>
+                  <TouchableOpacity>
+                    <ContentRowAndroid
+                      testID={id}
+                      blocks={[
+                        dotBlockAndroid,
+                        titleBlock,
+                        dueBlock,
+                        forwardBlockAndroid,
+                      ]}
+                      style={[
+                        { borderBottomColor: borderBottom },
+                        styles.bottomBorder,
+                      ]}
+                    />
+                  </TouchableOpacity>
+                </Link>
+              </Swipe>
+            );
+
+          return (
+            <Swipe {...routeProps} setEnabled={setEnabled}>
               <Link href={`/detail/${id}`} asChild>
                 <TouchableOpacity>
-                  <ContentRowAndroid
-                    testID={id}
-                    blocks={[
-                      dotBlockAndroid,
-                      titleBlock,
-                      dueBlock,
-                      forwardBlockAndroid,
-                    ]}
+                  <PaperList.Item
+                    title={
+                      <ContentRow testID={id} blocks={[titleBlock, dueBlock]} />
+                    }
+                    left={(props) => (
+                      <PaperList.Icon
+                        {...props}
+                        icon={() => <Dot iconColor={colors[priority]} />}
+                      />
+                    )}
+                    right={({ style, ...props }) => (
+                      <PaperList.Icon
+                        style={[style, styles.forward]}
+                        {...props}
+                        icon={() => <Forward />}
+                      />
+                    )}
                     style={[
                       { borderBottomColor: borderBottom },
+                      styles.listPadding,
                       styles.bottomBorder,
                     ]}
                   />
                 </TouchableOpacity>
               </Link>
-            );
-
-          return (
-            <Link href={`/detail/${id}`} asChild>
-              <TouchableOpacity>
-                <PaperList.Item
-                  title={
-                    <ContentRow testID={id} blocks={[titleBlock, dueBlock]} />
-                  }
-                  left={(props) => (
-                    <PaperList.Icon
-                      {...props}
-                      icon={() => <Dot iconColor={colors[priority]} />}
-                    />
-                  )}
-                  right={({ style, ...props }) => (
-                    <PaperList.Icon
-                      style={[style, styles.forward]}
-                      {...props}
-                      icon={() => <Forward />}
-                    />
-                  )}
-                  style={[
-                    { borderBottomColor: borderBottom },
-                    styles.listPadding,
-                    styles.bottomBorder,
-                  ]}
-                />
-              </TouchableOpacity>
-            </Link>
+            </Swipe>
           );
         }}
         keyExtractor={(item) => item.id}
