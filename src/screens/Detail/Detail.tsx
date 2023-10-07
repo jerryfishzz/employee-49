@@ -1,8 +1,7 @@
 import { Platform, RefreshControl, ScrollView, StyleSheet } from 'react-native';
 import { List, Text } from 'react-native-paper';
 import date from 'date-and-time';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { View } from 'src/components/Themed';
 import {
@@ -18,11 +17,11 @@ import { useAppTheme } from 'src/hooks/useAppTheme';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { paySauceColor } from 'src/data/Colors';
 import { getStyledIcon } from 'src/components/utils';
-import { getTasks, updateDetail } from 'src/utils/api';
+import { getTasks } from 'src/utils/api';
 import { useQueryWithRefreshOnFocus } from 'src/hooks/useQueryWithRefreshOnFocus';
-import { runNoticeCombo, useEmployee } from 'src/context/employee';
-import { getErrorText } from 'src/utils/helpers';
 import { useRefreshing } from 'src/hooks/useRefreshing';
+import { Task } from 'src/utils/schema';
+import { useCreatePostMutation } from 'src/hooks/useCreatePostMutation';
 
 export function Detail({
   task,
@@ -35,31 +34,12 @@ export function Detail({
 
   const [, setEnabled] = useQueryWithRefreshOnFocus(getTasks, false);
 
-  const [, dispatch] = useEmployee();
-
   const queryClient = useQueryClient();
-  const createPostMutation = useMutation({
-    mutationFn: updateDetail,
-    onSuccess: (data) => {
-      queryClient.invalidateQueries(['detail', id]);
-      queryClient.setQueryData(['detail', id], data);
-
-      // Delay setEnabled a little bit to have a better visual effect on notice emerging
-      setTimeout(() => {
-        setEnabled(true);
-      }, 500);
-
-      runNoticeCombo(dispatch, 'Status modified', 'SHOW_SUCCESS_NOTICE');
-    },
-    onError: (error) => {
-      (error as AxiosError).status !== 404 &&
-        runNoticeCombo(
-          dispatch,
-          getErrorText(error as AxiosError),
-          'SHOW_ERROR_NOTICE',
-        );
-    },
-  });
+  const run = (data: Task) => {
+    queryClient.invalidateQueries(['detail', id]);
+    queryClient.setQueryData(['detail', id], data);
+  };
+  const createPostMutation = useCreatePostMutation(setEnabled, run);
 
   const [refreshing, onRefresh] = useRefreshing(
     setTaskQueryEnabled,
