@@ -55,18 +55,18 @@ export function Swipe({
 
   const closeSwipeLeft = () => {
     // Only run anim when swiping left is done
-    if (routeName === 'index' && isFoldingUp) {
+    if ((routeName === 'index' && isFoldingUp) || routeName === 'done') {
       // Set different values depending on platform
       // since layout anim doesn't work on Android.
       Animated.parallel([
         Animated.timing(scaleAnim, {
           toValue: Platform.OS === 'android' ? 0.2 : 0.6,
-          duration: Platform.OS === 'android' ? 100 : 300,
+          duration: Platform.OS === 'android' ? 100 : 200,
           useNativeDriver: true,
         }),
         Animated.timing(transYAnim, {
           toValue: Platform.OS === 'android' ? -180 : -30,
-          duration: 300,
+          duration: 200,
           useNativeDriver: true,
         }),
       ]).start();
@@ -97,14 +97,20 @@ export function Swipe({
   useEffect(() => {
     // Only run close when isFoldingUp is true
     // to make sure swiping left completed
-    isFoldingUp && swipeableRef?.current?.close();
-  }, [isFoldingUp]);
+    isFoldingUp && routeName === 'index' && swipeableRef?.current?.close();
+  }, [isFoldingUp, routeName]);
 
   return (
     <Animated.View style={[{ transform: [{ scaleY: scaleAnim }] }]}>
       <Animated.View style={[{ transform: [{ translateY: transYAnim }] }]}>
         <Swipeable
-          renderRightActions={() => <SwipeIcon routeName={routeName} />}
+          renderRightActions={() => (
+            <SwipeIcon
+              routeName={routeName}
+              closeSwipeLeft={closeSwipeLeft}
+              setIsFoldingUp={setIsFoldingUp}
+            />
+          )}
           onSwipeableOpen={() => openSwipeLeft()}
           onSwipeableClose={() => closeSwipeLeft()}
           ref={swipeableRef}

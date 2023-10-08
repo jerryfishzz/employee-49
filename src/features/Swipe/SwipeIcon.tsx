@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import { StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { View } from 'src/components/Themed';
@@ -8,12 +9,23 @@ import { RootTabParamList } from 'src/navigation/types';
 
 type SwipeIconProps = {
   routeName: keyof RootTabParamList;
+  closeSwipeLeft: () => void;
+  setIsFoldingUp: Dispatch<SetStateAction<boolean>>;
 };
 
-export function SwipeIcon({ routeName }: SwipeIconProps) {
+export function SwipeIcon({
+  routeName,
+  closeSwipeLeft,
+  setIsFoldingUp,
+}: SwipeIconProps) {
   const {
     colors: { normal, onNormal, low, onLow },
   } = useAppTheme();
+
+  const handlePress = () => {
+    setIsFoldingUp(true);
+    closeSwipeLeft();
+  };
 
   return routeName === 'index' ? (
     <View
@@ -33,7 +45,7 @@ export function SwipeIcon({ routeName }: SwipeIconProps) {
     </View>
   ) : (
     <View style={[styles.container, { backgroundColor: low }]}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={handlePress}>
         <RotateLeft
           size={36}
           iconColor={onLow}
