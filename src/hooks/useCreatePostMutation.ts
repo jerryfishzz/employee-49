@@ -21,7 +21,6 @@ export function useCreatePostMutation({
     mutationFn: updateDetail,
     onSuccess: (data, variables) => {
       runOnSuccess?.(data);
-
       runNoticeCombo(
         dispatch,
         `${variables.title.toUpperCase()}\n- Status modified`,
