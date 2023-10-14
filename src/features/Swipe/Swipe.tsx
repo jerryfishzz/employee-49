@@ -55,7 +55,7 @@ export function Swipe({
 
   const closeSwipeLeft = () => {
     // Only run anim when swiping left is done
-    if ((routeName === 'index' && isFoldingUp) || routeName === 'done') {
+    if (isFoldingUp) {
       // Set different values depending on platform
       // since layout anim doesn't work on Android.
       Animated.parallel([
@@ -97,7 +97,7 @@ export function Swipe({
   useEffect(() => {
     // Only run close when isFoldingUp is true
     // to make sure swiping left completed
-    isFoldingUp && routeName === 'index' && swipeableRef?.current?.close();
+    isFoldingUp && swipeableRef?.current?.close();
   }, [isFoldingUp, routeName]);
 
   return (
