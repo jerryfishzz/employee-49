@@ -18,6 +18,9 @@ export default function SearchBar() {
         value={text}
         onChangeText={(text) => setText(text)}
         mode="outlined"
+        activeOutlineColor={colors.high}
+        placeholder="Search"
+        outlineStyle={{ borderRadius: 24 }}
       />
     </View>
   );
@@ -25,12 +28,11 @@ export default function SearchBar() {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+    alignItems: 'stretch',
     justifyContent: 'center',
     backgroundColor: midGrey,
     paddingTop: 16,
-    paddingBottom: 6,
-    paddingLeft: 8,
-    paddingRight: 8,
+    paddingBottom: 8,
+    paddingHorizontal: 16,
   },
 });
