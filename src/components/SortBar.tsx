@@ -44,7 +44,12 @@ export default function SortBar({
         {menuItems.map((item) => (
           <Menu.Item
             key={item}
-            contentStyle={{ paddingLeft: item === title ? 0 : 32 }}
+            contentStyle={[
+              styles.menuContent,
+              {
+                paddingLeft: item === title ? 0 : 32,
+              },
+            ]}
             leadingIcon={item === title ? 'check' : undefined}
             onPress={() => {
               handlePress(item);
@@ -72,5 +77,8 @@ const styles = StyleSheet.create({
   },
   button: {
     borderRadius: 4,
+  },
+  menuContent: {
+    paddingRight: 16,
   },
 });
