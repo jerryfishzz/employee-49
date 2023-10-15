@@ -1,17 +1,23 @@
 import { StyleSheet } from 'react-native';
-import { Button, Divider, Menu } from 'react-native-paper';
+import { Button, Menu } from 'react-native-paper';
 import { useState } from 'react';
 
 import { View } from './Themed';
 import { paySauceColor } from 'src/data/Colors';
+import { RootTabParam } from 'src/navigation/types';
 
-export default function SortBar() {
-  const [title, setTitle] = useState('Item 1');
+type SortBarProps = {
+  rootTabParam: RootTabParam;
+};
 
-  const [visible, setVisible] = useState(false);
+export default function SortBar({
+  rootTabParam: { menuItems, defaultItem },
+}: SortBarProps) {
+  const [title, setTitle] = useState<string>(defaultItem);
+
+  const [visible, setVisible] = useState<boolean>(false);
 
   const openMenu = () => setVisible(true);
-
   const closeMenu = () => setVisible(false);
 
   const handlePress = (item: string) => {
@@ -35,26 +41,17 @@ export default function SortBar() {
           </Button>
         }
       >
-        <Menu.Item
-          leadingIcon="check"
-          onPress={() => {
-            handlePress('Item 1');
-          }}
-          title="Item 1"
-        />
-        <Menu.Item
-          onPress={() => {
-            handlePress('Item 2');
-          }}
-          title="Item 2"
-        />
-        <Divider />
-        <Menu.Item
-          onPress={() => {
-            handlePress('Item 3');
-          }}
-          title="Item 3"
-        />
+        {menuItems.map((item) => (
+          <Menu.Item
+            key={item}
+            contentStyle={{ paddingLeft: item === title ? 0 : 32 }}
+            leadingIcon={item === title ? 'check' : undefined}
+            onPress={() => {
+              handlePress(item);
+            }}
+            title={item}
+          />
+        ))}
       </Menu>
     </View>
   );

@@ -9,6 +9,7 @@ import { useRefreshing } from 'src/hooks/useRefreshing';
 import { ListRow } from './ListRow';
 import SearchBar from 'src/components/SearchBar';
 import SortBar from 'src/components/SortBar';
+import { rootTabParamList } from 'src/data/rootTabParamList';
 
 type ListProps = {
   data: Task[]; // Results from the server
@@ -30,7 +31,7 @@ export function List({
   return (
     <View style={styles.container}>
       <SearchBar />
-      <SortBar />
+      <SortBar rootTabParam={rootTabParamList[routeName]} />
       <FlatList
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
