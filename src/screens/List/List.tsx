@@ -8,6 +8,7 @@ import { Task } from 'src/utils/schema';
 import { useRefreshing } from 'src/hooks/useRefreshing';
 import { ListRow } from './ListRow';
 import SearchBar from 'src/components/SearchBar';
+import SortBar from 'src/components/SortBar';
 
 type ListProps = {
   data: Task[]; // Results from the server
@@ -29,6 +30,7 @@ export function List({
   return (
     <View style={styles.container}>
       <SearchBar />
+      <SortBar />
       <FlatList
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
