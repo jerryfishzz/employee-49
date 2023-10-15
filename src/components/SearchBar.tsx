@@ -1,28 +1,23 @@
 import { StyleSheet } from 'react-native';
-import { TextInput } from 'react-native-paper';
+import { Searchbar as PaperSearchBar } from 'react-native-paper';
 import { useState } from 'react';
 
 import { View } from './Themed';
 import { paySauceColor } from 'src/data/Colors';
-import { useAppTheme } from 'src/hooks/useAppTheme';
-import { Search } from './ui';
 
 const { midGrey } = paySauceColor;
 
 export default function SearchBar() {
-  const { colors } = useAppTheme();
-  const [text, setText] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const onChangeSearch = (query: string) => setSearchQuery(query);
 
   return (
     <View style={styles.container}>
-      <TextInput
-        value={text}
-        onChangeText={(text) => setText(text)}
-        mode="outlined"
-        activeOutlineColor={colors.high}
+      <PaperSearchBar
         placeholder="Search"
-        outlineStyle={{ borderRadius: 24 }}
-        left={<TextInput.Icon icon={() => <Search />} />}
+        onChangeText={onChangeSearch}
+        value={searchQuery}
       />
     </View>
   );
