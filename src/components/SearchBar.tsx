@@ -1,10 +1,11 @@
 import { StyleSheet } from 'react-native';
 import { TextInput } from 'react-native-paper';
+import { useState } from 'react';
 
 import { View } from './Themed';
 import { paySauceColor } from 'src/data/Colors';
 import { useAppTheme } from 'src/hooks/useAppTheme';
-import { useState } from 'react';
+import { Search } from './ui';
 
 const { midGrey } = paySauceColor;
 
@@ -21,6 +22,7 @@ export default function SearchBar() {
         activeOutlineColor={colors.high}
         placeholder="Search"
         outlineStyle={{ borderRadius: 24 }}
+        left={<TextInput.Icon icon={() => <Search />} />}
       />
     </View>
   );
