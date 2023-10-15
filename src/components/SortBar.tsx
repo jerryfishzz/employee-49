@@ -24,9 +24,19 @@ export default function SortBar() {
       <Menu
         visible={visible}
         onDismiss={closeMenu}
-        anchor={<Button onPress={openMenu}>{title}</Button>}
+        anchor={
+          <Button
+            style={styles.button}
+            contentStyle={styles.buttonContent}
+            icon="menu-down"
+            onPress={openMenu}
+          >
+            {title}
+          </Button>
+        }
       >
         <Menu.Item
+          leadingIcon="check"
           onPress={() => {
             handlePress('Item 1');
           }}
@@ -59,5 +69,11 @@ const styles = StyleSheet.create({
     paddingBottom: 6,
     paddingLeft: 8,
     paddingRight: 16,
+  },
+  buttonContent: {
+    flexDirection: 'row-reverse',
+  },
+  button: {
+    borderRadius: 4,
   },
 });
