@@ -1,6 +1,8 @@
 import { Platform, StyleSheet } from 'react-native';
 import date from 'date-and-time';
 import { List } from 'react-native-paper';
+import { UseQueryResult } from '@tanstack/react-query';
+import { useState } from 'react';
 
 import {
   Block,
@@ -19,16 +21,15 @@ import {
 import { Swipe } from 'src/features/Swipe/Swipe';
 import { Link } from 'expo-router';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Dispatch, SetStateAction, useState } from 'react';
 
 type ListRowProps = {
   item: Task;
   routeName: keyof RootTabParamList;
   data: Task[]; // Results from the server
-  setEnabled: Dispatch<SetStateAction<boolean>>;
+  refetch: UseQueryResult['refetch'];
 };
 
-export function ListRow({ item, routeName, data, setEnabled }: ListRowProps) {
+export function ListRow({ item, routeName, data, refetch }: ListRowProps) {
   const [isFoldingUp, setIsFoldingUp] = useState<boolean>(false);
 
   const { id, title, due, priority } = item;
@@ -104,11 +105,11 @@ export function ListRow({ item, routeName, data, setEnabled }: ListRowProps) {
     return (
       <Swipe
         routeName={routeName}
-        setEnabled={setEnabled}
         id={id}
         data={data}
         isFoldingUp={isFoldingUp}
         setIsFoldingUp={setIsFoldingUp}
+        refetch={refetch}
       >
         <Link href={`/detail/${id}`} asChild>
           <TouchableOpacity>
@@ -134,11 +135,11 @@ export function ListRow({ item, routeName, data, setEnabled }: ListRowProps) {
   return (
     <Swipe
       routeName={routeName}
-      setEnabled={setEnabled}
       id={id}
       data={data}
       isFoldingUp={isFoldingUp}
       setIsFoldingUp={setIsFoldingUp}
+      refetch={refetch}
     >
       <Link href={`/detail/${id}`} asChild>
         <TouchableOpacity>

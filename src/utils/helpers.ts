@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import { z } from 'zod';
-import { Dispatch, SetStateAction } from 'react';
+import { UseQueryResult } from '@tanstack/react-query';
 
 import { Task } from './schema';
 
@@ -56,11 +56,9 @@ export function modifyTaskStatus(task: Task): Task {
   };
 }
 
-export function refreshTasksWithDelay(
-  setEnabled: Dispatch<SetStateAction<boolean>>,
-) {
-  // Delay setEnabled a little bit to have a better visual effect on notice emerging
+export function refreshTasksWithDelay(refetch: UseQueryResult['refetch']) {
+  // Delay refetch a little bit to have a better visual effect on notice emerging
   setTimeout(() => {
-    setEnabled(true);
+    refetch();
   }, 500);
 }

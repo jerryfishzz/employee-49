@@ -1,21 +1,15 @@
 import { UseQueryResult } from '@tanstack/react-query';
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export function useRefreshing(
-  setEnabled: Dispatch<SetStateAction<boolean>>,
   fetchingStatus: UseQueryResult['fetchStatus'],
+  refetch: UseQueryResult['refetch'],
 ) {
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    setEnabled(true);
-  }, [setEnabled]);
+    refetch();
+  }, [refetch]);
 
   useEffect(() => {
     fetchingStatus === 'idle' && setRefreshing(false);

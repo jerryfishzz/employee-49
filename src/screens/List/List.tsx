@@ -1,5 +1,4 @@
 import { FlatList, RefreshControl, StyleSheet } from 'react-native';
-import { Dispatch, SetStateAction } from 'react';
 import { UseQueryResult } from '@tanstack/react-query';
 
 import { View } from 'src/components/Themed';
@@ -14,19 +13,19 @@ import { rootTabParamList } from 'src/data/rootTabParamList';
 type ListProps = {
   data: Task[]; // Results from the server
   tasks: Task[]; // Results only for the list tab
-  setEnabled: Dispatch<SetStateAction<boolean>>;
   fetchStatus: UseQueryResult['fetchStatus'];
   routeName: keyof RootTabParamList;
+  refetch: UseQueryResult['refetch'];
 };
 
 export function List({
   data,
   tasks,
-  setEnabled,
   fetchStatus,
   routeName,
+  refetch,
 }: ListProps) {
-  const [refreshing, onRefresh] = useRefreshing(setEnabled, fetchStatus);
+  const [refreshing, onRefresh] = useRefreshing(fetchStatus, refetch);
 
   return (
     <View style={styles.container}>
@@ -42,7 +41,7 @@ export function List({
             item={item}
             routeName={routeName}
             data={data}
-            setEnabled={setEnabled}
+            refetch={refetch}
           />
         )}
         keyExtractor={(item) => item.id}

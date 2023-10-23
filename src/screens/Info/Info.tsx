@@ -1,5 +1,5 @@
+import { UseQueryResult } from '@tanstack/react-query';
 import { Link } from 'expo-router';
-import { Dispatch, SetStateAction } from 'react';
 import { StyleSheet } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 
@@ -12,10 +12,10 @@ type InfoProps = {
   type: InfoType;
   msg?: string;
   secondMsg?: string;
-  setEnabled?: Dispatch<SetStateAction<boolean>>;
+  refetch?: UseQueryResult['refetch'];
 };
 
-export function Info({ type, msg, secondMsg, setEnabled }: InfoProps) {
+export function Info({ type, msg, secondMsg, refetch }: InfoProps) {
   const { colors } = useAppTheme();
 
   return (
@@ -45,10 +45,10 @@ export function Info({ type, msg, secondMsg, setEnabled }: InfoProps) {
           )
         ) : null}
 
-        {setEnabled && (
+        {refetch && (
           <Button
             onPress={() => {
-              setEnabled?.(true);
+              refetch?.();
             }}
             style={styles.button}
             labelStyle={styles.label}

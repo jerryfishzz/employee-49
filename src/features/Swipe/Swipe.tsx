@@ -1,33 +1,33 @@
 import { Dispatch, ReactNode, SetStateAction, useEffect, useRef } from 'react';
 import { Animated, Platform } from 'react-native';
 import { Swipeable } from 'react-native-gesture-handler';
+import { UseQueryResult, useQueryClient } from '@tanstack/react-query';
 
 import { RootTabParamList } from 'src/navigation/types';
 import { SwipeIcon } from './SwipeIcon';
 import { useCreatePostMutation } from 'src/hooks/useCreatePostMutation';
 import { Task } from 'src/utils/schema';
-import { useQueryClient } from '@tanstack/react-query';
 import { modifyTaskStatus, refreshTasksWithDelay } from 'src/utils/helpers';
 import { runLayoutAnim } from './runLayoutAnim';
 
 type SwipeProps = {
-  setEnabled: Dispatch<SetStateAction<boolean>>;
   children: ReactNode;
   id: Task['id'];
   data: Task[]; // Results from the server
   routeName: keyof RootTabParamList;
   isFoldingUp: boolean;
   setIsFoldingUp: Dispatch<SetStateAction<boolean>>;
+  refetch: UseQueryResult['refetch'];
 };
 
 export function Swipe({
   routeName,
-  setEnabled,
   children,
   id,
   data,
   isFoldingUp,
   setIsFoldingUp,
+  refetch,
 }: SwipeProps) {
   const scaleAnim = useRef<Animated.Value>(new Animated.Value(1)).current;
   const transYAnim = useRef<Animated.Value>(new Animated.Value(0)).current;
@@ -36,10 +36,10 @@ export function Swipe({
 
   const createPostMutation = useCreatePostMutation({
     runOnSuccess: () => {
-      refreshTasksWithDelay(setEnabled);
+      refreshTasksWithDelay(refetch);
     },
     runOnError: () => {
-      refreshTasksWithDelay(setEnabled);
+      refreshTasksWithDelay(refetch);
     },
   });
 

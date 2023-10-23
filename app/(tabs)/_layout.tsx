@@ -4,7 +4,7 @@ import {
 } from '@react-navigation/material-top-tabs';
 import { Platform } from 'react-native';
 import { Text } from 'react-native-paper';
-import { Dispatch, SetStateAction, memo, useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { AxiosError } from 'axios';
 import { UseQueryResult } from '@tanstack/react-query';
 import { RouteProp } from '@react-navigation/native';
@@ -29,7 +29,7 @@ const MemoizedLoading = memo(Loading);
 const MemoizedInfo = memo(Info);
 
 export default function TabLayout() {
-  const [{ isLoading, error, data, fetchStatus }, setEnabled] =
+  const { isLoading, error, data, fetchStatus, refetch } =
     useQueryWithRefreshOnFocus(getTasks);
 
   const [toDo, done] = useMemo(() => separateTasks(data), [data]);
@@ -65,10 +65,10 @@ export default function TabLayout() {
             data: data as Task[],
             tasks: toDo,
             error: error as Error | null,
-            setEnabled,
             fetchStatus,
             primaryMsg: "It looks like you're all caught up.",
             secondaryMsg: 'There are no tasks to do!',
+            refetch,
           })}
         </Tabs.Screen>
         <Tabs.Screen
@@ -80,9 +80,9 @@ export default function TabLayout() {
             data: data as Task[],
             tasks: done,
             error: error as Error | null,
-            setEnabled,
             fetchStatus,
             primaryMsg: 'Completed tasks will show here',
+            refetch,
           })}
         </Tabs.Screen>
       </Tabs.Navigator>
@@ -138,10 +138,10 @@ type SetChildrenByConditionsParam = {
   data: Task[];
   tasks: Task[] | undefined;
   error?: Error | null;
-  setEnabled: Dispatch<SetStateAction<boolean>>;
   fetchStatus: UseQueryResult['fetchStatus'];
   primaryMsg?: string;
   secondaryMsg?: string;
+  refetch: UseQueryResult['refetch'];
 };
 type GetChildrenParam = {
   route: RouteProp<RootTabParamList, keyof RootTabParamList>;
@@ -153,10 +153,10 @@ function setChildrenByConditions({
   data,
   tasks,
   error,
-  setEnabled,
   fetchStatus,
   primaryMsg,
   secondaryMsg,
+  refetch,
 }: SetChildrenByConditionsParam) {
   // eslint-disable-next-line react/display-name
   return (props: GetChildrenParam) =>
@@ -168,15 +168,15 @@ function setChildrenByConditions({
           data={data}
           tasks={tasks}
           fetchStatus={fetchStatus}
-          setEnabled={setEnabled}
           routeName={props.route.name}
+          refetch={refetch}
         />
       ) : (
         <MemoizedInfo
           type="hint"
           msg={primaryMsg}
           secondMsg={secondaryMsg}
-          setEnabled={setEnabled}
+          refetch={refetch}
         />
       )
     ) : (
@@ -184,7 +184,7 @@ function setChildrenByConditions({
         type="error"
         msg={error ? (error as AxiosError).message : 'Unknown error'}
         secondMsg={error ? (error as AxiosError).response?.statusText : ''}
-        setEnabled={setEnabled}
+        refetch={refetch}
       />
     );
 }
