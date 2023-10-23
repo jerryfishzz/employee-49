@@ -98,7 +98,7 @@ export function Swipe({
     // Only run close when isFoldingUp is true
     // to make sure swiping left completed
     isFoldingUp && swipeableRef?.current?.close();
-  }, [isFoldingUp, routeName]);
+  }, [isFoldingUp]);
 
   return (
     <Animated.View style={[{ transform: [{ scaleY: scaleAnim }] }]}>
