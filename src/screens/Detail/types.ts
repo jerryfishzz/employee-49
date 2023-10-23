@@ -1,13 +1,13 @@
 import { UseQueryResult } from '@tanstack/react-query';
-import { Dispatch, ReactNode, SetStateAction } from 'react';
+import { ReactNode } from 'react';
 
 import { Block } from 'src/components/ContentRow';
 import { Task } from 'src/utils/schema';
 
 export interface DetailProps {
   task: Task;
-  setEnabled: Dispatch<SetStateAction<boolean>>;
   fetchStatus: UseQueryResult['fetchStatus'];
+  refetch: UseQueryResult['refetch'];
 }
 
 export interface DetailRowData {

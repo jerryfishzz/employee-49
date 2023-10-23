@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { Redirect, Stack } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { runNoticeCombo, useEmployee } from 'src/context/employee';
 import { useTaskLocalSearchParams } from 'src/hooks/useTaskLocalSearchParams';
@@ -14,7 +14,6 @@ import { getErrorText } from 'src/utils/helpers';
 export default function Route() {
   const { id } = useTaskLocalSearchParams();
 
-  const [enabled, setEnabled] = useState<boolean>(true);
   const {
     isLoading,
     isFetching,
@@ -22,10 +21,10 @@ export default function Route() {
     isError,
     error,
     fetchStatus,
+    refetch,
   } = useQuery({
     queryKey: ['detail', id],
     queryFn: () => getDetail(id),
-    enabled,
   });
 
   const [, dispatch] = useEmployee();
@@ -47,13 +46,6 @@ export default function Route() {
     };
   }, [dispatch, error, isError, isFetching, isLoading, task]);
 
-  // Disable the query when data received
-  useEffect(() => {
-    if (!isLoading && !isFetching) {
-      setEnabled(false);
-    }
-  }, [isFetching, isLoading]);
-
   // Redirect when id does not exists
   if (
     !isLoading &&
@@ -74,13 +66,13 @@ export default function Route() {
       {isLoading ? (
         <Loading />
       ) : task ? (
-        <Detail task={task} setEnabled={setEnabled} fetchStatus={fetchStatus} />
+        <Detail task={task} refetch={refetch} fetchStatus={fetchStatus} />
       ) : (
         <Info
           type="error"
           msg={(error as AxiosError).message}
           secondMsg={(error as AxiosError).response?.statusText}
-          setEnabled={setEnabled}
+          refetch={refetch}
         />
       )}
     </>

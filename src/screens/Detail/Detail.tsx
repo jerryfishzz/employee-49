@@ -26,28 +26,25 @@ import { modifyTaskStatus, refreshTasksWithDelay } from 'src/utils/helpers';
 
 export function Detail({
   task,
-  setEnabled: setTaskQueryEnabled,
+  refetch: taskQueryRefetch,
   fetchStatus,
 }: DetailProps) {
   const { id, title, status, description, due, priority, completed } = task;
   const { colors } = useAppTheme();
   const { borderBottom, surfaceVariant, normal, low } = colors;
 
-  const [, setEnabled] = useQueryWithRefreshOnFocus(getTasks, false);
+  const { refetch } = useQueryWithRefreshOnFocus(getTasks);
 
   const queryClient = useQueryClient();
   const runOnSuccess = (data: Task) => {
     queryClient.invalidateQueries(['detail', id]);
     queryClient.setQueryData(['detail', id], data);
 
-    refreshTasksWithDelay(setEnabled);
+    refreshTasksWithDelay(refetch);
   };
   const createPostMutation = useCreatePostMutation({ runOnSuccess });
 
-  const [refreshing, onRefresh] = useRefreshing(
-    setTaskQueryEnabled,
-    fetchStatus,
-  );
+  const [refreshing, onRefresh] = useRefreshing(fetchStatus, taskQueryRefetch);
 
   const handlePress = () => {
     createPostMutation.mutate(modifyTaskStatus(task));
