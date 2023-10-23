@@ -127,15 +127,4 @@ export function runNoticeCombo(
   }, 3000);
 }
 
-export function getNotice(
-  dispatch: Dispatch<Action>,
-  notice: string,
-  type: 'SHOW_ERROR_NOTICE' | 'SHOW_SUCCESS_NOTICE',
-  noticeId: string,
-) {
-  type === 'SHOW_ERROR_NOTICE'
-    ? showErrorNotice(dispatch, notice, noticeId)
-    : showSuccessNotice(dispatch, notice, noticeId);
-}
-
 export { useEmployee, employeeContext };
