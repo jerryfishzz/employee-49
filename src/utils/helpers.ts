@@ -60,5 +60,5 @@ export function refreshTasksWithDelay(refetch: UseQueryResult['refetch']) {
   // Delay refetch a little bit to have a better visual effect on notice emerging
   setTimeout(() => {
     refetch();
-  }, 500);
+  }, 1000);
 }
