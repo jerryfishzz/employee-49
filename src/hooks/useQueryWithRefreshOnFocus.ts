@@ -16,9 +16,9 @@ export function useQueryWithRefreshOnFocus<T>(
   const result = useQuery({
     queryKey: ['tasks'],
     queryFn: query,
-    enabled, // Using manual query will lose the focus ability on web
+    // enabled, // Using manual query will lose the focus ability on web
   });
-  const { data, isError, error, isFetching, isSuccess } = result;
+  const { data, isError, error, isFetching, isSuccess, refetch } = result;
 
   const [, dispatch] = useEmployee();
 
@@ -55,8 +55,9 @@ export function useQueryWithRefreshOnFocus<T>(
         return;
       }
 
-      setEnabled(true);
-    }, []),
+      // setEnabled(true);
+      refetch();
+    }, [refetch]),
   );
 
   return [result, setEnabled] as const;
