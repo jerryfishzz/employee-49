@@ -36,5 +36,8 @@ export function useCreatePostMutation({
           'SHOW_ERROR_NOTICE',
         );
     },
+    // Both onSuccess and onError can't deal with the clear function in runNoticeCombo.
+    // But won' affect the app runs correctly so far.
+    // Will have a minor performance issue, not a big deal.
   });
 }

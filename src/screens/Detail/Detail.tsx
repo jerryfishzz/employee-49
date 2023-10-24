@@ -17,12 +17,10 @@ import { useAppTheme } from 'src/hooks/useAppTheme';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { paySauceColor } from 'src/data/Colors';
 import { getStyledIcon } from 'src/components/utils';
-import { getTasks } from 'src/utils/api';
-import { useQueryWithRefreshOnFocus } from 'src/hooks/useQueryWithRefreshOnFocus';
 import { useRefreshing } from 'src/hooks/useRefreshing';
 import { Task } from 'src/utils/schema';
 import { useCreatePostMutation } from 'src/hooks/useCreatePostMutation';
-import { modifyTaskStatus, refreshTasksWithDelay } from 'src/utils/helpers';
+import { modifyTaskStatus } from 'src/utils/helpers';
 
 export function Detail({
   task,
@@ -33,14 +31,14 @@ export function Detail({
   const { colors } = useAppTheme();
   const { borderBottom, surfaceVariant, normal, low } = colors;
 
-  const { refetch } = useQueryWithRefreshOnFocus(getTasks);
-
   const queryClient = useQueryClient();
   const runOnSuccess = (data: Task) => {
     queryClient.invalidateQueries(['detail', id]);
     queryClient.setQueryData(['detail', id], data);
 
-    refreshTasksWithDelay(refetch);
+    setTimeout(() => {
+      queryClient.invalidateQueries(['tasks']);
+    }, 1000);
   };
   const createPostMutation = useCreatePostMutation({ runOnSuccess });
 
