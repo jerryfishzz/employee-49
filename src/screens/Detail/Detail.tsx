@@ -33,11 +33,15 @@ export function Detail({
 
   const queryClient = useQueryClient();
   const runOnSuccess = (data: Task) => {
-    queryClient.invalidateQueries(['detail', id]);
+    queryClient.invalidateQueries({
+      queryKey: ['detail', id],
+    });
     queryClient.setQueryData(['detail', id], data);
 
     setTimeout(() => {
-      queryClient.invalidateQueries(['tasks']);
+      queryClient.invalidateQueries({
+        queryKey: ['tasks'],
+      });
     }, 1000);
   };
   const createPostMutation = useCreatePostMutation({ runOnSuccess });
