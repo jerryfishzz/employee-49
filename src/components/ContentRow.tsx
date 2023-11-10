@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%', // Set full width on web
+    whiteSpace: 'pre-wrap', // Show the correct wrap format on web
   },
   android: {
     paddingRight: 24,
