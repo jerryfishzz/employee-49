@@ -13,7 +13,7 @@ export default function Route() {
   const { id } = useTaskLocalSearchParams();
 
   const {
-    isLoading,
+    isPending,
     isFetching,
     data: task,
     isError,
@@ -28,12 +28,12 @@ export default function Route() {
   // Show error notice only when task already exists
   useNoticeCombo(
     error as AxiosError,
-    !!(!isLoading && !isFetching && isError && task),
+    !!(!isPending && !isFetching && isError && task),
   );
 
   // Redirect when id does not exists
   if (
-    !isLoading &&
+    !isPending &&
     !isFetching &&
     isError &&
     (error as AxiosError).response?.status === 404
@@ -48,7 +48,7 @@ export default function Route() {
           title: fetchStatus === 'fetching' ? 'LOADING...' : 'DETAIL',
         }}
       />
-      {isLoading ? (
+      {isPending ? (
         <Loading />
       ) : task ? (
         <Detail task={task} refetch={refetch} fetchStatus={fetchStatus} />

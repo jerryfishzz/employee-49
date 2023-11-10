@@ -12,12 +12,12 @@ export function useQueryWithRefreshOnFocus<T>(query: () => Promise<T[]>) {
     queryKey: ['tasks'],
     queryFn: query,
   });
-  const { data, isError, error, refetch, isLoading, isFetching } = result;
+  const { data, isError, error, refetch, isPending, isFetching } = result;
 
   // Show error notice only when tasks already exist
   useNoticeCombo(
     error as AxiosError,
-    !!(!isLoading && !isFetching && isError && data),
+    !!(!isPending && !isFetching && isError && data),
   );
 
   useFocusEffect(

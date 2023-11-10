@@ -29,7 +29,7 @@ const MemoizedLoading = memo(Loading);
 const MemoizedInfo = memo(Info);
 
 export default function TabLayout() {
-  const { isLoading, error, data, fetchStatus, refetch } =
+  const { isPending, error, data, fetchStatus, refetch } =
     useQueryWithRefreshOnFocus(getTasks);
 
   const [toDo, done] = useMemo(() => separateTasks(data), [data]);
@@ -61,7 +61,7 @@ export default function TabLayout() {
           options={createOptions(STATUS.toDo, toDo ? toDo.length : '--')}
         >
           {setChildrenByConditions({
-            isLoading,
+            isPending,
             data: data as Task[],
             tasks: toDo,
             error: error as Error | null,
@@ -76,7 +76,7 @@ export default function TabLayout() {
           options={createOptions(STATUS.done, done ? done.length : '--')}
         >
           {setChildrenByConditions({
-            isLoading,
+            isPending,
             data: data as Task[],
             tasks: done,
             error: error as Error | null,
@@ -134,7 +134,7 @@ function separateTasks(tasks: Task[] | undefined) {
 }
 
 type SetChildrenByConditionsParam = {
-  isLoading: boolean;
+  isPending: boolean;
   data: Task[];
   tasks: Task[] | undefined;
   error?: Error | null;
@@ -149,7 +149,7 @@ type GetChildrenParam = {
   navigation: any;
 };
 function setChildrenByConditions({
-  isLoading,
+  isPending,
   data,
   tasks,
   error,
@@ -160,7 +160,7 @@ function setChildrenByConditions({
 }: SetChildrenByConditionsParam) {
   // eslint-disable-next-line react/display-name
   return (props: GetChildrenParam) =>
-    isLoading ? (
+    isPending ? (
       <MemoizedLoading />
     ) : tasks ? (
       tasks.length > 0 ? (
