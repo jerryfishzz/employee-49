@@ -1,5 +1,6 @@
 import { FlatList, RefreshControl, StyleSheet } from 'react-native';
 import { UseQueryResult } from '@tanstack/react-query';
+import { useLocalSearchParams } from 'expo-router';
 
 import { View } from 'src/components/Themed';
 import { RootTabParamList } from 'src/navigation/types';
@@ -25,6 +26,14 @@ export function List({
   routeName,
   refetch,
 }: ListProps) {
+  const {
+    // The route parameter
+    // user,
+    // An optional search parameter.
+    tab,
+  } = useLocalSearchParams<{ tab?: string }>();
+  console.log(tab);
+
   const [refreshing, onRefresh] = useRefreshing(fetchStatus, refetch);
 
   return (
